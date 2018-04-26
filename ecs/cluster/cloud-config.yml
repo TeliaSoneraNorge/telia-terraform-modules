@@ -1,0 +1,65 @@
+#cloud-config
+package_update: true
+packages:
+  - awslogs
+  - aws-cfn-bootstrap
+write_files:
+  - path: "/etc/awslogs/awscli.template"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      [plugins]
+      cwlogs = cwlogs
+      [default]
+      region = ${region}
+  - path: "/etc/awslogs/awslogs.template"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      [general]
+      state_file = /var/lib/awslogs/agent-state
+
+      [/var/log/ecs/ecs-agent.log]
+      file = /var/log/ecs/ecs-agent.log*
+      log_group_name = ${log_group_name}
+      log_stream_name = {instance_id}
+  - path: "/etc/ecs/ecs.config"
+    permissions: "0744"
+    owner: "root"
+    content: |
+      ECS_CLUSTER=${ecs_cluster_name}
+      ECS_LOG_LEVEL=${ecs_log_level}
+      ECS_ENABLE_CONTAINER_METADATA=true
+      ECS_ENABLE_TASK_IAM_ROLE=true
+      ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true
+      ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"]
+
+  - path: "/usr/local/scripts/cloudformation-signal.sh"
+    permissions: "0744"
+    owner: "root"
+    content: |
+      #! /bin/bash
+
+      set -euo pipefail
+
+      function await_process() {
+        echo -n "Waiting for $1..."
+        while ! pgrep -f "$1" > /dev/null; do
+          sleep 1
+        done
+        echo "Done!"
+      }
+      await_process "/usr/libexec/amazon-ecs-init start"
+
+runcmd:
+  - |
+    yum install -y https://amazon-ssm-${region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+  - |
+    cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+    cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+  - |
+    start ecs
+    service awslogs start
+  - |
+    /usr/local/scripts/cloudformation-signal.sh
+    /opt/aws/bin/cfn-signal -e $? --stack ${stack_name} --resource AutoScalingGroup --region ${region}

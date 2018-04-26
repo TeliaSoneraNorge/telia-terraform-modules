@@ -1,0 +1,44 @@
+Description: "Autoscaling group created by Terraform."
+Resources:
+  AutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    Properties:
+      Cooldown: 300
+      HealthCheckType: "${health_check_type}"
+      HealthCheckGracePeriod: 300
+      LaunchConfigurationName: "${launch_configuration}"
+      MinSize: "${min_size}"
+      MaxSize: "${max_size}"
+      MetricsCollection:
+        - Granularity: 1Minute
+          Metrics:
+            - GroupMinSize
+            - GroupMaxSize
+            - GroupDesiredCapacity
+            - GroupInServiceInstances
+            - GroupPendingInstances
+            - GroupStandbyInstances
+            - GroupTerminatingInstances
+            - GroupTotalInstances
+      Tags: ${tags}
+      TerminationPolicies:
+        - OldestLaunchConfiguration
+        - OldestInstance
+        - Default
+      VPCZoneIdentifier: ${subnets}
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: "${min_size}"
+        MaxBatchSize: "2"
+        WaitOnResourceSignals: "${await_signal}"
+        PauseTime: "${pause_time}"
+        SuspendProcesses:
+          - HealthCheck
+          - ReplaceUnhealthy
+          - AZRebalance
+          - AlarmNotification
+          - ScheduledActions
+Outputs:
+  AsgName:
+    Description: The name of the auto scaling group
+    Value: !Ref AutoScalingGroup
