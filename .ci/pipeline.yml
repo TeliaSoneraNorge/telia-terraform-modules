@@ -1,0 +1,1163 @@
+---
+meta:
+  concourse:
+  - general-config: &general-config
+      timeout: 10m
+      file: common-tasks/terraform/0.11.7.yml
+      input_mapping: { source: git }
+  - test-module-config: &test-module-config
+      timeout: 10m
+      file: common-tasks/terraform/0.11.7.yml
+      input_mapping: { source: pull-request }
+      on_failure:
+        put: pull-request
+        params: {path: pull-request, status: failure}
+  - test-module-params: &test-module-params
+      command: test-module
+      cache: true
+  - test-params: &test-params
+      command: test
+      cache: true
+  - plan-params: &plan-params
+      command: plan
+      cache: true
+      access_key: ((teliasonera-no-lab-access-key))
+      secret_key: ((teliasonera-no-lab-secret-key))
+      session_token: ((teliasonera-no-lab-session-token))
+
+groups:
+  - name: Master
+    jobs:
+    - acm-test
+    - acm-example-test
+    - acm-example-run
+    - alb-test
+#    - alb-example-test  TODO
+#    - alb-example-run   TODO
+    - apigateway-test
+    - apigateway-example-test
+    - apigateway-example-run
+    - bastion-test
+    - bastion-example-test
+    - bastion-example-run
+    - cloudtrail-test
+    - cloudtrail-example-test
+    - cloudtrail-example-run
+    - concourse-test
+    - concourse-example-test
+    - concourse-example-run
+    - dynamodb-table-test
+#    - dynamodb-table-example-test   TODO
+#    - dynamodb-table-example-run    TODO
+    - ec2-test
+    - ec2-example-test
+    - ec2-example-run
+    - ecr-test
+#    - ecr-example-test   TODO
+#    - ecr-example-run    TODO
+    - ecr-machine-role-test
+#    - ecr-machine-role-example-test   TODO
+#    - ecr-machine-role-example-run    TODO
+    - ecs-test
+    - ecs-example-test
+    - ecs-example-run
+    - iam-test
+    - iam-example-test
+    - iam-example-run
+    - iam-assumable-roles-test
+#    - iam-assumable-roles-example-test  TODO
+#    - iam-assumable-roles-example-run   TODO
+    - iam-user-test
+#    - iam-user-example-test  TODO
+#    - iam-user-example-run   TODO
+    - kms-test
+    - kms-example-test
+    - kms-example-run
+    - lambda-test
+    - lambda-example-test
+    - lambda-example-run
+    - service-role-test
+#    - service-role-example-test    TODO
+#    - service-role-exmaple-run     TODO
+    - sqs-test
+#    - sqs-example-test    TODO
+#    - sqs-example-run     TODO
+    - ssm-test
+    - ssm-example-test
+    - ssm-example-run
+    - terraform-test
+    - terraform-example-test
+    - terraform-example-run
+  - name: PR
+    jobs:
+    - test-it
+
+jobs:
+  - name: test-it
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: pull-request
+        trigger: true
+        version: every
+        params: {fetch_merge: true}
+      - get: pull-request-write
+        resource: pull-request
+    - put: pull-request
+      params: {path: pull-request-write, status: pending}
+    - aggregate:
+      - task: acm
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            acm/certificate
+
+      - task: alb
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            alb
+
+      - task: apigateway
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            apigateway/lambda
+
+      - task: bastion
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            bastion
+
+      - task: cloudtrail
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            cloudtrail
+
+      - task: concourse
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            concourse/atc
+            concourse/worker
+
+      - task: ec2
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            ec2/asg
+            ec2/emr
+            ec2/lb
+            ec2/vpc
+
+      - task: ecr
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            ecr
+
+      - task: ecr-machine-role
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            ecr-machine-role
+
+      - task: ecs
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            ecs/cluster
+            ecs/service
+            ecs/microservice
+
+
+      - task: iam
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            iam/admin
+            iam/developer
+            iam/role
+            iam/user
+
+      - task: iam-assumable-role
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            iam-assumable-role
+
+      - task: iam-user
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            iam-user
+
+      - task: kms
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            kms
+
+      - task: lambda
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            lambda/function
+
+      - task: service-role
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            service-role
+
+      - task: sqs
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            sqs
+
+      - task: ssm
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            ssm
+
+      - task: terraform
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            terraform/init
+    - put: pull-request
+      params: {path: pull-request-write, status: success}
+
+  - name: acm-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: acm-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          acm/certificate
+  - name: acm-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: acm-module
+        passed: [ acm-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          acm/certificate/example
+  - name: acm-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: acm-module
+        passed: [ acm-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          acm/certificate/example
+
+  - name: alb-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: alb-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          alb
+
+  - name: apigateway-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: apigateway-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          apigateway/lambda
+  - name: apigateway-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: apigateway-module
+        passed: [ apigateway-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          apigateway/lambda/example
+  - name: apigateway-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: apigateway-module
+        passed: [ apigateway-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          apigateway/lambda/example
+
+  - name: bastion-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: bastion-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          bastion
+  - name: bastion-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: bastion-module
+        passed: [ bastion-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          bastion/example
+  - name: bastion-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: bastion-module
+        passed: [ bastion-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          bastion/example
+
+  - name: cloudtrail-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: cloudtrail-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          cloudtrail
+  - name: cloudtrail-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: cloudtrail-module
+        passed: [ cloudtrail-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          cloudtrail/example
+  - name: cloudtrail-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: cloudtrail-module
+        passed: [ cloudtrail-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          cloudtrail/example
+
+  - name: concourse-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: concourse-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          concourse/atc
+          concourse/worker
+  - name: concourse-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: concourse-module
+        passed: [ concourse-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          concourse/example
+  - name: concourse-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: concourse-module
+        passed: [ concourse-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          concourse/example
+
+  - name: dynamodb-table-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: dynamodb-table-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          dynamodb-table
+
+  - name: ec2-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ec2-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          ec2/asg
+          ec2/emr
+          ec2/vpc
+  - name: ec2-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ec2-module
+        passed: [ ec2-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          ec2/asg/example
+          ec2/emr/example
+          ec2/vpc/example
+  - name: ec2-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ec2-module
+        passed: [ ec2-example-test ]
+        trigger: true
+    - aggregate:
+      - task: asg
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            ec2/asg/example
+      - task: emr
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            ec2/emr/example
+      - task: vpc
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            ec2/vpc/example
+
+  - name: ecr-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ecr-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          ecr
+
+  - name: ecr-machine-role-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ecr-machine-role-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          ecr-machine-role
+
+  - name: ecs-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ecs-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          ecs/cluster
+          ecs/service
+          ecs/microservice
+  - name: ecs-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ecs-module
+        passed: [ ecs-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          ecs/example
+  - name: ecs-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ecs-module
+        passed: [ ecs-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          ecs/example
+
+  - name: iam-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: iam-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          iam/admin
+          iam/developer
+          iam/role
+          iam/user
+  - name: iam-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: iam-module
+        passed: [ iam-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          iam/admin/example
+          iam/developer/example
+          iam/role/example
+          iam/user/example
+  - name: iam-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: iam-module
+        passed: [ iam-example-test ]
+        trigger: true
+    - aggregate:
+      - task: admin
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            iam/admin/example
+      - task: developer
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            iam/developer/example
+      - task: role
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            iam/role/example
+      - task: user
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            iam/user/example
+
+  - name: iam-assumable-roles-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: iam-assumable-roles-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          iam-assumable-roles
+
+  - name: iam-user-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: iam-user-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          iam-user
+
+  - name: kms-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: kms-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          kms
+  - name: kms-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: kms-module
+        passed: [ kms-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          kms/example
+  - name: kms-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: kms-module
+        passed: [ kms-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          kms/example
+
+  - name: lambda-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: lambda-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          lambda/function
+  - name: lambda-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: lambda-module
+        passed: [ lambda-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          lambda/function/example
+  - name: lambda-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: lambda-module
+        passed: [ lambda-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          lambda/function/example
+
+  - name: service-role-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: service-role-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          service-role
+
+  - name: sqs-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: sqs-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          sqs
+
+  - name: ssm-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: sms-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          ssm/agent-policy
+  - name: ssm-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ssm-module
+        passed: [ ssm-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          ssm/agent-policy/example
+  - name: ssm-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: ssm-module
+        passed: [ ssm-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          ssm/agent-policy/example
+
+  - name: terraform-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: terraform-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          terraform/init
+  - name: terraform-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: terraform-module
+        passed: [ terraform-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          terraform/init/example
+  - name: terraform-example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: terraform-module
+        passed: [ terraform-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          terraform/init/example
+
+resource_types:
+  - name: pull-request
+    type: docker-image
+    source:
+      repository: jtarchie/pr
+
+resources:
+  - name: common-tasks
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/divx-concourse-tasks.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+
+  - name: pull-request
+    type: pull-request
+    check_every: 30s
+    source:
+      repo: TeliaSoneraNorge/telia-terraform-modules
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      ignore_paths: [ .ci ]
+      access_token: ((github-access-token))
+      private_key: ((telia-terraform-modules-deploy-key))
+      every: true
+
+  - name: acm-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - acm/*
+
+  - name: alb-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - alb/*
+
+  - name: apigateway-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - apigateway/*
+
+  - name: bastion-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - bastion/*
+
+  - name: cloudtrail-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - cloudtrail/*
+
+  - name: concourse-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - concourse/*
+
+  - name: dynamodb-table-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - dynamodb-table/*
+
+  - name: ec2-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - ec2/*
+
+  - name: ecr-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - ecr/*
+
+  - name: ecr-machine-role-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - ecr-machine-role/*
+
+  - name: ecs-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - ecs/*
+
+  - name: iam-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - iam/*
+
+  - name: iam-assumable-roles-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - iam-assumable-roles/*
+
+  - name: iam-user-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - iam-user/*
+
+  - name: kms-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - kms/*
+
+  - name: lambda-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - lambda/*
+
+  - name: service-role-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - service-role/*
+
+  - name: sqs-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - sqs/*
+
+  - name: ssm-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - ssm/*
+
+  - name: terraform-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - terraform/*
