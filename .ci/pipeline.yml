@@ -873,7 +873,7 @@ jobs:
       - get: common-tasks
         params: { submodules: [ terraform ] }
       - get: git
-        resource: sms-module
+        resource: ssm-module
         trigger: true
     - task: terraform-tests
       <<: *general-config
