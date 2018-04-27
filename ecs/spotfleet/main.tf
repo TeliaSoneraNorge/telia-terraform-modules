@@ -6,11 +6,13 @@ resource "aws_iam_role" "spotfleet-assume" {
 
 resource "aws_spot_fleet_request" "" {
   iam_fleet_role = ""
+
   "launch_specification" {
-    ami = ""
+    ami           = ""
     instance_type = ""
   }
-  spot_price = ""
+
+  spot_price      = ""
   target_capacity = 0
 }
 
