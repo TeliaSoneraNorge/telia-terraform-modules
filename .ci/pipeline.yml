@@ -76,6 +76,12 @@ groups:
     - lambda-test
     - lambda-example-test
     - lambda-example-run
+    - rds-instance-full-test
+#    - rds-instance-full-example-test    TODO
+#    - rds-instance-full-example-run     TODO
+    - rds-simple-test
+    - rds-simple-example-test
+    - rds-simple-example-run
     - service-role-test
 #    - service-role-example-test    TODO
 #    - service-role-exmaple-run     TODO
@@ -221,6 +227,21 @@ jobs:
           <<: *test-module-params
           directories: |
             lambda/function
+
+      - task: rds-instance-full
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            rds-instance-full
+
+      - task: rds-simple
+        <<: *test-module-config
+        params:
+          <<: *test-module-params
+          directories: |
+            rds-simple/cluster
+            rds-simple/instance
 
       - task: service-role
         <<: *test-module-config
@@ -837,6 +858,69 @@ jobs:
         directories: |
           lambda/function/example
 
+  - name: rds-instance-full
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: rds-instance-full-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          rds-instance-full
+
+  - name: rds-simple-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: rds-simple-module
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-module-params
+        directories: |
+          rds-simple/instance
+          rds-simple/cluster
+  - name: rds-simple-example-test
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: rds-simple-module
+        passed: [ rds-simple-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *test-params
+        directories: |
+          rds-simple/instance/example
+          rds-simple/cluster/example
+  - name: rds-simple/example-run
+    plan:
+    - aggregate:
+      - get: common-tasks
+        params: { submodules: [ terraform ] }
+      - get: git
+        resource: rds-simple-module
+        passed: [ rds-simple-example-test ]
+        trigger: true
+    - task: terraform-tests
+      <<: *general-config
+      params:
+        <<: *plan-params
+        directories: |
+          rds-simple/instance/example
+          rds-simple/cluster/example
+
   - name: service-role-test
     plan:
     - aggregate:
@@ -1125,6 +1209,24 @@ resources:
       private_key: ((telia-terraform-modules-deploy-key))
       paths:
         - lambda/*
+
+  - name: rds-instance-full-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - rds-instance-full/*
+
+  - name: rds-simple-module
+    type: git
+    source:
+      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      branch: master
+      private_key: ((telia-terraform-modules-deploy-key))
+      paths:
+        - rds-simple/*
 
   - name: service-role-module
     type: git
