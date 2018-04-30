@@ -1213,7 +1213,7 @@ resources:
   - name: rds-instance-full-module
     type: git
     source:
-      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
       branch: master
       private_key: ((telia-terraform-modules-deploy-key))
       paths:
@@ -1222,7 +1222,7 @@ resources:
   - name: rds-simple-module
     type: git
     source:
-      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
       branch: master
       private_key: ((telia-terraform-modules-deploy-key))
       paths:
