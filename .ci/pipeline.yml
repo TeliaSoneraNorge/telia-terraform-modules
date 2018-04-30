@@ -200,12 +200,12 @@ jobs:
             iam/role
             iam/user
 
-      - task: iam-assumable-role
+      - task: iam-assumable-roles
         <<: *test-module-config
         params:
           <<: *test-module-params
           directories: |
-            iam-assumable-role
+            iam-assumable-roles
 
       - task: iam-user
         <<: *test-module-config
@@ -262,7 +262,7 @@ jobs:
         params:
           <<: *test-module-params
           directories: |
-            ssm
+            ssm/agent-policy
 
       - task: terraform
         <<: *test-module-config
