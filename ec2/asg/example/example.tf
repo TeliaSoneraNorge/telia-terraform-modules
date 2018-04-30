@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source        = "github.com/TeliaSoneraNorge/divx-terraform-modules//ec2/vpc"
+  source        = "../../../ec2/vpc"
   prefix        = "your-project"
   cidr_block    = "10.8.0.0/16"
   dns_hostnames = "true"
@@ -15,7 +15,7 @@ module "vpc" {
 }
 
 module "asg" {
-  source          = "github.com/TeliaSoneraNorge/divx-terraform-modules//ec2/asg"
+  source          = "../../../ec2/asg"
   prefix          = "your-project"
   user_data       = "#!bin/bash\necho hello world"
   vpc_id          = "${module.vpc.vpc_id}"

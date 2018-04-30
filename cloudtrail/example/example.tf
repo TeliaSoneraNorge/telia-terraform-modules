@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "cloudtrail" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//cloudtrail"
+  source = "../../cloudtrail"
 
   prefix         = "company-cloudtrail"
   read_capacity  = "30"

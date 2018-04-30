@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "admin" {
-  source          = "github.com/TeliaSoneraNorge/divx-terraform-modules//iam/admin"
+  source          = "../../../iam/admin"
   prefix          = "account-name"
   trusted_account = "<user-account>"
 

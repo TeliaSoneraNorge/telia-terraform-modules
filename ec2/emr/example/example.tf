@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "cluster" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//ec2/emr"
+  source = "../../../ec2/emr"
 
   prefix       = "my-project"
   vpc_id       = "vpc-12345678"
