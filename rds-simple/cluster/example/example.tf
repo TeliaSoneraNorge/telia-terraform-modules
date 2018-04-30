@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source          = "github.com/TeliaSoneraNorge/divx-terraform-modules//ec2/vpc"
+  source          = "../../../ec2/vpc"
   prefix          = "your-project"
   cidr_block      = "10.8.0.0/16"
   private_subnets = "2"
@@ -16,7 +16,7 @@ module "vpc" {
 }
 
 module "rds" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//rds/cluster"
+  source = "../../../rds-simple/cluster"
 
   prefix     = "your-project"
   username   = "someuser"

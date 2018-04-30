@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "terraform_init" {
-  source      = "github.com/TeliaSoneraNorge/divx-terraform-modules//terraform/init"
+  source      = "../../../terraform/init"
   prefix      = "example-staging"
   environment = "stage"
 }

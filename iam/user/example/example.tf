@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "firstname_lastname" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//iam/user"
+  source = "../../../iam/user"
 
   username = "firstname.lastname"
   keybase  = "itsdalmo"

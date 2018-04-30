@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//ec2/vpc"
+  source = "../../ec2/vpc"
 
   prefix          = "concourse-ci"
   cidr_block      = "10.0.0.0/16"
@@ -14,7 +14,7 @@ module "vpc" {
 }
 
 module "bastion" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//bastion"
+  source = "../../bastion"
 
   prefix     = "${var.prefix}"
   vpc_id     = "${module.vpc.vpc_id}"
@@ -32,7 +32,7 @@ module "bastion" {
 }
 
 module "postgres" {
-  source = "github.com/TeliaSoneraNorge/divx-terraform-modules//rds/cluster"
+  source = "../../rds-simple/cluster"
 
   prefix     = "${var.prefix}-aurora"
   username   = "superuser"
