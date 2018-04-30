@@ -858,7 +858,7 @@ jobs:
         directories: |
           lambda/function/example
 
-  - name: rds-instance-full
+  - name: rds-instance-full-test
     plan:
     - aggregate:
       - get: common-tasks
@@ -904,7 +904,7 @@ jobs:
         directories: |
           rds-simple/instance/example
           rds-simple/cluster/example
-  - name: rds-simple/example-run
+  - name: rds-simple-example-run
     plan:
     - aggregate:
       - get: common-tasks
