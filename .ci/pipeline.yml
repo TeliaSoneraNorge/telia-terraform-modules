@@ -858,7 +858,7 @@ jobs:
         directories: |
           lambda/function/example
 
-  - name: rds-instance-full
+  - name: rds-instance-full-test
     plan:
     - aggregate:
       - get: common-tasks
@@ -904,7 +904,7 @@ jobs:
         directories: |
           rds-simple/instance/example
           rds-simple/cluster/example
-  - name: rds-simple/example-run
+  - name: rds-simple-example-run
     plan:
     - aggregate:
       - get: common-tasks
@@ -1213,7 +1213,7 @@ resources:
   - name: rds-instance-full-module
     type: git
     source:
-      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
       branch: master
       private_key: ((telia-terraform-modules-deploy-key))
       paths:
@@ -1222,7 +1222,7 @@ resources:
   - name: rds-simple-module
     type: git
     source:
-      uri: git@github.com:TeliaSoneraNorge/divx-terraform-modules.git
+      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
       branch: master
       private_key: ((telia-terraform-modules-deploy-key))
       paths:
