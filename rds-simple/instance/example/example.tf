@@ -16,7 +16,7 @@ module "vpc" {
 }
 
 module "rds" {
-  source        = " ../../instance"
+  source        = " ../../../rds-simple/instance"
   multi_az      = "false"
   prefix        = "your-project"
   username      = "someuser"
