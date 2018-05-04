@@ -48,6 +48,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "public_access" {
+  description = "Flag whether the DB should be publicly accessible."
+  default     = "false"
+}
+
 # -------------------------------------------------------------------------------
 # Resources
 # -------------------------------------------------------------------------------
@@ -79,7 +84,7 @@ resource "aws_rds_cluster_instance" "main" {
   instance_class       = "${var.instance_type}"
   engine               = "${var.engine}"
   db_subnet_group_name = "${aws_db_subnet_group.main.name}"
-  publicly_accessible  = true
+  publicly_accessible  = "${var.public_access}"
 
   tags = "${merge(var.tags, map("Name", "${var.prefix}-instance-${count.index + 1}"))}"
 }
