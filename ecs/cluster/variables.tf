@@ -16,7 +16,7 @@ variable "subnet_ids" {
 
 variable "instance_ami" {
   description = "ID of a Amazon Linux ECS optimized AMI for the instances."
-  default     = "ami-1d46df64"
+  default     = "ami-2d386654"
 }
 
 variable "instance_type" {
