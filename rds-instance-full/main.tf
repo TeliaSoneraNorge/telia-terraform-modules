@@ -49,7 +49,7 @@ locals {
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.ecs_name == "" ? true : false}"
+  create = "${var.ecs_name == "" ? 1 : 0}"
 
   name        = "${local.identifier}-rds"
   description = "Security group with RDS ports open within VPC"
@@ -62,7 +62,7 @@ module "rds_security_group" {
 module "rds_security_group_to_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.ecs_name == "" ? false : true}"
+  create = "${var.ecs_name == "" ? 0 : 1}"
 
   name        = "${local.identifier}-rds"
   description = "Security group of ECS to be able to access RDS"
