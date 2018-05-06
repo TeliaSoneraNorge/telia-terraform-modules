@@ -8,21 +8,6 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-data "terraform_remote_state" "neo_ecs" {
-  backend = "s3"
-
-  count = "${var.ecs_name == "" ? 0 : 1}"
-
-  config {
-    region = "${var.terraform_state_region}"
-    bucket = "${var.terraform_state_bucket}"
-    key    = "${var.aws_region}/${var.ecs_name}/terraform.tfstate"
-  }
-}
-
-"${data.terraform_remote_state.neo_ecs.security_group_id}"
-
-
 resource "random_string" "generated_db_password" {
   length = 16
   upper  = true
@@ -38,19 +23,15 @@ locals {
   map("Environment", var.local_environment)
   )}"
 
-  identifier = "${join("-", compact(list(var.global_project, var.local_environment, var.local_identifier)))}"
+  identifier = "${var.identifier}"
 
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }
 
-#################
-# Security group
-#################
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.ecs_name == "" ? 1 : 0}"
-
+ 
   name        = "${local.identifier}-rds"
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
@@ -58,21 +39,6 @@ module "rds_security_group" {
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
   ingress_rules       = ["${var.ingress_rule}"]
 }
-
-module "rds_security_group_to_sg" {
-  source = "terraform-aws-modules/security-group/aws"
-
-  create = "${var.ecs_name == "" ? 0 : 1}"
-
-  name        = "${local.identifier}-rds"
-  description = "Security group of ECS to be able to access RDS"
-  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
-
-  ingress_with_source_security_group_id = "${data.terraform_remote_state.neo_ecs.security_group_id}"
-  ingress_rules       = ["${var.ingress_rule}"]
-}
-
-
 
 data "aws_db_snapshot" "manual" {
   count = "${var.manual_db_snapshot_identifier == "" ? 0 : 1}"
@@ -100,11 +66,13 @@ module "rds" {
   name     = "${var.database_name}"
   username = "${var.database_username}"
   password = "${local.db_password}"
-  port     = "${var.database_port}"
+
+  port = "${var.database_port}"
+
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${var.ecs_name == "" ? module.rds_security_group.this_security_group_id : module.rds_security_group_to_sg.this_security_group_id}"]
+  vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
   maintenance_window      = "${var.maintenance_window}"
   backup_window           = "${var.backup_window}"
   backup_retention_period = "${var.backup_retention_period}"

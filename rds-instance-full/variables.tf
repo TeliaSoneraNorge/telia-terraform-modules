@@ -15,6 +15,10 @@ variable "manual_db_snapshot_identifier" {
   default     = ""
 }
 
+variable "identifier" {
+  description = "Identifier of RDS"
+}
+
 variable "database_name" {
   description = "The database name"
 }
@@ -68,7 +72,7 @@ variable "engine" {
   default = "postgres"
 }
 
-variable "family" { # missing
+variable "family" {
   description = "DB parameter group"
   default = "postgres9.6"
 }
@@ -76,11 +80,4 @@ variable "family" { # missing
 variable ingress_rule {
   description = "Ingress rule to open the ports towards VPC"
   default = "postgresql-tcp"
-}
-
-# RDS could be accessed only from ECS, not from whole VPC
-
-variable "ecs_name" {
-  description = "ECS allowed to access RDS"
-  default = ""
 }
