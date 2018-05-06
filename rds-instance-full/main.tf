@@ -8,6 +8,21 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+data "terraform_remote_state" "neo_ecs" {
+  backend = "s3"
+
+  count = "${var.ecs_name == "" ? 0 : 1}"
+
+  config {
+    region = "${var.terraform_state_region}"
+    bucket = "${var.terraform_state_bucket}"
+    key    = "${var.aws_region}/${var.ecs_name}/terraform.tfstate"
+  }
+}
+
+"${data.terraform_remote_state.neo_ecs.security_group_id}"
+
+
 resource "random_string" "generated_db_password" {
   length = 16
   upper  = true
@@ -34,7 +49,7 @@ locals {
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.allowed_sgs_count == 0 ? true : false}"
+  create = "${var.ecs_name == "" ? true : false}"
 
   name        = "${local.identifier}-rds"
   description = "Security group with RDS ports open within VPC"
@@ -47,13 +62,13 @@ module "rds_security_group" {
 module "rds_security_group_to_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.allowed_sgs_count == 0 ? false : true}"
+  create = "${var.ecs_name == "" ? false : true}"
 
   name        = "${local.identifier}-rds"
-  description = "Security group with RDS ports open for defined security groups"
+  description = "Security group of ECS to be able to access RDS"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
-  ingress_with_source_security_group_id = "${var.allowed_sgs}"
+  ingress_with_source_security_group_id = "${data.terraform_remote_state.neo_ecs.security_group_id}"
   ingress_rules       = ["${var.ingress_rule}"]
 }
 
@@ -89,7 +104,7 @@ module "rds" {
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${var.allowed_sgs_count == 0 ? module.rds_security_group.this_security_group_id : module.rds_security_group_to_sg.this_security_group_id}"]
+  vpc_security_group_ids  = ["${var.ecs_name == "" ? module.rds_security_group.this_security_group_id : module.rds_security_group_to_sg.this_security_group_id}"]
   maintenance_window      = "${var.maintenance_window}"
   backup_window           = "${var.backup_window}"
   backup_retention_period = "${var.backup_retention_period}"

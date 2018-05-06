@@ -78,12 +78,9 @@ variable ingress_rule {
   default = "postgresql-tcp"
 }
 
-variable allowed_sgs_count {
-  description = "Count of allowed security groups to access RDS"
-  default = 0
-}
+# RDS could be accessed only from ECS, not from whole VPC
 
-variable allowed_sgs {
-  description = "List of allowed security groups to access RDS"
-  default = []
+variable "ecs_name" {
+  description = "ECS allowed to access RDS"
+  default = ""
 }
