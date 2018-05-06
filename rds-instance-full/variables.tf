@@ -42,3 +42,48 @@ variable "multi_az" {
   description = "Specifies if the database should be deployed with standby replica in a different AZ"
   default     = false
 }
+
+variable "maintenance_window" {
+  description = "Maintenance window. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
+  default = "Mon:00:00-Mon:03:00"
+}
+
+variable "backup_window" {
+  description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window"
+  default = "03:00-06:00"
+}
+
+variable "backup_retention_period" { # present but static
+  description = "The days to retain backups for"
+  default     = 7
+}
+
+variable "monitoring_interval" {
+  description = "Monitoring interval for RDS modules"
+  default = 10
+}
+
+variable "engine" {
+  description = "Engine of RDS"
+  default = "postgres"
+}
+
+variable "family" { # missing
+  description = "DB parameter group"
+  default = "postgres9.6"
+}
+
+variable ingress_rule {
+  description = "Ingress rule to open the ports towards VPC"
+  default = "postgresql-tcp"
+}
+
+variable allowed_sgs_count {
+  description = "Count of allowed security groups to access RDS"
+  default = 0
+}
+
+variable allowed_sgs {
+  description = "List of allowed security groups to access RDS"
+  default = []
+}

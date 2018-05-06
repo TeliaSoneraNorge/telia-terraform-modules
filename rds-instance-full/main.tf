@@ -34,13 +34,30 @@ locals {
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
+  create = "${var.allowed_sgs_count == 0 ? true : false}"
+
   name        = "${local.identifier}-rds"
-  description = "Security group with PostgreSQL ports open within VPC"
+  description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
-  ingress_rules       = ["postgresql-tcp"]
+  ingress_rules       = ["${var.ingress_rule}"]
 }
+
+module "rds_security_group_to_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  create = "${var.allowed_sgs_count == 0 ? false : true}"
+
+  name        = "${local.identifier}-rds"
+  description = "Security group with RDS ports open for defined security groups"
+  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
+
+  ingress_with_source_security_group_id = "${var.allowed_sgs}"
+  ingress_rules       = ["${var.ingress_rule}"]
+}
+
+
 
 data "aws_db_snapshot" "manual" {
   count = "${var.manual_db_snapshot_identifier == "" ? 0 : 1}"
@@ -59,7 +76,7 @@ module "rds" {
 
   identifier = "${local.identifier}"
 
-  engine            = "postgres"
+  engine            = "${var.engine}"
   engine_version    = "${var.engine_version}"
   instance_class    = "${var.instance_class}"
   allocated_storage = "${var.allocated_storage}"
@@ -72,11 +89,11 @@ module "rds" {
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
-  maintenance_window      = "Mon:00:00-Mon:03:00"
-  backup_window           = "03:00-06:00"
-  backup_retention_period = 7
-  monitoring_interval     = 10
+  vpc_security_group_ids  = ["${var.allowed_sgs_count == 0 ? module.rds_security_group.this_security_group_id : module.rds_security_group_to_sg.this_security_group_id}"]
+  maintenance_window      = "${var.maintenance_window}"
+  backup_window           = "${var.backup_window}"
+  backup_retention_period = "${var.backup_retention_period}"
+  monitoring_interval     = "${var.monitoring_interval}"
   monitoring_role_name    = "${local.identifier}-RDSMonitoringRole"
   create_monitoring_role  = true
 
@@ -84,15 +101,7 @@ module "rds" {
   subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]
 
   # DB parameter group
-  family = "postgres9.6"
-
-  //  parameters = [
-  //    {
-  //      name = "rds.force_ssl"
-  //      value = "false"
-  //      apply_method = "pending-reboot"
-  //    }
-  //  ]
+  family = "${var.family}"
 
   tags = "${local.tags}"
 }
