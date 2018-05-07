@@ -23,7 +23,7 @@ locals {
   map("Environment", var.local_environment)
   )}"
 
-  identifier = "${var.identifier}"
+  identifier = "${join("-", compact(list(var.global_project, var.local_environment, var.local_identifier)))}"
 
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }

@@ -15,10 +15,6 @@ variable "manual_db_snapshot_identifier" {
   default     = ""
 }
 
-variable "identifier" {
-  description = "Identifier of RDS"
-}
-
 variable "database_name" {
   description = "The database name"
 }
