@@ -1,3 +1,26 @@
+variable "subnets" {
+  type = "list"
+
+  default = [
+    "abc",
+    "def",
+    "ghi",
+  ]
+}
+
+variable "subnet_count" {
+  default = "3"
+}
+
+variable "prefix" {
+  default = "working-example"
+}
+
+variable "ami" {
+  default = "ami-2d386654"
+}
+
+
 resource "aws_iam_role" "spotfleet" {
   name               = "${var.prefix}-spotfleet"
   assume_role_policy = "${data.aws_iam_policy_document.spotfleet-assume.json}"
@@ -9,55 +32,48 @@ resource "aws_iam_policy_attachment" "spotfleet" {
   roles      = ["${aws_iam_role.spotfleet.name}"]
 }
 
-//locals {
-//  test = [{
-//    ami           = "${var.ami}"
-//    instance_type = "m3.large"
-//  },
-//    {
-//      ami           = "${var.ami}"
-//      instance_type = "t2.large"
-//    },
-//  ]
-//}
-
-data "null_data_source" "spot" {
-  count = "${var.subnet_count}"
-
-  inputs = [{
-    subnet_id     = "${element(var.subnets, count.index)}"
+locals {
+  test = [
+    {
     ami           = "${var.ami}"
     instance_type = "m3.large"
+    subnet_id = "abc"
   },
     {
-      subnet_id     = "${element(var.subnets, count.index)}"
+      ami           = "${var.ami}"
+      instance_type = "m3.large"
+      subnet_id = "def"
+    },
+    {
+      ami           = "${var.ami}"
+      instance_type = "m3.large"
+      subnet_id = "ghi"
+    },
+    {
       ami           = "${var.ami}"
       instance_type = "t2.large"
+      subnet_id = "abc"
+    },
+    {
+      ami           = "${var.ami}"
+      instance_type = "t2.large"
+      subnet_id = "def"
+    },
+    {
+      ami           = "${var.ami}"
+      instance_type = "t2.large"
+      subnet_id = "ghi"
     },
   ]
 }
 
-locals {
-  test = ["${data.null_data_source.spot.*.outputs}"]
-}
-
-output "launch_specification" {
-  value = "${data.null_data_source.spot.*.outputs}"
-}
-
-
 resource "aws_spot_fleet_request" "main" {
   iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
-
   launch_specification = ["${local.test}"]
-
-  //   launch_specification = ["${data.null_data_source.spot.*.outputs}"]
-  //launch_specification = ["${data.null_data_source.spot3.*.outputs}"]
-
-  spot_price = "${var.spot_price}"
-  target_capacity     = "${var.target_capacity}"
-  allocation_strategy = "${var.allocation_strategy}"
-  valid_until         = "${var.valid_until}"
+  spot_price = "0.03"
+  target_capacity     = "6"
+  allocation_strategy = "lowestPrice"
+  valid_until         = "2028-05-03T00:00:00Z"
 }
 
 data "aws_iam_policy_document" "spotfleet-assume" {
