@@ -42,3 +42,7 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+variable "terraform_state_keys" {}
+variable "terraform_state_region" {}
+variable "terraform_state_bucket" {}
+variable "aws_region" {}
