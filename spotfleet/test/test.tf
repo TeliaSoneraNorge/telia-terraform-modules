@@ -19,11 +19,12 @@ variable "ami" {
 data "null_data_source" "spot" {
   count = "${var.subnet_count}"
 
-  inputs = [{
-    subnet_id     = "${element(var.subnets, count.index)}"
-    ami           = "${var.ami}"
-    instance_type = "m3.large"
-  },
+  inputs = [
+    {
+      subnet_id     = "${element(var.subnets, count.index)}"
+      ami           = "${var.ami}"
+      instance_type = "m3.large"
+    },
     {
       subnet_id     = "${element(var.subnets, count.index)}"
       ami           = "${var.ami}"
@@ -33,5 +34,5 @@ data "null_data_source" "spot" {
 }
 
 output "launch_specification" {
-  value = "${data.null_data_source.spot.*.outputs}"
+  value = "${data.null_data_source.spot.*.random}"
 }

@@ -20,7 +20,6 @@ variable "ami" {
   default = "ami-2d386654"
 }
 
-
 resource "aws_iam_role" "spotfleet" {
   name               = "${var.prefix}-spotfleet"
   assume_role_policy = "${data.aws_iam_policy_document.spotfleet-assume.json}"
@@ -35,45 +34,45 @@ resource "aws_iam_policy_attachment" "spotfleet" {
 locals {
   test = [
     {
-    ami           = "${var.ami}"
-    instance_type = "m3.large"
-    subnet_id = "abc"
-  },
-    {
       ami           = "${var.ami}"
       instance_type = "m3.large"
-      subnet_id = "def"
+      subnet_id     = "abc"
     },
     {
       ami           = "${var.ami}"
       instance_type = "m3.large"
-      subnet_id = "ghi"
+      subnet_id     = "def"
+    },
+    {
+      ami           = "${var.ami}"
+      instance_type = "m3.large"
+      subnet_id     = "ghi"
     },
     {
       ami           = "${var.ami}"
       instance_type = "t2.large"
-      subnet_id = "abc"
+      subnet_id     = "abc"
     },
     {
       ami           = "${var.ami}"
       instance_type = "t2.large"
-      subnet_id = "def"
+      subnet_id     = "def"
     },
     {
       ami           = "${var.ami}"
       instance_type = "t2.large"
-      subnet_id = "ghi"
+      subnet_id     = "ghi"
     },
   ]
 }
 
 resource "aws_spot_fleet_request" "main" {
-  iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
+  iam_fleet_role       = "${aws_iam_role.spotfleet.arn}"
   launch_specification = ["${local.test}"]
-  spot_price = "0.03"
-  target_capacity     = "6"
-  allocation_strategy = "lowestPrice"
-  valid_until         = "2028-05-03T00:00:00Z"
+  spot_price           = "0.03"
+  target_capacity      = "6"
+  allocation_strategy  = "lowestPrice"
+  valid_until          = "2028-05-03T00:00:00Z"
 }
 
 data "aws_iam_policy_document" "spotfleet-assume" {

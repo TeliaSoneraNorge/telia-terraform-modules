@@ -20,7 +20,6 @@ variable "ami" {
   default = "ami-2d386654"
 }
 
-
 resource "aws_iam_role" "spotfleet" {
   name               = "${var.prefix}-spotfleet"
   assume_role_policy = "${data.aws_iam_policy_document.spotfleet-assume.json}"
@@ -32,29 +31,23 @@ resource "aws_iam_policy_attachment" "spotfleet" {
   roles      = ["${aws_iam_role.spotfleet.name}"]
 }
 
-data "null_data_source" "spot" {
+data "null_data_source" "m3-large" {
   count = "${var.subnet_count}"
 
-  inputs = [{
+  inputs = {
     subnet_id     = "${element(var.subnets, count.index)}"
     ami           = "${var.ami}"
     instance_type = "m3.large"
-  },
-    {
-      subnet_id     = "${element(var.subnets, count.index)}"
-      ami           = "${var.ami}"
-      instance_type = "t2.large"
-    },
-  ]
+  }
 }
 
 resource "aws_spot_fleet_request" "main" {
-  iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
-  launch_specification = ["${data.null_data_source.spot.*.outputs}"]
-  spot_price = "0.03"
-  target_capacity     = "6"
-  allocation_strategy = "lowestPrice"
-  valid_until         = "2028-05-03T00:00:00Z"
+  iam_fleet_role       = "${aws_iam_role.spotfleet.arn}"
+  launch_specification = "${data.null_data_source.m3-large.*.outputs}"
+  spot_price           = "0.03"
+  target_capacity      = "6"
+  allocation_strategy  = "lowestPrice"
+  valid_until          = "2028-05-03T00:00:00Z"
 }
 
 data "aws_iam_policy_document" "spotfleet-assume" {
