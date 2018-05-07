@@ -17,8 +17,28 @@ variable "spot_price" {
   default     = "0.05"
 }
 
-
 variable "allocation_strategy" {
   description = "Optional: Defaulted to lowestPrice - recommend setting diversified for production."
-  default = "lowestPrice"
+  default     = "lowestPrice"
+}
+
+variable "valid_until" {
+  description = "Valid to date for the spot requests - after this date instances will not be replaced"
+  default     = "2028-05-03T00:00:00Z"
+}
+
+variable "tags" {
+  description = "A map of tags (key-value pairs) passed to resources."
+  type        = "map"
+  default     = {}
+}
+
+variable "subnets" {
+  type        = "list"
+  description = "List of subnets to launch the spotfleet in"
+}
+
+# Hack to overcome that count variables cannot be inferred
+variable "subnet_count" {
+  description = "Required: count of subnets"
 }
