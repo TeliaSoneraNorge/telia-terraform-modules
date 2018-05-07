@@ -39,6 +39,10 @@ variable "subnet_ids" {
   type        = "list"
 }
 
+variable "source_security_group_id" {
+  description = "The security group id to allow access from."
+}
+
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = "map"
