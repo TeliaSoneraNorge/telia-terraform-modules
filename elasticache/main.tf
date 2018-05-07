@@ -8,6 +8,7 @@ resource "aws_elasticache_subnet_group" "main" {
 
 resource "aws_elasticache_cluster" "main" {
   subnet_group_name    = "${aws_elasticache_subnet_group.main.name}"
+  security_group_ids   = ["${aws_security_group.main.id}"]
   cluster_id           = "${var.prefix}"
   parameter_group_name = "${var.parameter_group_name}"
   engine               = "${var.engine}"
