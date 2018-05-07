@@ -42,3 +42,9 @@ variable "multi_az" {
   description = "Specifies if the database should be deployed with standby replica in a different AZ"
   default     = false
 }
+
+variable "local_environment" {}
+variable "terraform_state_keys" {}
+variable "terraform_state_region" {}
+variable "terraform_state_bucket" {}
+variable "aws_region" {}
