@@ -11,7 +11,7 @@ module "vpc" {
 module "example_spotfleet-cluster" {
   source              = "../"
   prefix              = "${var.prefix}"
-  target_capacity     = 4
+  target_capacity     = 6
   spot_price          = "0.02"
   tags                = "${var.tags}"
   subnets             = "${module.vpc.public_subnet_ids}"
