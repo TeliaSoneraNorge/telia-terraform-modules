@@ -58,3 +58,7 @@ variable "load_balancer_count" {
   description = "HACK: This exists purely to calculate count in Terraform. Should equal the length of your ingress map."
   default     = 0
 }
+
+variable "vpc_id" {
+  description = "ID of the VPC to be launched into"
+}

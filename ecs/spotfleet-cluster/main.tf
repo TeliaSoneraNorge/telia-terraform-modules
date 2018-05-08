@@ -58,7 +58,8 @@ resource "aws_iam_policy_attachment" "ecs-instance" {
 
 resource "aws_security_group" "ecs-instances" {
   name        = "${var.prefix}-ecs-instance"
-  description = "Terraformed security group for ${var.prefix} ecs instance"
+  description = "Terraformed security group for ${var.prefix} ecs instances"
+  vpc_id      = "${var.vpc_id}"
 }
 
 resource "aws_security_group_rule" "ingress" {
@@ -72,6 +73,6 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 resource "aws_iam_instance_profile" "ecs" {
-  name  = "${var.prefix}-ecs-instance"
+  name = "${var.prefix}-ecs-instance"
   role = "${aws_iam_role.ec2-instance.name}"
 }

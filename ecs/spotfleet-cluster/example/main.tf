@@ -17,4 +17,5 @@ module "example_spotfleet-cluster" {
   subnets             = "${module.vpc.public_subnet_ids}"
   subnet_count        = "3"
   allocation_strategy = "lowestPrice"
+  vpc_id              = "${module.vpc.vpc_id}"
 }

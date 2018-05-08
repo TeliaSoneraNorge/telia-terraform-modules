@@ -7,16 +7,18 @@ resource "aws_spot_fleet_request" "main" {
   valid_until         = "${var.valid_until}"
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.xlarge"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.xlarge"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -30,16 +32,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.xlarge"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.xlarge"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -53,16 +57,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.xlarge"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.xlarge"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -76,16 +82,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.xlarge"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.xlarge"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -99,16 +107,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.xlarge"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.xlarge"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -122,16 +132,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.xlarge"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.xlarge"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -145,16 +157,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.xlarge"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.xlarge"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -168,16 +182,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.xlarge"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.xlarge"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -191,16 +207,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.xlarge"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.xlarge"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -214,16 +232,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.xlarge"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.xlarge"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -237,16 +257,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.xlarge"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.xlarge"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -260,16 +282,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.xlarge"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.xlarge"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 4
+    weighted_capacity      = 4
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -283,16 +307,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c3.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c3.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -306,16 +332,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c3.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c3.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -329,16 +357,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c3.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c3.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -352,16 +382,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.medium"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.medium"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -375,16 +407,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.medium"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.medium"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -398,16 +432,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.medium"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.medium"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -421,16 +457,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -444,16 +482,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -467,16 +507,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -490,16 +532,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -513,16 +557,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -536,16 +582,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -559,16 +607,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c4.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c4.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -582,16 +632,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c4.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c4.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -605,16 +657,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c4.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c4.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -628,16 +682,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -651,16 +707,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -674,16 +732,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r3.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r3.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -697,16 +757,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m4.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m4.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -720,16 +782,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m4.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m4.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -743,16 +807,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m4.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m4.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -766,16 +832,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -789,16 +857,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -812,16 +882,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "r4.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "r4.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -835,16 +907,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c5.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c5.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -858,16 +932,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c5.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c5.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -881,16 +957,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "c5.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "c5.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -904,16 +982,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m5.large"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m5.large"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -927,16 +1007,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m5.large"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m5.large"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -950,16 +1032,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m5.large"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m5.large"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 2
+    weighted_capacity      = 2
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -973,16 +1057,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.medium"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.medium"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -996,16 +1082,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.medium"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.medium"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -1019,16 +1107,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "m3.medium"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "m3.medium"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -1042,16 +1132,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.small"
-    subnet_id         = "${var.subnets[0]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.small"
+    subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -1065,16 +1157,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.small"
-    subnet_id         = "${var.subnets[1]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.small"
+    subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
@@ -1088,16 +1182,18 @@ USER_DATA
   }
 
   launch_specification {
-    ami               = "${var.ami}"
-    instance_type     = "t2.small"
-    subnet_id         = "${var.subnets[2]}"
+    ami                    = "${var.ami}"
+    instance_type          = "t2.small"
+    subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity = 1
+    weighted_capacity      = 1
 
     tags = {
       "Name" = "${var.prefix}-spot-instance"
     }
-    iam_instance_profile   = "${aws_iam_instance_profile.ecs.name}"
+
+    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+
     user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
