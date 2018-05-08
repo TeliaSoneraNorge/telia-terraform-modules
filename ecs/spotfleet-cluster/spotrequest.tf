@@ -1,4 +1,5 @@
 resource "aws_spot_fleet_request" "main" {
+  depends_on = ["aws_iam_policy_attachment.spotfleet"]
   iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
 
   spot_price          = "${var.spot_price}"
