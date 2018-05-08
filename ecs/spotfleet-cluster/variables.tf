@@ -42,3 +42,19 @@ variable "subnets" {
 variable "subnet_count" {
   description = "Required: count of subnets"
 }
+
+variable "ecs_log_level" {
+  description = "Log level for the ECS agent."
+  default     = "info"
+}
+
+variable "load_balancers" {
+  description = "List of load balancer security groups that can ingress on the dynamic port range."
+  type        = "list"
+  default     = []
+}
+
+variable "load_balancer_count" {
+  description = "HACK: This exists purely to calculate count in Terraform. Should equal the length of your ingress map."
+  default     = 0
+}
