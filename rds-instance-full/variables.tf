@@ -73,7 +73,7 @@ variable "family" {
   default     = "postgres9.6"
 }
 
-variable ingress_rule {
+variable "ingress_rule" {
   description = "Ingress rule to open the ports towards VPC"
   default     = "postgresql-tcp"
 }
