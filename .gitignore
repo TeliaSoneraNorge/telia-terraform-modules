@@ -1,9 +1,19 @@
 # OS X
 .DS_Store
+.history
 
 # IntelliJ
-.idea/
+.idea
+.idea_modules
+*.iml
+*.iws
+*.ipr
 
 # Terraform
 **/.terraform
 **/*.tfstate*
+crash.log
+
+# Secrets are not allowed in general
+*.key
+*.pem
