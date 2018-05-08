@@ -56,6 +56,12 @@ resource "aws_iam_policy_attachment" "ecs-instance" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+resource "aws_iam_policy_attachment" "ecs-instance" {
+  name       = "${var.prefix}-ec2-instance"
+  roles      = ["${aws_iam_role.ec2-instance.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+}
+
 resource "aws_security_group" "ecs-instances" {
   name        = "${var.prefix}-ecs-instance"
   description = "Terraformed security group for ${var.prefix} ecs instances"
