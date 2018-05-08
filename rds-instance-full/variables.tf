@@ -53,7 +53,7 @@ variable "backup_window" {
   default     = "03:00-06:00"
 }
 
-variable "backup_retention_period" { # present but static
+variable "backup_retention_period" {
   description = "The days to retain backups for"
   default     = 7
 }
