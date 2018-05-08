@@ -31,7 +31,6 @@ locals {
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
- 
   name        = "${local.identifier}-rds"
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
@@ -68,7 +67,6 @@ module "rds" {
   password = "${local.db_password}"
 
   port = "${var.database_port}"
-
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 

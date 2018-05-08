@@ -45,12 +45,12 @@ variable "multi_az" {
 
 variable "maintenance_window" {
   description = "Maintenance window. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
-  default = "Mon:00:00-Mon:03:00"
+  default     = "Mon:00:00-Mon:03:00"
 }
 
 variable "backup_window" {
   description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window"
-  default = "03:00-06:00"
+  default     = "03:00-06:00"
 }
 
 variable "backup_retention_period" { # present but static
@@ -60,20 +60,20 @@ variable "backup_retention_period" { # present but static
 
 variable "monitoring_interval" {
   description = "Monitoring interval for RDS modules"
-  default = 10
+  default     = 10
 }
 
 variable "engine" {
   description = "Engine of RDS"
-  default = "postgres"
+  default     = "postgres"
 }
 
 variable "family" {
   description = "DB parameter group"
-  default = "postgres9.6"
+  default     = "postgres9.6"
 }
 
 variable ingress_rule {
   description = "Ingress rule to open the ports towards VPC"
-  default = "postgresql-tcp"
+  default     = "postgresql-tcp"
 }
