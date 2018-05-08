@@ -3,6 +3,15 @@
 # -------------------------------------------------------------------------------
 data "aws_region" "current" {}
 
+resource "aws_security_group_rule" "atc_ingress_garbage_collection" {
+  security_group_id        = "${module.worker.security_group_id}"
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = "7799"
+  to_port                  = "7799"
+  source_security_group_id = "${var.atc_sg}"
+}
+
 resource "aws_security_group_rule" "atc_ingress_baggageclaim" {
   security_group_id        = "${module.worker.security_group_id}"
   type                     = "ingress"
