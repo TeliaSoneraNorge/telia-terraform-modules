@@ -56,7 +56,7 @@ resource "aws_iam_policy_attachment" "ecs-instance" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-resource "aws_iam_policy_attachment" "ecs-instance" {
+resource "aws_iam_policy_attachment" "ecs-instance-ssm" {
   name       = "${var.prefix}-ec2-instance"
   roles      = ["${aws_iam_role.ec2-instance.name}"]
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
