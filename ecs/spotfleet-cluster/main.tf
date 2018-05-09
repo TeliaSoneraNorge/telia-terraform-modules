@@ -29,11 +29,57 @@ resource "aws_iam_role" "ec2-instance" {
   assume_role_policy = "${data.aws_iam_policy_document.ec2-instance-assume.json}"
 }
 
-resource "aws_iam_policy_attachment" "ec2-instance" {
-  name       = "${var.prefix}-ec2-instance"
-  roles      = ["${aws_iam_role.ec2-instance.name}"]
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+
+data "aws_iam_policy_document" "permissions" {
+  # TODO: Restrict privileges to specific ECS services.
+  statement {
+    effect    = "Allow"
+    resources = ["*"]
+
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecs:CreateCluster",
+      "ecs:DeregisterContainerInstance",
+      "ecs:DiscoverPollEndpoint",
+      "ecs:Poll",
+      "ecs:RegisterContainerInstance",
+      "ecs:StartTelemetrySession",
+      "ecs:Submit*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    resources = [
+      "${aws_cloudwatch_log_group.main.arn}",
+    ]
+
+    actions = [
+      "logs:CreateLogStream",
+      "logs:CreateLogGroup",
+      "logs:PutLogEvents",
+    ]
+  }
 }
+
+resource "aws_iam_role_policy" "" {
+  policy = "${data.aws_iam_policy_document}"
+  role = "${aws_iam_role.ec2-instance}"
+}
+
+//resource "aws_iam_policy_attachment" "ec2-instance" {
+//  name       = "${var.prefix}-ec2-instance"
+//  roles      = ["${aws_iam_role.ec2-instance.name}"]
+//  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+//}
 
 data "aws_iam_policy_document" "ec2-instance-assume" {
   statement {
