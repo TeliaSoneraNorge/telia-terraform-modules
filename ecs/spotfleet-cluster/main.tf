@@ -24,12 +24,15 @@ data "aws_iam_policy_document" "spotfleet-assume" {
   }
 }
 
-resource "aws_ecs_cluster" "main" {
-  name = "${var.prefix}-spotfleet-cluster"
+resource "aws_iam_role" "ec2-instance" {
+  name               = "${var.prefix}-ec2-instances"
+  assume_role_policy = "${data.aws_iam_policy_document.ec2-instance-assume.json}"
 }
 
-resource "aws_cloudwatch_log_group" "main" {
-  name = "${var.prefix}-cluster-agent"
+resource "aws_iam_policy_attachment" "ec2-instance" {
+  name       = "${var.prefix}-ec2-instance"
+  roles      = ["${aws_iam_role.ec2-instance.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 data "aws_iam_policy_document" "ec2-instance-assume" {
@@ -45,26 +48,24 @@ data "aws_iam_policy_document" "ec2-instance-assume" {
   }
 }
 
-resource "aws_iam_role" "ec2-instance" {
-  name               = "${var.prefix}-ec2-instances"
-  assume_role_policy = "${data.aws_iam_policy_document.ec2-instance-assume.json}"
+module "agent-policy" {
+  source = "github.com/TeliaSoneraNorge/telia-terraform-modules//ssm/agent-policy?ref=2018.05.07.1"
+  prefix = "${var.prefix}"
+  role   = "${aws_iam_role.ec2-instance}"
+  tags   = "${var.tags}"
 }
 
-resource "aws_iam_policy_attachment" "ecs-instance" {
-  name       = "${var.prefix}-ec2-instance"
-  roles      = ["${aws_iam_role.ec2-instance.name}"]
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+resource "aws_ecs_cluster" "main" {
+  name = "${var.prefix}-spotfleet-cluster"
 }
 
-resource "aws_iam_policy_attachment" "ecs-instance-ssm" {
-  name       = "${var.prefix}-ec2-instance"
-  roles      = ["${aws_iam_role.ec2-instance.name}"]
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+resource "aws_cloudwatch_log_group" "main" {
+  name = "${var.prefix}-cluster-agent"
 }
 
 resource "aws_security_group" "ecs-instances" {
   name        = "${var.prefix}-ecs-instance"
-  description = "Terraformed security group for ${var.prefix} ecs instances"
+  description = "Terraformed security group for ${var.prefix} ecs cluster instances"
   vpc_id      = "${var.vpc_id}"
 }
 
