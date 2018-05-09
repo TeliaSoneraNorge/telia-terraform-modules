@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "ec2-instance-assume" {
 module "agent-policy" {
   source = "github.com/TeliaSoneraNorge/telia-terraform-modules//ssm/agent-policy?ref=2018.05.07.1"
   prefix = "${var.prefix}"
-  role   = "${aws_iam_role.ec2-instance}"
+  role   = "${aws_iam_role.ec2-instance.name}"
   tags   = "${var.tags}"
 }
 
