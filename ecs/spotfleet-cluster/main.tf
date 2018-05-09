@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "permissions" {
 
 resource "aws_iam_role_policy" "ec2-permissions" {
   policy = "${data.aws_iam_policy_document.permissions.json}"
-  role = "${aws_iam_role.ec2-instance}"
+  role = "${aws_iam_role.ec2-instance.name}"
 }
 
 //resource "aws_iam_policy_attachment" "ec2-instance" {
