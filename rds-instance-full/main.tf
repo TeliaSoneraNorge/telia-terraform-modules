@@ -28,18 +28,15 @@ locals {
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }
 
-#################
-# Security group
-#################
 module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${local.identifier}-rds"
-  description = "Security group with PostgreSQL ports open within VPC"
+  description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
-  ingress_rules       = ["postgresql-tcp"]
+  ingress_rules       = ["${var.ingress_rule}"]
 }
 
 data "aws_db_snapshot" "manual" {
@@ -59,7 +56,7 @@ module "rds" {
 
   identifier = "${local.identifier}"
 
-  engine            = "postgres"
+  engine            = "${var.engine}"
   engine_version    = "${var.engine_version}"
   instance_class    = "${var.instance_class}"
   allocated_storage = "${var.allocated_storage}"
@@ -68,15 +65,16 @@ module "rds" {
   name     = "${var.database_name}"
   username = "${var.database_username}"
   password = "${local.db_password}"
-  port     = "${var.database_port}"
+
+  port = "${var.database_port}"
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
   vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
-  maintenance_window      = "Mon:00:00-Mon:03:00"
-  backup_window           = "03:00-06:00"
-  backup_retention_period = 7
-  monitoring_interval     = 10
+  maintenance_window      = "${var.maintenance_window}"
+  backup_window           = "${var.backup_window}"
+  backup_retention_period = "${var.backup_retention_period}"
+  monitoring_interval     = "${var.monitoring_interval}"
   monitoring_role_name    = "${local.identifier}-RDSMonitoringRole"
   create_monitoring_role  = true
 
@@ -84,15 +82,7 @@ module "rds" {
   subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]
 
   # DB parameter group
-  family = "postgres9.6"
-
-  //  parameters = [
-  //    {
-  //      name = "rds.force_ssl"
-  //      value = "false"
-  //      apply_method = "pending-reboot"
-  //    }
-  //  ]
+  family = "${var.family}"
 
   tags = "${local.tags}"
 }
