@@ -1094,7 +1094,7 @@ echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
 echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
-echo "log_group_name = "${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
 echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
@@ -1136,7 +1136,7 @@ echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
 echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
-echo "log_group_name = "${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
 echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
@@ -1178,7 +1178,7 @@ echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
 echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
-echo "log_group_name = "${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
 echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
