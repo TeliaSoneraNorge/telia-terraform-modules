@@ -1004,6 +1004,7 @@ echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 USER_DATA
   }
 
@@ -1029,6 +1030,7 @@ echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 USER_DATA
   }
 
@@ -1054,6 +1056,7 @@ echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 USER_DATA
   }
 
