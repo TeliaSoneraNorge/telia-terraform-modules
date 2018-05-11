@@ -27,7 +27,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -52,7 +52,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -77,7 +77,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -102,7 +102,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -127,7 +127,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -152,7 +152,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -177,7 +177,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -202,7 +202,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -227,7 +227,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -252,7 +252,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -277,7 +277,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -302,7 +302,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -327,7 +327,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -352,7 +352,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -377,7 +377,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -402,7 +402,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -427,7 +427,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -452,7 +452,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -477,7 +477,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -502,7 +502,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -527,7 +527,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -552,7 +552,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -577,7 +577,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -602,7 +602,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -627,7 +627,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -652,7 +652,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -677,7 +677,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -702,7 +702,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -727,7 +727,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -752,7 +752,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -777,7 +777,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -802,7 +802,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -827,7 +827,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -852,7 +852,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -877,7 +877,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -902,7 +902,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -927,7 +927,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -952,7 +952,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -977,7 +977,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1002,7 +1002,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1027,7 +1027,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1052,7 +1052,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1077,7 +1077,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
@@ -1106,7 +1106,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
@@ -1135,7 +1135,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
 cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
@@ -1164,7 +1164,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1189,7 +1189,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
@@ -1214,7 +1214,7 @@ echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"] >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
 USER_DATA
   }
