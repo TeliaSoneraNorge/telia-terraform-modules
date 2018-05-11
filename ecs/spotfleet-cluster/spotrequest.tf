@@ -1087,6 +1087,7 @@ echo "[default]" >> /awslogs/awscli.template
 echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
 
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
@@ -1127,6 +1128,7 @@ echo "[default]" >> /awslogs/awscli.template
 echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
 
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
@@ -1166,6 +1168,7 @@ echo "[default]" >> /awslogs/awscli.template
 echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
 
 yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y aws-cfn-bootstrap
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
 echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
