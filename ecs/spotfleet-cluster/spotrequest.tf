@@ -1,5 +1,5 @@
 resource "aws_spot_fleet_request" "main" {
-  depends_on     = ["aws_iam_policy_attachment.spotfleet","aws_iam_role_policy.ec2-permissions"]
+  depends_on     = ["aws_iam_policy_attachment.spotfleet", "aws_iam_role_policy.ec2-permissions"]
   iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
 
   spot_price          = "${var.spot_price}"
@@ -1180,9 +1180,9 @@ echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.confi
 mkdir /etc/awslogs
 
 echo "[plugins]" > /etc/awslogs/awscli.template
-echo "cwlogs = cwlogs" >> /awslogs/awscli.template
-echo "[default]" >> /awslogs/awscli.template
-echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
 
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template

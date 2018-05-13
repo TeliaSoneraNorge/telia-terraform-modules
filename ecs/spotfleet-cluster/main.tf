@@ -29,7 +29,6 @@ resource "aws_iam_role" "ec2-instance" {
   assume_role_policy = "${data.aws_iam_policy_document.ec2-instance-assume.json}"
 }
 
-
 data "aws_iam_policy_document" "permissions" {
   # TODO: Restrict privileges to specific ECS services.
   statement {
@@ -72,7 +71,7 @@ data "aws_iam_policy_document" "permissions" {
 
 resource "aws_iam_role_policy" "ec2-permissions" {
   policy = "${data.aws_iam_policy_document.permissions.json}"
-  role = "${aws_iam_role.ec2-instance.name}"
+  role   = "${aws_iam_role.ec2-instance.name}"
 }
 
 //resource "aws_iam_policy_attachment" "ec2-instance" {
@@ -126,12 +125,12 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 resource "aws_security_group_rule" "egress-all" {
-  from_port = 0
-  protocol = "all"
+  from_port         = 0
+  protocol          = "all"
   security_group_id = "${aws_security_group.ecs-instances.id}"
-  to_port = 0
-  cidr_blocks = ["0.0.0.0/0"]
-  type = "egress"
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  type              = "egress"
 }
 
 resource "aws_iam_instance_profile" "ecs" {
