@@ -22,13 +22,34 @@ resource "aws_spot_fleet_request" "main" {
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -47,13 +68,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -72,13 +114,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -97,13 +160,35 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+#!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -122,13 +207,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -147,13 +253,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -172,13 +299,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -197,13 +345,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -222,13 +391,35 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+#!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -247,13 +438,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -272,13 +484,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -297,13 +530,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -322,13 +576,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -347,13 +622,35 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+#!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -372,13 +669,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -397,13 +715,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -422,13 +761,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -447,13 +807,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -472,13 +853,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -497,13 +899,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -522,13 +945,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -547,13 +991,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -572,13 +1037,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -597,13 +1083,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -622,13 +1129,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -647,13 +1175,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -672,13 +1221,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -697,13 +1267,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -722,13 +1313,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -747,13 +1359,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -772,13 +1405,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -797,13 +1451,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -822,13 +1497,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -847,13 +1543,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -872,13 +1589,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -897,13 +1635,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -922,13 +1681,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -947,13 +1727,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -972,13 +1773,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -997,14 +1819,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
-yum install -y aws-cfn-bootstrap
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -1023,14 +1865,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
-yum install -y aws-cfn-bootstrap
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -1049,14 +1911,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
-yum install -y aws-cfn-bootstrap
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -1088,9 +1970,9 @@ echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.confi
 mkdir /etc/awslogs
 
 echo "[plugins]" > /etc/awslogs/awscli.template
-echo "cwlogs = cwlogs" >> /awslogs/awscli.template
-echo "[default]" >> /awslogs/awscli.template
-echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
 
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
@@ -1134,9 +2016,9 @@ echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.confi
 mkdir /etc/awslogs
 
 echo "[plugins]" > /etc/awslogs/awscli.template
-echo "cwlogs = cwlogs" >> /awslogs/awscli.template
-echo "[default]" >> /awslogs/awscli.template
-echo "region = ${data.aws_region.current.name}" >> /awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
 
 echo [general] > /etc/awslogs/awslogs.template
 echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
@@ -1213,13 +2095,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+
+mkdir /etc/awslogs
+
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
+
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
+
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 
@@ -1238,38 +2141,34 @@ USER_DATA
 
     user_data = <<USER_DATA
 #!/bin/bash
+yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y awslogs
+yum install -y aws-cfn-bootstrap
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
 echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
 echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
 echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
 echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
-USER_DATA
-  }
 
-  launch_specification {
-    ami                    = "${var.ami}"
-    instance_type          = "t2.small"
-    subnet_id              = "${var.subnets[2]}"
-    vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
-    weighted_capacity      = 1
+mkdir /etc/awslogs
 
-    tags = {
-      "Name" = "${var.prefix}-spot-instance"
-    }
+echo "[plugins]" > /etc/awslogs/awscli.template
+echo "cwlogs = cwlogs" >> etc/awslogs/awscli.template
+echo "[default]" >> etc/awslogs/awscli.template
+echo "region = ${data.aws_region.current.name}" >> etc/awslogs/awscli.template
 
-    iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
+echo [general] > /etc/awslogs/awslogs.template
+echo "state_file = /var/lib/awslogs/agent-state" >> /etc/awslogs/awslogs.template
+echo "[/var/log/ecs/ecs-agent.log]" >> /etc/awslogs/awslogs.template
+echo "file = /var/log/ecs/ecs-agent.log*" >> /etc/awslogs/awslogs.template
+echo "log_group_name = ${aws_cloudwatch_log_group.main.name}" >> /etc/awslogs/awslogs.template
+echo "log_stream_name = {instance_id}" >> /etc/awslogs/awslogs.template
 
-    user_data = <<USER_DATA
-#!/bin/bash
-echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
-echo ECS_LOG_LEVEL=${var.ecs_log_level} >> /etc/ecs/ecs.config
-echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
-echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
-echo ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true >> /etc/ecs/ecs.config
-echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
-yum install -y https://amazon-ssm-${data.aws_region.current.name}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+start ecs
+service awslogs start
 USER_DATA
   }
 }
