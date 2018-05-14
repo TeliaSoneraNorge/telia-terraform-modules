@@ -1,6 +1,5 @@
 data "terraform_remote_state" "vpc" {
   backend = "s3"
-  count   = "${var.ecs_name == "" ? 1 : 0}"
 
   config {
     region = "${var.terraform_state_region}"
@@ -42,7 +41,7 @@ locals {
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }
 
-module "rds_security_group" {
+module "rds_security_group_vpc" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${local.identifier}-rds"
@@ -55,7 +54,7 @@ module "rds_security_group" {
   ingress_rules       = ["${var.ingress_rule}"]
 }
 
-module "rds_security_group" {
+module "rds_security_group_ecs" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${local.identifier}-rds"
@@ -66,6 +65,10 @@ module "rds_security_group" {
 
   ingress_with_source_security_group_id = ["${data.terraform_remote_state.ecs.security_group_id}"]
   ingress_rules                         = ["${var.ingress_rule}"]
+}
+
+locals {
+  security_group_id = "${var.ecs_name == "" ? module.rds_security_group_vpc.this_security_group_id : module.rds_security_group_ecs.this_security_group_id}"
 }
 
 data "aws_db_snapshot" "manual" {
@@ -99,7 +102,7 @@ module "rds" {
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
+  vpc_security_group_ids  = ["${local.security_group_id}"]
   maintenance_window      = "${var.maintenance_window}"
   backup_window           = "${var.backup_window}"
   backup_retention_period = "${var.backup_retention_period}"
@@ -108,7 +111,7 @@ module "rds" {
   create_monitoring_role  = true
 
   # DB subnet group
-  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]
+  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]  ###########################
 
   # DB parameter group
   family = "${var.family}"
