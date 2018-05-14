@@ -29,6 +29,11 @@ variable "instance_count" {
   default     = "2"
 }
 
+variable "instance_count_max" {
+  description = "Maximum number of instances."
+  default     = "4"
+}
+
 variable "instance_key" {
   description = "Name of an EC2 key-pair for SSH access."
   default     = ""
