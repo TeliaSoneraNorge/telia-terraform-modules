@@ -74,12 +74,6 @@ resource "aws_iam_role_policy" "ec2-permissions" {
   role   = "${aws_iam_role.ec2-instance.name}"
 }
 
-//resource "aws_iam_policy_attachment" "ec2-instance" {
-//  name       = "${var.prefix}-ec2-instance"
-//  roles      = ["${aws_iam_role.ec2-instance.name}"]
-//  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
-//}
-
 data "aws_iam_policy_document" "ec2-instance-assume" {
   statement {
     effect  = "Allow"
