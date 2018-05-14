@@ -13,7 +13,7 @@ while IFS=, read type weighting;
         cat launch_specification.template |\
           sed 's#{{subnet_id}}#${var.subnets['${subnet}]'}#g' |\
           sed 's#{{weighted_capacity}}#'${weighting}'#g'|\
-          sed 's#{{instance_type}}#'${type}'}#g' >>${2}
+          sed 's#{{instance_type}}#'${type}'#g' >>${2}
     done
   done <  $1
 echo } >>${2}
