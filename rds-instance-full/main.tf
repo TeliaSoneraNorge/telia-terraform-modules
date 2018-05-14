@@ -41,34 +41,20 @@ locals {
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }
 
-module "rds_security_group_vpc" {
+module "rds_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${local.identifier}-rds"
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
-  create = "${var.ecs_name == "" ? 1 : 0}"
-
-  ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
-  ingress_rules       = ["${var.ingress_rule}"]
-}
-
-module "rds_security_group_ecs" {
-  source = "terraform-aws-modules/security-group/aws"
-
-  name        = "${local.identifier}-rds"
-  description = "Security group with RDS ports open within VPC"
-  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
-
-  create = "${var.ecs_name == "" ? 0 : 1}"
-
-  ingress_with_source_security_group_id = ["${data.terraform_remote_state.ecs.security_group_id}"]
+  ingress_cidr_blocks                   = ["${var.ecs_name == "" ? data.terraform_remote_state.vpc.vpc_cidr_block : ""}"]
+  ingress_with_source_security_group_id = ["${var.ecs_name == "" ? "" : data.terraform_remote_state.ecs.security_group_id}"]
   ingress_rules                         = ["${var.ingress_rule}"]
 }
 
 locals {
-  security_group_id = "${var.ecs_name == "" ? module.rds_security_group_vpc.this_security_group_id : module.rds_security_group_ecs.this_security_group_id}"
+  security_group_id = "${module.rds_security_group.this_security_group_id}"
 }
 
 data "aws_db_snapshot" "manual" {
@@ -111,7 +97,7 @@ module "rds" {
   create_monitoring_role  = true
 
   # DB subnet group
-  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]  ###########################
+  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"] ###########################
 
   # DB parameter group
   family = "${var.family}"
