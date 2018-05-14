@@ -77,3 +77,8 @@ variable "ingress_rule" {
   description = "Ingress rule to open the ports towards VPC"
   default     = "postgresql-tcp"
 }
+
+variable "ecs_name" {
+  description = "Ingress rule to open the ports towards ECS, if defined only, ECS SG is going to be used"
+  default     = ""
+}

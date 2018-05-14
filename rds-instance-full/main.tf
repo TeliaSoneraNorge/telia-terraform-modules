@@ -1,5 +1,6 @@
 data "terraform_remote_state" "vpc" {
   backend = "s3"
+  count   = "${var.ecs_name == "" ? 1 : 0}"
 
   config {
     region = "${var.terraform_state_region}"
@@ -7,6 +8,19 @@ data "terraform_remote_state" "vpc" {
     key    = "${var.aws_region}/vpc/${lookup(var.terraform_state_keys, "vpc", "terraform")}.tfstate"
   }
 }
+
+data "terraform_remote_state" "ecs" {
+  backend = "s3"
+  count   = "${var.ecs_name == "" ? 0 : 1}"
+
+  config {
+    region = "${var.terraform_state_region}"
+    bucket = "${var.terraform_state_bucket}"
+    key    = "${var.aws_region}/${var.ecs_name}/terraform.tfstate"
+  }
+}
+
+# security_group_id
 
 resource "random_string" "generated_db_password" {
   length = 16
@@ -35,8 +49,23 @@ module "rds_security_group" {
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
+  create = "${var.ecs_name == "" ? true : false}"
+
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
   ingress_rules       = ["${var.ingress_rule}"]
+}
+
+module "rds_security_group" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "${local.identifier}-rds"
+  description = "Security group with RDS ports open within VPC"
+  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
+
+  create = "${var.ecs_name == "" ? false : true}"
+
+  ingress_with_source_security_group_id = ["${data.terraform_remote_state.ecs.security_group_id}"]
+  ingress_rules                         = ["${var.ingress_rule}"]
 }
 
 data "aws_db_snapshot" "manual" {
