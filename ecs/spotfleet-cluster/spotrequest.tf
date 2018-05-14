@@ -9,7 +9,7 @@ resource "aws_spot_fleet_request" "main" {
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.xlarge}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -55,7 +55,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.xlarge}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -101,7 +101,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.xlarge}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -147,7 +147,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.xlarge}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -193,7 +193,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.xlarge}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -239,7 +239,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.xlarge}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -285,7 +285,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.xlarge}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -331,7 +331,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.xlarge}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -377,7 +377,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.xlarge}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -423,7 +423,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.xlarge}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -469,7 +469,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.xlarge}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -515,7 +515,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.xlarge}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 4
@@ -561,7 +561,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c3.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -607,7 +607,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c3.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -653,7 +653,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c3.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -699,7 +699,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.medium}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -745,7 +745,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.medium}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -791,7 +791,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.medium}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -837,7 +837,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -883,7 +883,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -929,7 +929,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -975,7 +975,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1021,7 +1021,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1067,7 +1067,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1113,7 +1113,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c4.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1159,7 +1159,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c4.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1205,7 +1205,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c4.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1251,7 +1251,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1297,7 +1297,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1343,7 +1343,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r3.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1389,7 +1389,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m4.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1435,7 +1435,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m4.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1481,7 +1481,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m4.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1527,7 +1527,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1573,7 +1573,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1619,7 +1619,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "r4.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1665,7 +1665,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c5.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1711,7 +1711,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c5.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1757,7 +1757,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "c5.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1803,7 +1803,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m5.large}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1849,7 +1849,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m5.large}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1895,7 +1895,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m5.large}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 2
@@ -1941,7 +1941,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.medium}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
@@ -1987,7 +1987,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.medium}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
@@ -2033,7 +2033,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "m3.medium}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
@@ -2079,7 +2079,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.small}"
     subnet_id              = "${var.subnets[0]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
@@ -2125,7 +2125,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.small}"
     subnet_id              = "${var.subnets[1]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
@@ -2171,7 +2171,7 @@ USER_DATA
 
   launch_specification {
     ami                    = "${var.ami}"
-    instance_type          = "{{instance_type}}"
+    instance_type          = "t2.small}"
     subnet_id              = "${var.subnets[2]}"
     vpc_security_group_ids = ["${aws_security_group.ecs-instances.id}"]
     weighted_capacity      = 1
