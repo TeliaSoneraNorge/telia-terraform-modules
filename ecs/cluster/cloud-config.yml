@@ -63,3 +63,18 @@ runcmd:
   - |
     /usr/local/scripts/cloudformation-signal.sh
     /opt/aws/bin/cfn-signal -e $? --stack ${stack_name} --resource AutoScalingGroup --region ${region}
+  - |
+    yum install zip unzip cpan perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https -y
+    (echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
+    perl -MCPAN -e 'install Digest::SHA'
+    perl -MCPAN -e 'install URI::Escape'
+    perl -MCPAN -e 'install Bundle::LWP'
+    perl -MCPAN -e 'install MIME::Base64'
+    perl -MCPAN -e 'install Crypt::SSLeay'
+    perl -MCPAN -e 'install XML::LibXML'
+    cd /opt
+    curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+    unzip CloudWatchMonitoringScripts-1.2.2.zip
+    rm /opt/CloudWatchMonitoringScripts-1.2.2.zip
+    echo "*/5 * * * * /opt/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --disk-space-util --disk-path=/ --from-cron" > /etc/cron.d/aws_metrics
+
