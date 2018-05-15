@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "main" {
 }
 
 resource "aws_ecs_service" "main" {
-  depends_on                        = ["data.aws_lb_target_group.default", "aws_iam_role.service"]
+  depends_on                        = ["data.aws_lb_target_group.default", "aws_iam_role_policy.service_permissions"]
   name                              = "${var.prefix}"
   cluster                           = "${var.cluster_id}"
   task_definition                   = "${aws_ecs_task_definition.main.arn}"
@@ -47,7 +47,7 @@ resource "aws_ecs_service" "main" {
     container_port   = "${var.target["port"]}"
   }
 
-  placement_strategy {
+  ordered_placement_strategy {
     type  = "spread"
     field = "instanceId"
   }
