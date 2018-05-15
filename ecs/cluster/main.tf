@@ -90,3 +90,11 @@ resource "aws_security_group_rule" "ingress" {
   to_port                  = "65535"
   source_security_group_id = "${element(var.load_balancers, count.index)}"
 }
+
+module "lifecycle_lambda" {
+  source = "github.com/itsdalmo/tf_aws_ecs_instance_draining_on_scale_in?ref=2695835"
+
+  autoscaling_group_name = "${module.asg.id}"
+  hook_heartbeat_timeout = 1800
+  hook_default_result    = "ABANDON"
+}
