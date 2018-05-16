@@ -92,7 +92,7 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 module "lifecycle_lambda" {
-  source = "github.com/itsdalmo/tf_aws_ecs_instance_draining_on_scale_in?ref=2695835"
+  source = "github.com/itsdalmo/tf_aws_ecs_instance_draining_on_scale_in?ref=7a333d3"
 
   autoscaling_group_name = "${module.asg.id}"
   hook_heartbeat_timeout = 1800
