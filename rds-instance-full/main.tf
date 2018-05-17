@@ -50,7 +50,7 @@ module "rds_security_group_vpc" {
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
-  ingress_cidr_blocks = ["${var.ecs_name == "" ? data.terraform_remote_state.vpc.vpc_cidr_block : ""}"]
+  ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
   ingress_rules       = ["${var.ingress_rule}"]
 }
 
@@ -63,16 +63,18 @@ module "rds_security_group_ecs" {
   description = "Security group with RDS ports open for ECS"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
+  ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
+
   ingress_with_source_security_group_id = [
     {
       rule                     = "${var.ingress_rule}"
-      source_security_group_id = "${data.terraform_remote_state.ecs.security_group_id}"
+      source_security_group_id = "${coalesce(join("", data.terraform_remote_state.ecs.*.security_group_id), "sg-000000")}"
     },
   ]
 }
 
 locals {
-  security_group_id = "${coalesce(join(module.rds_security_group_ecs.*.this_security_group_id), module.rds_security_group_vpc.this_security_group_id)}"
+  security_group_id = "${coalesce(join("", module.rds_security_group_ecs.*.this_security_group_id), module.rds_security_group_vpc.this_security_group_id)}"
 }
 
 data "aws_db_snapshot" "manual" {
@@ -115,7 +117,7 @@ module "rds" {
   create_monitoring_role  = true
 
   # DB subnet group
-  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"] ###########################
+  subnet_ids = ["${data.terraform_remote_state.vpc.database_subnets}"]
 
   # DB parameter group
   family = "${var.family}"
