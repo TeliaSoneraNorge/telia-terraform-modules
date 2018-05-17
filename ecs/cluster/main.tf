@@ -45,6 +45,13 @@ data "aws_iam_policy_document" "permissions" {
       "ecs:RegisterContainerInstance",
       "ecs:StartTelemetrySession",
       "ecs:Submit*",
+      "logs:CreateLogStream",
+      "cloudwatch:PutMetricData",
+      "ec2:DescribeTags",
+      "logs:DescribeLogStreams",
+      "logs:CreateLogGroup",
+      "logs:PutLogEvents",
+      "ssm:GetParameter",
     ]
   }
 
