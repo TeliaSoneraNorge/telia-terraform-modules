@@ -68,7 +68,7 @@ module "rds_security_group_ecs" {
   ingress_with_source_security_group_id = [
     {
       rule                     = "${var.ingress_rule}"
-      source_security_group_id = "${coalesce(join("", data.terraform_remote_state.ecs.*.security_group_id), "sg-000000")}"
+      source_security_group_id = "${data.terraform_remote_state.ecs.security_group_id}"
     },
   ]
 }
