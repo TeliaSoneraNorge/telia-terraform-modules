@@ -77,3 +77,8 @@ variable "ingress_rule" {
   description = "Ingress rule to open the ports towards VPC"
   default     = "postgresql-tcp"
 }
+
+variable "parameters" {
+  description = "List of parameters"
+  default     = []
+}
