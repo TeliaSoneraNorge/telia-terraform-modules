@@ -9,9 +9,6 @@ meta:
       timeout: 10m
       file: common-tasks/terraform/0.11.7.yml
       input_mapping: { source: pull-request }
-      on_failure:
-        put: pull-request
-        params: {path: pull-request, status: failure}
   - test-module-params: &test-module-params
       command: test-module
       cache: true
@@ -267,6 +264,9 @@ jobs:
           <<: *test-module-params
           directories: |
             terraform/init
+      on_failure:
+        put: pull-request
+        params: {path: pull-request, status: failure}
     - put: pull-request
       params: {path: pull-request-write, status: success}
 
