@@ -1,15 +1,12 @@
 locals {
-  log_groups = [
-    "privacyhub-stage-helpdeskservice",
-  ]
-
-  filters = [
-    "",
-  ]
+  subscriptions = {
+    privacyhub-stage-helpdeskservice = "{ $.ThisFlag IS TRUE }"
+    privacyhub-stage-consentregistry = "{ $.SomeOtherObject NOT EXISTS }"
+  }
 }
 
-module "cloundwatch_splunk_lambda_subscription" {
-  source          = "../../splunk-forwarder"
-  log_group_names = "${local.log_groups}"
-  filter_patterns = "${local.filters}"
+module "cloudwatch_splunk_lambda_subscription" {
+  source = "../../splunk-forwarder"
+  log_group_names = "${keys(local.subscriptions)}"
+  filter_patterns = "${values(local.subscriptions)}"
 }

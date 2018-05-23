@@ -70,6 +70,9 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
   policy_arn = "${aws_iam_policy.allow_s3_puts.arn}"
 }
 
+// Values like bucket names and keys are hard coded here because they depend on already- existing
+// infrastructure.
+
 resource "aws_lambda_function" "bucket_forwarder" {
   s3_bucket = "telia-common-logs-prod-lambda"
   s3_key = "cloudwatch-logs-remote-bucket-1.0-SNAPSHOT.zip"
@@ -95,7 +98,7 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
 
 resource "aws_cloudwatch_log_subscription_filter" "test_lambdafunction_logfilter" {
   count = "${length(var.filter_patterns)}"
-  name = "test_lambdafunction_logfilter"
+  name = "lambdafunction_logfilter_${element(var.log_group_names, count.index)}"
   log_group_name = "${element(var.log_group_names, count.index)}"
   filter_pattern = "${element(var.filter_patterns, count.index)}"
   destination_arn = "${aws_lambda_function.bucket_forwarder.arn}"
@@ -104,3 +107,6 @@ resource "aws_cloudwatch_log_subscription_filter" "test_lambdafunction_logfilter
 output "aws_lambda_arn" {
   value = "${aws_lambda_function.bucket_forwarder.arn}"
 }
+
+
+
