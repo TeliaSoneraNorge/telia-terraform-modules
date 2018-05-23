@@ -1,3 +1,7 @@
+# The key of the map is the cloudwatch log group, the value is the filter syntax expression.
+# All matching log entries will be forwarded to a Lambda function, that forwards the entries to
+# a shared bucket in the telia-common-logs-prod account.
+
 locals {
   subscriptions = {
     privacyhub-stage-helpdeskservice = "{ $.ThisFlag IS TRUE }"
