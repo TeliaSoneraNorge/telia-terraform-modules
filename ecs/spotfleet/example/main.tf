@@ -8,7 +8,7 @@ module "vpc" {
   private_subnets = "0"
 }
 
-module "example_spotfleet-cluster" {
+module "example_spotfleet" {
   source              = "../"
   prefix              = "${var.prefix}"
   target_capacity     = 6

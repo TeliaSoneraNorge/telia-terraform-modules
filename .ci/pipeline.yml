@@ -189,7 +189,7 @@ jobs:
             ecs/cluster
             ecs/service
             ecs/microservice
-            ecs/spotfleet-cluster
+            ecs/spotfleet
 
 
       - task: iam
@@ -639,7 +639,7 @@ jobs:
           ecs/cluster
           ecs/service
           ecs/microservice
-          ecs/spotfleet-cluster
+          ecs/spotfleet
   - name: ecs-example-test
     plan:
     - aggregate:
@@ -655,7 +655,7 @@ jobs:
         <<: *test-params
         directories: |
           ecs/example
-          ecs/spotfleet-cluster/example
+          ecs/spotfleet/example
   - name: ecs-example-run
     plan:
     - aggregate:
@@ -671,7 +671,7 @@ jobs:
         <<: *plan-params
         directories: |
           ecs/example
-          ecs/spotfleet-cluster/example
+          ecs/spotfleet/example
 
   - name: iam-test
     plan:

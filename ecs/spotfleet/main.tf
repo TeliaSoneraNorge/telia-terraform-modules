@@ -95,7 +95,7 @@ module "agent-policy" {
 }
 
 resource "aws_ecs_cluster" "main" {
-  name = "${var.prefix}-spotfleet-cluster"
+  name = "${var.prefix}-spotfleet"
 }
 
 resource "aws_cloudwatch_log_group" "main" {
