@@ -108,11 +108,8 @@ jobs:
       - get: pull-request
         trigger: true
         version: every
-        params: {fetch_merge: true}
-      - get: pull-request-write
-        resource: pull-request
     - put: pull-request
-      params: {path: pull-request-write, status: pending}
+      params: {path: pull-request, status: pending}
     - aggregate:
       - task: acm
         <<: *test-module-config
@@ -189,7 +186,6 @@ jobs:
             ecs/cluster
             ecs/service
             ecs/microservice
-
 
       - task: iam
         <<: *test-module-config
@@ -1046,7 +1042,7 @@ resource_types:
   - name: pull-request
     type: docker-image
     source:
-      repository: jtarchie/pr
+      repository: itsdalmo/github-pr-resource
 
 resources:
   - name: common-tasks
@@ -1061,11 +1057,8 @@ resources:
     check_every: 30s
     source:
       repo: TeliaSoneraNorge/telia-terraform-modules
-      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
-      ignore_paths: [ .ci ]
+      ignore_paths: [ .ci/* ]
       access_token: ((github-access-token))
-      private_key: ((telia-terraform-modules-deploy-key))
-      every: true
 
   - name: acm-module
     type: git
