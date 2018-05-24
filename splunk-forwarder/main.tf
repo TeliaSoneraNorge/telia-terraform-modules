@@ -61,7 +61,7 @@ resource "aws_iam_policy" "allow_s3_puts" {
         "s3:*"
       ],
       "Effect": "Allow",
-      "Resource": ["arn:aws:s3:::telia-common-logs-prod-application-logs/*"]
+      "Resource": ["arn:aws:s3:::${var.log_bucket_name}/*"]
     }
   ]
 }
