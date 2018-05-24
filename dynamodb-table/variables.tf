@@ -44,5 +44,3 @@ variable "ttl_enabled" {
   description = "Indicates whether ttl is enabled (true) or disabled (false)"
   default     = false
 }
-
-variable "local_environment" {}
