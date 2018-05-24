@@ -17,7 +17,7 @@ variable "lambda_timeout_seconds" {
 
 variable "lambda_memory_size" {
   description = "Memory allocation for the lambda function that copies log entries to cloudwatch. Modify if you experience out of memory errors"
-  default = 60
+  default = 512
 }
 
 variable "lambda_bucket" {
