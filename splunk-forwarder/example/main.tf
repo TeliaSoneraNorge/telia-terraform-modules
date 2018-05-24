@@ -4,7 +4,7 @@
 
 locals {
   subscriptions = {
-    privacyhub-stage-helpdeskservice = "{ $.ThisFlag IS TRUE }"
+    privacyhub-stage-helpdeskservice = ""
   }
 }
 
