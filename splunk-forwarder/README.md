@@ -2,17 +2,17 @@
 
 ![alt text][logo]
 
-This module creates one or more CloudWatch subscriptions for one or more CloudWatch Log groups. 
+This module lets you forward logs from Cloud Watch Logs in your account to Splunk. The module creates CloudWatch subscriptions Log groups, and targets the subscrption to a Lambda function.
 
-The module will provision a lambda function in the account that will act as a target for the subscriptions. The Lambda function artifact is located in the *telia-common-logs-prod* account and is maintained there. 
+The Lambda artifact is located in the *telia-common-logs-prod* account and is maintained there. 
 
-The Lambda function forwards CloudWatch logs to a bucket called *telia-common-logs-prod-application-logs* in the common logs account. 
+The Lambda function forwards your CloudWatch logs that match the subscription filter, to a bucket called in the telia-common-logs-prod account. From there it will be ingested by Splunk. 
 
 [logo]: img/architecture.png "Architecture overview"
 
 ## How to use this module
 
-To use this module, simply create a map, where the key is a log grop in CloudWatch logs and the value a [Cloudwatch filter expression](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)
+To use this module, simply create a map, where the key is a log grop in CloudWatch and the value a [Cloudwatch filter expression](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)
 
 ```
 locals {
