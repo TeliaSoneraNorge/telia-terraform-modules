@@ -4,8 +4,8 @@ module "vpc" {
   source          = "../../../ec2/vpc"
   prefix          = "${var.prefix}"
   cidr_block      = "10.1.0.0/16"
-  tags            = "${var.tags}"
   private_subnets = "0"
+  tags            = "${var.tags}"
 }
 
 module "example_spotfleet" {
@@ -13,9 +13,9 @@ module "example_spotfleet" {
   prefix              = "${var.prefix}"
   target_capacity     = 6
   spot_price          = "0.02"
-  tags                = "${var.tags}"
+  allocation_strategy = "lowestPrice"
   subnets             = "${module.vpc.public_subnet_ids}"
   subnet_count        = "3"
-  allocation_strategy = "lowestPrice"
   vpc_id              = "${module.vpc.vpc_id}"
+  tags                = "${var.tags}"
 }
