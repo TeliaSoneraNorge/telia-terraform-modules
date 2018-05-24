@@ -77,19 +77,15 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
   policy_arn = "${aws_iam_policy.allow_s3_puts.arn}"
 }
 
-// Values like bucket names and keys are hard coded here because they depend on already- existing
-// infrastructure.
-
-
 resource "aws_lambda_function" "bucket_forwarder" {
   s3_bucket = "${var.lambda_bucket}"
-  s3_key = "${var.lambda_artiact_s3_key}"
+  s3_key = "${var.lambda_artifact_s3_key}"
   function_name = "telia-common-logs-lambda"
   role = "${aws_iam_role.lambda_role.arn}"
   handler = "com.telia.aws.cloudwatchtoremotebucket.Handler::handleRequest"
   runtime = "java8"
-  timeout = 60
-  memory_size = 512
+  timeout = "${var.lambda_timeout_seconds}"
+  memory_size = "${var.lambda_memory_size}"
 
   environment {
     variables = {
