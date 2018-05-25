@@ -13,6 +13,7 @@ resource "random_string" "generated_db_password" {
   upper  = true
   lower  = true
   number = true
+  special = "${substr(var.engine, 0, 6)   == "oracle" ? false : true}"
 }
 
 locals {
