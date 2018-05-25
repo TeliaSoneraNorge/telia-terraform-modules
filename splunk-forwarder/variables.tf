@@ -1,13 +1,13 @@
 variable "filter_patterns" {
-  description = "The filter expression watch filter for the subscription "
-  type        = "list"
+  description = "The Cloud Watch filter expression"
   default     = []
+  type        = "list"
 }
 
 variable "log_group_names" {
   description = "The log group"
-  type        = "list"
   default     = []
+  type        = "list"
 }
 
 variable "lambda_timeout_seconds" {
