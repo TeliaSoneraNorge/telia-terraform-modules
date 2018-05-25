@@ -1,5 +1,5 @@
 variable "splunk_account_id" {
-  description = "The id of the account where the Splunk wil ingest files from"
+  description = "The id of the account where the Splunk will ingest files from"
 }
 
 variable "log_bucket_name" {
