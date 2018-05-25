@@ -21,7 +21,6 @@ variable "expiration_days" {
 
 variable "aws_organization_id" {
   description = "All member accounts of this organization can Put objects to the bucket"
-  default     = "o-wpral5esws"
 }
 
 variable "sqs_visibility_timeout_seconds" {
