@@ -79,6 +79,6 @@ variable "ingress_rule" {
 }
 
 variable "parameters" {
-  description = "List of parameters"
+  description = "List of parameters for RDS parameter group"
   default     = []
 }
