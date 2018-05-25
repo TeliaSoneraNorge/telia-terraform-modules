@@ -45,6 +45,13 @@ data "aws_iam_policy_document" "permissions" {
       "ecs:RegisterContainerInstance",
       "ecs:StartTelemetrySession",
       "ecs:Submit*",
+      "logs:CreateLogStream",
+      "cloudwatch:PutMetricData",
+      "ec2:DescribeTags",
+      "logs:DescribeLogStreams",
+      "logs:CreateLogGroup",
+      "logs:PutLogEvents",
+      "ssm:GetParameter",
     ]
   }
 
@@ -64,20 +71,21 @@ data "aws_iam_policy_document" "permissions" {
 }
 
 module "asg" {
-  source            = "../../ec2/asg"
-  prefix            = "${var.prefix}-cluster"
-  user_data         = "${data.template_file.main.rendered}"
-  vpc_id            = "${var.vpc_id}"
-  subnet_ids        = "${var.subnet_ids}"
-  await_signal      = "true"
-  pause_time        = "PT5M"
-  health_check_type = "EC2"
-  instance_policy   = "${data.aws_iam_policy_document.permissions.json}"
-  instance_count    = "${var.instance_count}"
-  instance_type     = "${var.instance_type}"
-  instance_ami      = "${var.instance_ami}"
-  instance_key      = "${var.instance_key}"
-  tags              = "${var.tags}"
+  source             = "../../ec2/asg"
+  prefix             = "${var.prefix}-cluster"
+  user_data          = "${data.template_file.main.rendered}"
+  vpc_id             = "${var.vpc_id}"
+  subnet_ids         = "${var.subnet_ids}"
+  await_signal       = "true"
+  pause_time         = "PT5M"
+  health_check_type  = "EC2"
+  instance_policy    = "${data.aws_iam_policy_document.permissions.json}"
+  instance_count     = "${var.instance_count}"
+  instance_count_max = "${var.instance_count_max}"
+  instance_type      = "${var.instance_type}"
+  instance_ami       = "${var.instance_ami}"
+  instance_key       = "${var.instance_key}"
+  tags               = "${var.tags}"
 }
 
 resource "aws_security_group_rule" "ingress" {
@@ -88,4 +96,12 @@ resource "aws_security_group_rule" "ingress" {
   from_port                = "32768"
   to_port                  = "65535"
   source_security_group_id = "${element(var.load_balancers, count.index)}"
+}
+
+module "lifecycle_lambda" {
+  source = "github.com/itsdalmo/tf_aws_ecs_instance_draining_on_scale_in?ref=310d2e6"
+
+  autoscaling_group_name = "${module.asg.id}"
+  hook_heartbeat_timeout = 1800
+  hook_default_result    = "ABANDON"
 }

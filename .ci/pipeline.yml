@@ -9,9 +9,6 @@ meta:
       timeout: 10m
       file: common-tasks/terraform/0.11.7.yml
       input_mapping: { source: pull-request }
-      on_failure:
-        put: pull-request
-        params: {path: pull-request, status: failure}
   - test-module-params: &test-module-params
       command: test-module
       cache: true
@@ -108,11 +105,8 @@ jobs:
       - get: pull-request
         trigger: true
         version: every
-        params: {fetch_merge: true}
-      - get: pull-request-write
-        resource: pull-request
     - put: pull-request
-      params: {path: pull-request-write, status: pending}
+      params: {path: pull-request, status: pending}
     - aggregate:
       - task: acm
         <<: *test-module-config
@@ -190,7 +184,6 @@ jobs:
             ecs/service
             ecs/microservice
             ecs/spotfleet
-
 
       - task: iam
         <<: *test-module-config
@@ -272,6 +265,9 @@ jobs:
           <<: *test-module-params
           directories: |
             terraform/init
+      on_failure:
+        put: pull-request
+        params: {path: pull-request, status: failure}
     - put: pull-request
       params: {path: pull-request-write, status: success}
 
@@ -1050,7 +1046,7 @@ resource_types:
   - name: pull-request
     type: docker-image
     source:
-      repository: jtarchie/pr
+      repository: itsdalmo/github-pr-resource
 
 resources:
   - name: common-tasks
@@ -1064,12 +1060,9 @@ resources:
     type: pull-request
     check_every: 30s
     source:
-      repo: TeliaSoneraNorge/telia-terraform-modules
-      uri: git@github.com:TeliaSoneraNorge/telia-terraform-modules.git
-      ignore_paths: [ .ci ]
+      repository: TeliaSoneraNorge/telia-terraform-modules
       access_token: ((github-access-token))
-      private_key: ((telia-terraform-modules-deploy-key))
-      every: true
+      ignore_paths: [ .ci/* ]
 
   - name: acm-module
     type: git

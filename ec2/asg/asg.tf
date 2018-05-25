@@ -49,6 +49,11 @@ variable "instance_count" {
   default     = "1"
 }
 
+variable "instance_count_max" {
+  description = "Maximum number of instances."
+  default     = "3"
+}
+
 variable "instance_ami" {
   description = "AMI id for the launch configuration."
   default     = "ami-db51c2a2"
@@ -182,7 +187,7 @@ data "template_file" "main" {
     await_signal         = "${var.await_signal}"
     pause_time           = "${var.pause_time}"
     min_size             = "${var.instance_count}"
-    max_size             = "${var.instance_count + 2}"
+    max_size             = "${var.instance_count_max}"
     subnets              = "${jsonencode(var.subnet_ids)}"
     tags                 = "${jsonencode(data.null_data_source.autoscaling.*.outputs)}"
   }
