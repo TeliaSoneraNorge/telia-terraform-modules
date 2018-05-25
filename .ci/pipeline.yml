@@ -1056,9 +1056,9 @@ resources:
     type: pull-request
     check_every: 30s
     source:
-      repo: TeliaSoneraNorge/telia-terraform-modules
-      ignore_paths: [ .ci/* ]
+      repository: TeliaSoneraNorge/telia-terraform-modules
       access_token: ((github-access-token))
+      ignore_paths: [ .ci/* ]
 
   - name: acm-module
     type: git
