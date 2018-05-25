@@ -13,10 +13,7 @@ resource "aws_s3_bucket" "this" {
     }
   }
 
-  tags = {
-    Project     = "${var.project}"
-    Environment = "${var.environment}"
-  }
+  tags = "${var.tags}"
 }
 
 // Policy for the bucket with READ and LIST permissions given to the splunk account, Other accounts
@@ -79,10 +76,6 @@ resource "aws_s3_bucket_notification" "object_created" {
 
     filter_suffix = ""
   }
-
-  depends_on = [
-    "aws_sns_topic.bucket_events",
-  ]
 }
 
 resource "aws_sns_topic" "bucket_events" {
@@ -157,6 +150,7 @@ resource "aws_sqs_queue" "new_objects" {
   message_retention_seconds  = "${var.sqs_message_retention_seconds}"
   receive_wait_time_seconds  = "${var.sqs_receive_wait_time_seconds}"
   redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq.arn}\",\"maxReceiveCount\":4}"
+  tags                       = "${var.tags}"
 }
 
 data "aws_iam_policy_document" "sqs_queue_policy" {
@@ -191,11 +185,12 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
   }
 }
 
-// Dead Letter queue, use same paras as main queue
+// Dead Letter queue, use same parameters as main queue
 resource "aws_sqs_queue" "dlq" {
-  name                      = "application-logs-dlq-${var.log_bucket_name}"
+  name                      = "dlq-${var.log_bucket_name}"
   message_retention_seconds = "${var.sqs_message_retention_seconds}"
   receive_wait_time_seconds = "${var.sqs_receive_wait_time_seconds}"
+  tags                      = "${var.tags}"
 }
 
 resource "aws_sqs_queue_policy" "bucket_can_publish" {
