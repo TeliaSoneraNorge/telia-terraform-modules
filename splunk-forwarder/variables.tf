@@ -21,16 +21,18 @@ variable "lambda_memory_size" {
 }
 
 variable "lambda_bucket" {
-  default     = "telia-common-logs-prod-lambda"
-  description = "The bucket where the the lambda function that is a Cloud Watch subscription target, is uploaded"
+  description = "The bucket where the lambda function that is a Cloud Watch subscription target, is uploaded"
 }
 
 variable "lambda_artifact_s3_key" {
   default     = "cloudwatch-logs-remote-bucket-1.0-SNAPSHOT.zip"
-  description = "The s3 key pointing to the Java 8 Lambda function."
+  description = "The s3 key pointing to the Lambda function."
 }
 
 variable "log_bucket_name" {
-  default     = "telia-common-logs-prod-application-logs"
   description = "The bucket that the logs will be forwared to, and ingested by splunk. Defaults to production bucket"
+}
+
+variable "lambda_function_name" {
+  description = "The name of the Lambda function that moves cloudwatch logs to S3 "
 }

@@ -16,14 +16,14 @@ resource "aws_iam_role" "lambda_role" {
         "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
-      "Sid": "sdsd"
+      "Sid": "stmtLambdaAssumeRole"
     }
   ]
 }
 EOF
 }
 
-resource "aws_iam_policy" "allow_cloudwatch" {
+resource "aws_iam_policy" "allow_lambda_to_log" {
   name        = "cw_for_lambda_${random_string.unique_identfier.result}"
   description = "Lets the Lambda function write to cloudwatch"
 
@@ -50,7 +50,7 @@ EOF
 
 resource "aws_iam_policy" "allow_s3_puts" {
   name        = "s3_for_lambda_${random_string.unique_identfier.result}"
-  description = "Lets the Lambda function write to a any bucket"
+  description = "Lets the Lambda function write to the bucket"
 
   policy = <<EOF
 {
@@ -58,7 +58,8 @@ resource "aws_iam_policy" "allow_s3_puts" {
   "Statement": [
     {
       "Action": [
-        "s3:*"
+        "s3:PutObject",
+        "s3:PutObjectAcl"
       ],
       "Effect": "Allow",
       "Resource": ["arn:aws:s3:::${var.log_bucket_name}/*"]
@@ -70,7 +71,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "lambda_cw_attach" {
   role       = "${aws_iam_role.lambda_role.name}"
-  policy_arn = "${aws_iam_policy.allow_cloudwatch.arn}"
+  policy_arn = "${aws_iam_policy.allow_lambda_to_log.arn}"
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
@@ -81,7 +82,7 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
 resource "aws_lambda_function" "bucket_forwarder" {
   s3_bucket     = "${var.lambda_bucket}"
   s3_key        = "${var.lambda_artifact_s3_key}"
-  function_name = "telia-common-logs-lambda"
+  function_name = "${var.lambda_function_name}"
   role          = "${aws_iam_role.lambda_role.arn}"
   handler       = "com.telia.aws.cloudwatchtoremotebucket.Handler::handleRequest"
   runtime       = "java8"
