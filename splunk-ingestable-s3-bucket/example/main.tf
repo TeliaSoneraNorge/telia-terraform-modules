@@ -3,10 +3,11 @@ resource "random_integer" "id" {
   max = 10000
   min = 0
 }
+
 module "splunk_ingestable_s3_bucket" {
-  source = "../"
+  source            = "../"
   splunk_account_id = "245629465185"
-  log_bucket_name = "splunk-s3-test-${random_integer.id.result}"
-  project = "example"
-  environment = "dev"
+  log_bucket_name   = "splunk-s3-test-${random_integer.id.result}"
+  project           = "example"
+  environment       = "dev"
 }

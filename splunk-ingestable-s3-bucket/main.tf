@@ -1,11 +1,11 @@
 // S3 Bucket with a Lifecycle Policy that will delete items older that 7 days
 resource "aws_s3_bucket" "this" {
   bucket = "${var.log_bucket_name}"
-  acl = "private"
+  acl    = "private"
 
   lifecycle_rule {
-    id = "auto-delete-after-${var.expiration_days}-days"
-    prefix = ""
+    id      = "auto-delete-after-${var.expiration_days}-days"
+    prefix  = ""
     enabled = true
 
     expiration {
@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "this" {
   }
 
   tags = {
-    Project = "${var.project}"
+    Project     = "${var.project}"
     Environment = "${var.environment}"
   }
 }
@@ -24,6 +24,7 @@ resource "aws_s3_bucket" "this" {
 
 resource "aws_s3_bucket_policy" "application_bucket_policy" {
   bucket = "${aws_s3_bucket.this.id}"
+
   policy = <<POLICY
 {
    "Version": "2012-10-17",
@@ -71,112 +72,139 @@ resource "aws_s3_bucket_notification" "object_created" {
 
   topic {
     topic_arn = "${aws_sns_topic.bucket_events.arn}"
+
     events = [
-      "s3:ObjectCreated:*"]
+      "s3:ObjectCreated:*",
+    ]
+
     filter_suffix = ""
   }
+
   depends_on = [
-    "aws_sns_topic.bucket_events"]
+    "aws_sns_topic.bucket_events",
+  ]
 }
 
 resource "aws_sns_topic" "bucket_events" {
   name = "s3-notification-topic-${var.log_bucket_name}"
 }
+
 resource "aws_sns_topic_policy" "default" {
-  arn = "${aws_sns_topic.bucket_events.arn}"
+  arn    = "${aws_sns_topic.bucket_events.arn}"
   policy = "${data.aws_iam_policy_document.sns_policy.json}"
 }
 
 data "aws_iam_policy_document" "sns_policy" {
   statement {
     actions = [
-      "SNS:Publish"
+      "SNS:Publish",
     ]
+
     effect = "Allow"
+
     condition {
-      test = "ArnLike"
+      test     = "ArnLike"
       variable = "aws:SourceArn"
+
       values = [
-        "${aws_s3_bucket.this.arn}"]
+        "${aws_s3_bucket.this.arn}",
+      ]
     }
+
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
+
     resources = [
       "${aws_sns_topic.bucket_events.arn}",
     ]
+
     sid = "allowpublish"
   }
 
   statement {
     actions = [
       "SNS:Subscribe",
-      "SNS:Receive"
+      "SNS:Receive",
     ]
+
     effect = "Allow"
+
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
+
     condition {
-      test = "ArnEquals"
-      values = ["${aws_sqs_queue.new_objects.arn}"]
+      test     = "ArnEquals"
+      values   = ["${aws_sqs_queue.new_objects.arn}"]
       variable = "aws:SourceArn"
     }
+
     resources = [
       "${aws_sns_topic.bucket_events.arn}",
     ]
+
     sid = "sid_allow_subscribe"
   }
 }
 
 // Queue that Splunk will subscribe to
 resource "aws_sqs_queue" "new_objects" {
-  name = "new-objects-for-${var.log_bucket_name}"
+  name                       = "new-objects-for-${var.log_bucket_name}"
   visibility_timeout_seconds = "${var.sqs_visibility_timeout_seconds}"
-  message_retention_seconds = "${var.sqs_message_retention_seconds}"
-  receive_wait_time_seconds = "${var.sqs_receive_wait_time_seconds}"
-  redrive_policy = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq.arn}\",\"maxReceiveCount\":4}"
+  message_retention_seconds  = "${var.sqs_message_retention_seconds}"
+  receive_wait_time_seconds  = "${var.sqs_receive_wait_time_seconds}"
+  redrive_policy             = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.dlq.arn}\",\"maxReceiveCount\":4}"
 }
 
 data "aws_iam_policy_document" "sqs_queue_policy" {
   statement {
     effect = "Allow"
+
     principals {
       identifiers = [
-        "*"]
+        "*",
+      ]
+
       type = "AWS"
     }
+
     actions = [
-      "SQS:SendMessage"]
+      "SQS:SendMessage",
+    ]
+
     resources = [
-      "${aws_sqs_queue.new_objects.arn}"]
+      "${aws_sqs_queue.new_objects.arn}",
+    ]
+
     condition {
       test = "ArnEquals"
+
       values = [
-        "${aws_sns_topic.bucket_events.arn}"]
+        "${aws_sns_topic.bucket_events.arn}",
+      ]
+
       variable = "aws:SourceArn"
     }
   }
 }
 
-
 // Dead Letter queue, use same paras as main queue
 resource "aws_sqs_queue" "dlq" {
-  name = "application-logs-dlq-${var.log_bucket_name}"
+  name                      = "application-logs-dlq-${var.log_bucket_name}"
   message_retention_seconds = "${var.sqs_message_retention_seconds}"
   receive_wait_time_seconds = "${var.sqs_receive_wait_time_seconds}"
 }
 
-
 resource "aws_sqs_queue_policy" "bucket_can_publish" {
-  policy = "${data.aws_iam_policy_document.sqs_queue_policy.json}"
+  policy    = "${data.aws_iam_policy_document.sqs_queue_policy.json}"
   queue_url = "${aws_sqs_queue.new_objects.id}"
 }
 
 resource "aws_sns_topic_subscription" "bucket_change_notification_to_queue" {
   topic_arn = "${aws_sns_topic.bucket_events.arn}"
-  protocol = "sqs"
-  endpoint = "${aws_sqs_queue.new_objects.arn}"
+  protocol  = "sqs"
+  endpoint  = "${aws_sqs_queue.new_objects.arn}"
 }
