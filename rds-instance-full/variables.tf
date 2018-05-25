@@ -77,3 +77,8 @@ variable "ingress_rule" {
   description = "Ingress rule to open the ports towards VPC"
   default     = "postgresql-tcp"
 }
+
+variable "parameters" {
+  description = "List of parameters for RDS parameter group"
+  default     = []
+}

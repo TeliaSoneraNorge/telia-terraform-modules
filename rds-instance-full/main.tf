@@ -85,6 +85,8 @@ module "rds" {
   family = "${var.family}"
 
   tags = "${local.tags}"
+
+  parameters = "${var.parameters}"
 }
 
 ######
