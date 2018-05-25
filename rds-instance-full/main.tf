@@ -87,6 +87,8 @@ module "rds" {
   tags = "${local.tags}"
 
   parameters = "${var.parameters}"
+
+  license_model = "${var.license_model}"
 }
 
 ######
