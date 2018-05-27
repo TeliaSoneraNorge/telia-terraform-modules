@@ -1,18 +1,30 @@
+variable "name_prefix" {
+  description = "A prefix that will be added to resources so that they are unique"
+}
+
 variable "filter_patterns" {
-  description = "The Cloud Watch filter expression"
+  description = "List of CloudWatch filter patterns"
   default     = []
   type        = "list"
 }
 
 variable "log_group_names" {
-  description = "The log group"
+  description = "List of Cloudwatch log group names"
   default     = []
   type        = "list"
 }
 
+variable "lambda_handler" {
+  description = "The handler for the Lambda function"
+}
+
+variable "lamda_runtime" {
+  description = "The runetime for the Lambda function (java8, javascript etc)"
+}
+
 variable "lambda_timeout_seconds" {
-  description = "Timeout for the lambda function that copies log entries to cloudwatch. Modify if you experience timeouts "
-  default     = 60
+  description = "Timeout for the lambda function that copies log entries to cloudwatch. Modify if you experience timeouts"
+  default     = 30
 }
 
 variable "lambda_memory_size" {
@@ -33,6 +45,6 @@ variable "log_bucket_name" {
   description = "The bucket that the logs will be forwared to, and ingested by splunk. Defaults to production bucket"
 }
 
-variable "lambda_function_name" {
+variable "lambda_name" {
   description = "The name of the Lambda function that moves cloudwatch logs to S3 "
 }

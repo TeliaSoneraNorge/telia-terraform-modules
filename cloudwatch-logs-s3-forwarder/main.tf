@@ -1,10 +1,5 @@
-resource "random_string" "unique_identfier" {
-  length  = 8
-  special = false
-}
-
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_role_${random_string.unique_identfier.result}"
+  name = "lambda_role_${var.name_prefix}"
 
   assume_role_policy = <<EOF
 {
@@ -24,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_policy" "allow_lambda_to_log" {
-  name        = "cw_for_lambda_${random_string.unique_identfier.result}"
+  name        = "cw_for_lambda_${var.name_prefix}"
   description = "Lets the Lambda function write to cloudwatch"
 
   policy = <<EOF
@@ -49,7 +44,7 @@ EOF
 }
 
 resource "aws_iam_policy" "allow_s3_puts" {
-  name        = "s3_for_lambda_${random_string.unique_identfier.result}"
+  name        = "s3_for_lambda_${var.name_prefix}"
   description = "Lets the Lambda function write to the bucket"
 
   policy = <<EOF
@@ -82,10 +77,10 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
 resource "aws_lambda_function" "bucket_forwarder" {
   s3_bucket     = "${var.lambda_bucket}"
   s3_key        = "${var.lambda_artifact_s3_key}"
-  function_name = "${var.lambda_function_name}"
+  function_name = "${var.lambda_name}"
   role          = "${aws_iam_role.lambda_role.arn}"
-  handler       = "com.telia.aws.cloudwatchtoremotebucket.Handler::handleRequest"
-  runtime       = "java8"
+  handler       = "${var.lambda_handler}"
+  runtime       = "${var.lamda_runtime}"
   timeout       = "${var.lambda_timeout_seconds}"
   memory_size   = "${var.lambda_memory_size}"
 

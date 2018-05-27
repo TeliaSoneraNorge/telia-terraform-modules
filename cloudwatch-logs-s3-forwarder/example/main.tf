@@ -9,10 +9,13 @@ locals {
 }
 
 module "cloudwatch_splunk_lambda_subscription" {
-  source               = ".."
-  log_group_names      = "${keys(local.subscriptions)}"
-  filter_patterns      = "${values(local.subscriptions)}"
-  lambda_function_name = "telia-log-forwarder"
-  lambda_bucket        = "telia-common-logs-prod-lambda"
-  log_bucket_name      = "telia-common-logs-prod-application-logs"
+  source          = ".."
+  log_group_names = "${keys(local.subscriptions)}"
+  filter_patterns = "${values(local.subscriptions)}"
+  lambda_name     = "telia-log-forwarder"
+  lambda_bucket   = "telia-common-logs-prod-lambda"
+  log_bucket_name = "telia-common-logs-prod-application-logs"
+  lambda_handler  = "com.telia.aws.cloudwatchtoremotebucket.Handler::handleRequest"
+  name_prefix     = "send_to_bucket"
+  lamda_runtime   = "java8"
 }
