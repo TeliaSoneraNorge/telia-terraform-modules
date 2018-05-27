@@ -42,6 +42,11 @@ variable "subnet_ids" {
   type        = "list"
 }
 
+variable "snapshot_identifier" {
+  description = "Optional: Restore the cluster from a snapshot."
+  default     = ""
+}
+
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = "map"
@@ -68,6 +73,7 @@ resource "aws_rds_cluster" "main" {
   backup_retention_period      = 7
   preferred_backup_window      = "02:00-03:00"
   preferred_maintenance_window = "wed:04:00-wed:04:30"
+  snapshot_identifier          = "${var.snapshot_identifier}"
   skip_final_snapshot          = "true"
   vpc_security_group_ids       = ["${aws_security_group.main.id}"]
 
