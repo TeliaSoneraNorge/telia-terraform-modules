@@ -94,4 +94,5 @@ terraform/* @itsdalmo
 # waf
 waf/* @antonbabenko
 
-splunk-forwarder/* @glennbech
+# module for forwarding CW logs to S3
+cloudwatch-logs-s3-forwarder/* @glennbech
