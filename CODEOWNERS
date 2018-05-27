@@ -46,7 +46,7 @@ ecr/* @larstobi
 # ecs
 ecs/* @itsdalmo @glennbech
 
-# elasticache 
+# elasticache
 elasticache/* @larstobi
 
 # empty
@@ -93,3 +93,6 @@ terraform/* @itsdalmo
 
 # waf
 waf/* @antonbabenko
+
+# module for forwarding CW logs to S3
+cloudwatch-logs-s3-forwarder/* @glennbech
