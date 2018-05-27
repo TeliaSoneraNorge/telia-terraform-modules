@@ -46,7 +46,7 @@ ecr/* @larstobi
 # ecs
 ecs/* @itsdalmo @glennbech
 
-# elasticache 
+# elasticache
 elasticache/* @larstobi
 
 # empty
@@ -93,3 +93,5 @@ terraform/* @itsdalmo
 
 # waf
 waf/* @antonbabenko
+
+splunk-forwarder/* @glennbech
