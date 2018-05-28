@@ -30,7 +30,7 @@ resource "aws_s3_bucket_policy" "application_bucket_policy" {
          "Sid": "splunk_access",
          "Effect": "Allow",
          "Principal": {
-            "AWS" : "arn:aws:iam::${var.splunk_account_id}:root"
+            "AWS" : "arn:aws:iam::${var.read_access_account}:root"
          },
          "Action": [
             "s3:Get*",
@@ -164,7 +164,6 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
 
       type = "AWS"
     }
-
     actions = [
       "SQS:SendMessage",
     ]
@@ -175,11 +174,9 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
 
     condition {
       test = "ArnEquals"
-
       values = [
         "${aws_sns_topic.bucket_events.arn}",
       ]
-
       variable = "aws:SourceArn"
     }
   }

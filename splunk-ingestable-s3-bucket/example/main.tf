@@ -1,8 +1,8 @@
 module "splunk_ingestable_s3_bucket" {
   source              = "../"
-  splunk_account_id   = "245629465185"
-  log_bucket_name     = "splunk-s3-test"
-  aws_organization_id = "o-wpral5esws"
+  read_access_account = "0123456789"
+  log_bucket_name     = "some-bucket-name"
+  aws_organization_id = "o-organizaonid"
 
   tags = {
     project     = "example"

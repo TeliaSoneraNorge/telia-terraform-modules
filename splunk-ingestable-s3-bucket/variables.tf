@@ -7,8 +7,8 @@ variable "expiration_days" {
   default     = "7"
 }
 
-variable "splunk_account_id" {
-  description = "The id of the account given read access to the bucket "
+variable "read_access_account" {
+  description = "The id of an account given read access to read object buckets "
 }
 
 variable "aws_organization_id" {
