@@ -26,10 +26,10 @@ variable "users" {
 module "role" {
   source = "../role"
 
-  prefix          = "${var.prefix}-developer"
-  trusted_account = "${var.trusted_accounts}"
-  mfa_window      = "${var.mfa_window}"
-  users           = "${var.users}"
+  prefix           = "${var.prefix}-developer"
+  trusted_accounts = "${var.trusted_accounts}"
+  mfa_window       = "${var.mfa_window}"
+  users            = "${var.users}"
 }
 
 resource "aws_iam_role_policy" "protect_role" {
