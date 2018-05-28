@@ -185,7 +185,7 @@ data "aws_iam_policy_document" "sns_topic_can_publish" {
 
 // Dead Letter queue, use same parameters as main queue
 resource "aws_sqs_queue" "dlq" {
-  name                      = "ew-objects-for-${var.log_bucket_name}-dlq"
+  name                      = "new-objects-for-${var.log_bucket_name}-dlq"
   message_retention_seconds = "${var.sqs_message_retention_seconds}"
   receive_wait_time_seconds = "${var.sqs_receive_wait_time_seconds}"
   tags                      = "${var.tags}"
