@@ -19,7 +19,7 @@ resource "aws_s3_bucket" "this" {
 // Policy for the bucket with READ and LIST permissions given to the read access account, Other accounts
 // Belonging to the organizaion are only allowed to Put objects to this bucket .
 
-resource "aws_s3_bucket_policy" "application_bucket_policy" {
+resource "aws_s3_bucket_policy" "this" {
   bucket = "${aws_s3_bucket.this.id}"
 
   policy = <<POLICY
@@ -62,11 +62,11 @@ resource "aws_s3_bucket_policy" "application_bucket_policy" {
 POLICY
 }
 
-resource "aws_s3_bucket_notification" "object_created" {
+resource "aws_s3_bucket_notification" "on_new_object" {
   bucket = "${aws_s3_bucket.this.id}"
 
   topic {
-    topic_arn = "${aws_sns_topic.bucket_events.arn}"
+    topic_arn = "${aws_sns_topic.new_object_event.arn}"
 
     events = [
       "s3:ObjectCreated:*",
@@ -76,16 +76,16 @@ resource "aws_s3_bucket_notification" "object_created" {
   }
 }
 
-resource "aws_sns_topic" "bucket_events" {
+resource "aws_sns_topic" "new_object_event" {
   name = "s3-notification-topic-${var.log_bucket_name}"
 }
 
-resource "aws_sns_topic_policy" "default" {
-  arn    = "${aws_sns_topic.bucket_events.arn}"
-  policy = "${data.aws_iam_policy_document.sns_policy.json}"
+resource "aws_sns_topic_policy" "this" {
+  arn    = "${aws_sns_topic.new_object_event.arn}"
+  policy = "${data.aws_iam_policy_document.bucket_can_publish.json}"
 }
 
-data "aws_iam_policy_document" "sns_policy" {
+data "aws_iam_policy_document" "bucket_can_publish" {
   statement {
     actions = [
       "SNS:Publish",
@@ -108,7 +108,7 @@ data "aws_iam_policy_document" "sns_policy" {
     }
 
     resources = [
-      "${aws_sns_topic.bucket_events.arn}",
+      "${aws_sns_topic.new_object_event.arn}",
     ]
 
     sid = "allowpublish"
@@ -129,12 +129,12 @@ data "aws_iam_policy_document" "sns_policy" {
 
     condition {
       test     = "ArnEquals"
-      values   = ["${aws_sqs_queue.new_objects.arn}"]
+      values   = ["${aws_sqs_queue.new_s3_bject.arn}"]
       variable = "aws:SourceArn"
     }
 
     resources = [
-      "${aws_sns_topic.bucket_events.arn}",
+      "${aws_sns_topic.new_object_event.arn}",
     ]
 
     sid = "sid_allow_subscribe"
@@ -142,7 +142,7 @@ data "aws_iam_policy_document" "sns_policy" {
 }
 
 // Queue that Splunk will subscribe to
-resource "aws_sqs_queue" "new_objects" {
+resource "aws_sqs_queue" "new_s3_bject" {
   name                       = "new-objects-for-${var.log_bucket_name}"
   visibility_timeout_seconds = "${var.sqs_visibility_timeout_seconds}"
   message_retention_seconds  = "${var.sqs_message_retention_seconds}"
@@ -151,7 +151,7 @@ resource "aws_sqs_queue" "new_objects" {
   tags                       = "${var.tags}"
 }
 
-data "aws_iam_policy_document" "sqs_queue_policy" {
+data "aws_iam_policy_document" "sns_topic_can_publish" {
   statement {
     effect = "Allow"
 
@@ -168,14 +168,14 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
     ]
 
     resources = [
-      "${aws_sqs_queue.new_objects.arn}",
+      "${aws_sqs_queue.new_s3_bject.arn}",
     ]
 
     condition {
       test = "ArnEquals"
 
       values = [
-        "${aws_sns_topic.bucket_events.arn}",
+        "${aws_sns_topic.new_object_event.arn}",
       ]
 
       variable = "aws:SourceArn"
@@ -192,12 +192,12 @@ resource "aws_sqs_queue" "dlq" {
 }
 
 resource "aws_sqs_queue_policy" "bucket_can_publish" {
-  policy    = "${data.aws_iam_policy_document.sqs_queue_policy.json}"
-  queue_url = "${aws_sqs_queue.new_objects.id}"
+  policy    = "${data.aws_iam_policy_document.sns_topic_can_publish.json}"
+  queue_url = "${aws_sqs_queue.new_s3_bject.id}"
 }
 
 resource "aws_sns_topic_subscription" "bucket_change_notification_to_queue" {
-  topic_arn = "${aws_sns_topic.bucket_events.arn}"
+  topic_arn = "${aws_sns_topic.new_object_event.arn}"
   protocol  = "sqs"
-  endpoint  = "${aws_sqs_queue.new_objects.arn}"
+  endpoint  = "${aws_sqs_queue.new_s3_bject.arn}"
 }
