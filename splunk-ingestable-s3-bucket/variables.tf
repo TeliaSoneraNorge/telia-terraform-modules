@@ -1,7 +1,3 @@
-variable "splunk_account_id" {
-  description = "The id of the account where the Splunk will ingest files from"
-}
-
 variable "log_bucket_name" {
   description = "The name of the bucket created for log files"
 }
@@ -9,6 +5,10 @@ variable "log_bucket_name" {
 variable "expiration_days" {
   description = "The number of days log files will stay in the bucket"
   default     = "7"
+}
+
+variable "splunk_account_id" {
+  description = "The id of the account given read access to the bucket "
 }
 
 variable "aws_organization_id" {
