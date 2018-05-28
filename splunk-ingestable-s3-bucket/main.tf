@@ -37,7 +37,7 @@ resource "aws_s3_bucket_policy" "this" {
             "s3:List*"
          ],
          "Resource": [
-            "arn:aws:s3:::${var.log_bucket_name}"
+            "arn:aws:s3:::${var.log_bucket_name}/*"
          ]
       },
       {
@@ -129,7 +129,7 @@ data "aws_iam_policy_document" "bucket_can_publish" {
 
     condition {
       test     = "ArnEquals"
-      values   = ["${aws_sqs_queue.new_s3_bject.arn}"]
+      values   = ["${aws_sqs_queue.new_s3_object.arn}"]
       variable = "aws:SourceArn"
     }
 
@@ -142,7 +142,7 @@ data "aws_iam_policy_document" "bucket_can_publish" {
 }
 
 // Queue that Splunk will subscribe to
-resource "aws_sqs_queue" "new_s3_bject" {
+resource "aws_sqs_queue" "new_s3_object" {
   name                       = "new-objects-for-${var.log_bucket_name}"
   visibility_timeout_seconds = "${var.sqs_visibility_timeout_seconds}"
   message_retention_seconds  = "${var.sqs_message_retention_seconds}"
@@ -168,7 +168,7 @@ data "aws_iam_policy_document" "sns_topic_can_publish" {
     ]
 
     resources = [
-      "${aws_sqs_queue.new_s3_bject.arn}",
+      "${aws_sqs_queue.new_s3_object.arn}",
     ]
 
     condition {
@@ -193,11 +193,11 @@ resource "aws_sqs_queue" "dlq" {
 
 resource "aws_sqs_queue_policy" "bucket_can_publish" {
   policy    = "${data.aws_iam_policy_document.sns_topic_can_publish.json}"
-  queue_url = "${aws_sqs_queue.new_s3_bject.id}"
+  queue_url = "${aws_sqs_queue.new_s3_object.id}"
 }
 
 resource "aws_sns_topic_subscription" "bucket_change_notification_to_queue" {
   topic_arn = "${aws_sns_topic.new_object_event.arn}"
   protocol  = "sqs"
-  endpoint  = "${aws_sqs_queue.new_s3_bject.arn}"
+  endpoint  = "${aws_sqs_queue.new_s3_object.arn}"
 }
