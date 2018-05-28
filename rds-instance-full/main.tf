@@ -45,7 +45,7 @@ module "rds_security_group_vpc" {
 
   create = "${var.ecs_name == "" ? 1 : 0 }"
 
-  name        = "${local.identifier}-rds"
+  name        = "${local.identifier}-rds-vpc"
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
@@ -58,7 +58,7 @@ module "rds_security_group_ecs" {
 
   create = "${var.ecs_name == "" ? 0 : 1 }"
 
-  name        = "${local.identifier}-rds"
+  name        = "${local.identifier}-rds-ecs"
   description = "Security group with RDS ports open for ECS"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
@@ -67,7 +67,7 @@ module "rds_security_group_ecs" {
   ingress_with_source_security_group_id = [
     {
       rule                     = "${var.ingress_rule}"
-      source_security_group_id = "${data.terraform_remote_state.ecs.security_group_id}"
+      source_security_group_id = "${join("", data.terraform_remote_state.ecs.*.security_group_id)}"
     },
   ]
 }
