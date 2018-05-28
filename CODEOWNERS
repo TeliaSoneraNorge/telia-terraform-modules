@@ -96,3 +96,6 @@ waf/* @antonbabenko
 
 # splunk s3 bucket
 splunk-ingestable-s3-bucket/* @glennbech
+
+# module for forwarding CW logs to S3
+cloudwatch-logs-s3-forwarder/* @glennbech
