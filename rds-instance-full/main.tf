@@ -9,10 +9,10 @@ data "terraform_remote_state" "vpc" {
 }
 
 resource "random_string" "generated_db_password" {
-  length = 16
-  upper  = true
-  lower  = true
-  number = true
+  length  = 16
+  upper   = true
+  lower   = true
+  number  = true
   special = "${substr(var.engine, 0, 6)   == "oracle" ? false : true}"
 }
 
