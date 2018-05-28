@@ -59,7 +59,7 @@ data "aws_iam_policy_document" "assume" {
     principals {
       type = "AWS"
 
-      identifiers = "${data.null_data_source.users.*.outputs.users}"
+      identifiers = ["${data.null_data_source.users.*.outputs.users}"]
     }
 
     condition = {
