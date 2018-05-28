@@ -28,7 +28,7 @@ variable "role_description" {
 locals {
   trusted_accounts_size = "${length( var.trusted_accounts )}"
   users_size            = "${length( var.users )}"
-  arn_list_size         = "${local.accounts_size * local.users_size}"
+  arn_list_size         = "${local.trusted_accounts_size * local.users_size}"
 }
 
 # ------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ data "null_data_source" "users" {
   count = "${local.arn_list_size}"
 
   inputs = {
-    users = "${format("arn:aws:iam::%s:user/%s", var.trusted_accounts[count.index % local.accounts_size], var.users[count.index / local.accounts_size])}"
+    users = "${format("arn:aws:iam::%s:user/%s", var.trusted_accounts[count.index % local.trusted_accounts_size], var.users[count.index / local.trusted_accounts_size])}"
   }
 }
 
