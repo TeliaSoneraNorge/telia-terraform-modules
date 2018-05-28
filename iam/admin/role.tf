@@ -5,8 +5,9 @@ variable "prefix" {
   description = "Prefix added to the role name."
 }
 
-variable "trusted_account" {
-  description = "ID of the account which is trusted with access to assume this role."
+variable "trusted_accounts" {
+  type        = "list"
+  description = "List of IDs for the accounts which is trusted with access to assume this role."
 }
 
 variable "mfa_window" {
@@ -25,10 +26,10 @@ variable "users" {
 module "role" {
   source = "../role"
 
-  prefix          = "${var.prefix}-admin"
-  trusted_account = "${var.trusted_account}"
-  mfa_window      = "${var.mfa_window}"
-  users           = "${var.users}"
+  prefix           = "${var.prefix}-admin"
+  trusted_accounts = "${var.trusted_accounts}"
+  mfa_window       = "${var.mfa_window}"
+  users            = "${var.users}"
 }
 
 resource "aws_iam_role_policy_attachment" "admin" {

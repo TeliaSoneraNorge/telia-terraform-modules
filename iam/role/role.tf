@@ -5,8 +5,9 @@ variable "prefix" {
   description = "Prefix added to the role name."
 }
 
-variable "trusted_account" {
-  description = "ID of the account which is trusted with access to assume this role."
+variable "trusted_accounts" {
+  type        = "list"
+  description = "List of IDs for the accounts which is trusted with access to assume this role."
 }
 
 variable "mfa_window" {
@@ -24,10 +25,24 @@ variable "role_description" {
   default     = "Terraform created role"
 }
 
+locals {
+  trusted_accounts_size = "${length( var.trusted_accounts )}"
+  users_size            = "${length( var.users )}"
+  arn_list_size         = "${local.accounts_size * local.users_size}"
+}
+
 # ------------------------------------------------------------------------------
 # Resources
 # ------------------------------------------------------------------------------
 data "aws_iam_account_alias" "current" {}
+
+data "null_data_source" "users" {
+  count = "${local.arn_list_size}"
+
+  inputs = {
+    users = "${format("arn:aws:iam::%s:user/%s", var.trusted_accounts[count.index % local.accounts_size], var.users[count.index / local.accounts_size])}"
+  }
+}
 
 resource "aws_iam_role" "main" {
   name                  = "${var.prefix}-role"
@@ -44,9 +59,7 @@ data "aws_iam_policy_document" "assume" {
     principals {
       type = "AWS"
 
-      identifiers = [
-        "${formatlist("arn:aws:iam::%s:user/%s", var.trusted_account, var.users)}",
-      ]
+      identifiers = "${data.null_data_source.users.*.outputs.users}"
     }
 
     condition = {
