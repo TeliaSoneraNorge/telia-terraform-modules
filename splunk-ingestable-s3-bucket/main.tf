@@ -1,4 +1,4 @@
-// S3 Bucket with a Lifecycle Policy that will delete items older that 7 days
+// S3 Bucket with a Lifecycle Policy that will delete old items
 resource "aws_s3_bucket" "this" {
   bucket = "${var.log_bucket_name}"
   acl    = "private"
@@ -16,7 +16,7 @@ resource "aws_s3_bucket" "this" {
   tags = "${var.tags}"
 }
 
-// Policy for the bucket with READ and LIST permissions given to the splunk account, Other accounts
+// Policy for the bucket with READ and LIST permissions given to the read access account, Other accounts
 // Belonging to the organizaion are only allowed to Put objects to this bucket .
 
 resource "aws_s3_bucket_policy" "application_bucket_policy" {
@@ -61,8 +61,6 @@ resource "aws_s3_bucket_policy" "application_bucket_policy" {
 }
 POLICY
 }
-
-// S3 Bucket event notification that gets triggered on new items
 
 resource "aws_s3_bucket_notification" "object_created" {
   bucket = "${aws_s3_bucket.this.id}"
@@ -164,6 +162,7 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
 
       type = "AWS"
     }
+
     actions = [
       "SQS:SendMessage",
     ]
@@ -174,9 +173,11 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
 
     condition {
       test = "ArnEquals"
+
       values = [
         "${aws_sns_topic.bucket_events.arn}",
       ]
+
       variable = "aws:SourceArn"
     }
   }
