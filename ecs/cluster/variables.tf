@@ -39,6 +39,11 @@ variable "instance_key" {
   default     = ""
 }
 
+variable "instance_volume_size" {
+  description = "Size of the root block device."
+  default     = "8"
+}
+
 variable "ecs_log_level" {
   description = "Log level for the ECS agent."
   default     = "info"
