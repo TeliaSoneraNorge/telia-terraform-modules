@@ -19,8 +19,6 @@ data "terraform_remote_state" "ecs" {
   }
 }
 
-# security_group_id
-
 resource "random_string" "generated_db_password" {
   length = 16
   upper  = true
@@ -74,7 +72,7 @@ module "rds_security_group_ecs" {
 }
 
 locals {
-  security_group_id = "${coalesce(join("", module.rds_security_group_ecs.*.this_security_group_id), module.rds_security_group_vpc.this_security_group_id)}"
+  security_group_id = "${coalesce(join("", module.rds_security_group_ecs.*.security_group_id), module.rds_security_group_vpc.this_security_group_id)}"
 }
 
 data "aws_db_snapshot" "manual" {
