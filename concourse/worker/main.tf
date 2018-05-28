@@ -42,6 +42,7 @@ module "worker" {
   health_check_type    = "EC2"
   instance_policy      = "${data.aws_iam_policy_document.worker.json}"
   instance_count       = "${var.instance_count}"
+  instance_count_max   = "${var.instance_count_max}"
   instance_type        = "${var.instance_type}"
   instance_volume_size = "50"
   instance_ami         = "${var.instance_ami}"

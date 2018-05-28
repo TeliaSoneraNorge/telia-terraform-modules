@@ -46,8 +46,13 @@ variable "log_level" {
 }
 
 variable "instance_count" {
-  description = "Number of ATC instances to provision."
-  default     = "2"
+  description = "Number of Worker instances to provision."
+  default     = "1"
+}
+
+variable "instance_count_max" {
+  description = "Maximum number of Worker instances to provision during rolling updates."
+  default     = "3"
 }
 
 variable "instance_type" {

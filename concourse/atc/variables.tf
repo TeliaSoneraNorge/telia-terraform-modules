@@ -66,7 +66,12 @@ variable "github_teams" {
 
 variable "instance_count" {
   description = "Number of ATC instances to provision."
-  default     = "2"
+  default     = "1"
+}
+
+variable "instance_count_max" {
+  description = "Maximum number of ATC instances to provision during rolling updates."
+  default     = "3"
 }
 
 variable "instance_type" {

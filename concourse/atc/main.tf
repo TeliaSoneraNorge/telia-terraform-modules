@@ -38,19 +38,20 @@ resource "aws_autoscaling_attachment" "internal_lb" {
 module "atc" {
   source = "../../ec2/asg"
 
-  prefix            = "${var.prefix}-atc"
-  user_data         = "${data.template_file.atc.rendered}"
-  vpc_id            = "${var.vpc_id}"
-  subnet_ids        = "${var.private_subnet_ids}"
-  await_signal      = "true"
-  pause_time        = "PT5M"
-  health_check_type = "ELB"
-  instance_policy   = "${data.aws_iam_policy_document.atc.json}"
-  instance_count    = "${var.instance_count}"
-  instance_type     = "${var.instance_type}"
-  instance_ami      = "${var.instance_ami}"
-  instance_key      = "${var.instance_key}"
-  tags              = "${var.tags}"
+  prefix             = "${var.prefix}-atc"
+  user_data          = "${data.template_file.atc.rendered}"
+  vpc_id             = "${var.vpc_id}"
+  subnet_ids         = "${var.private_subnet_ids}"
+  await_signal       = "true"
+  pause_time         = "PT5M"
+  health_check_type  = "ELB"
+  instance_policy    = "${data.aws_iam_policy_document.atc.json}"
+  instance_count     = "${var.instance_count}"
+  instance_count_max = "${var.instance_count_max}"
+  instance_type      = "${var.instance_type}"
+  instance_ami       = "${var.instance_ami}"
+  instance_key       = "${var.instance_key}"
+  tags               = "${var.tags}"
 }
 
 data "template_file" "atc" {
