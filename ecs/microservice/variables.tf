@@ -42,12 +42,12 @@ variable "task_definition_image" {
 }
 
 variable "task_definition_cpu" {
-  description = "Optional: The ID of Cluster IAM Role "
+  description = "Optional: CPU units needed to place the task"
   default     = "256"
 }
 
 variable "task_definition_ram" {
-  description = "Optional: The ID of Cluster IAM Role "
+  description = "Optional: MB of RAM to allocate when placing this task"
   default     = "512"
 }
 

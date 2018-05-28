@@ -1,0 +1,98 @@
+# Default to devops group. Unless we have a more specific match.
+*       @TeliaSoneraNorge/devops
+
+# .ci
+.ci/*   @itsdalmo @colincoleman
+
+# acm
+acm/*   @johanssonanton @itsdalmo
+
+# alb
+alb/*   @antonbabenko
+
+# apigateway/lambda
+apigateway/* @itsdalmo
+
+# bastion
+bastion/* @itsdalmo
+
+# bin
+bin/* @itsdalmo
+
+# cloudtrail-forwarder
+cloudtrail-forwarder/* @antonbabenko
+
+# cloudtrail-processor
+cloudtrail-processor/* @antonbabenko
+
+# cloudtrail
+cloudtrail/* @itsdalmo
+
+# concourse
+concourse/* @itsdalmo
+
+# dynamodb-table
+dynamodb/* @mhd999 @antonbabenko
+
+# ec2
+ec2/* @itsdalmo
+
+# ecr-machine-role
+ecr-machine-role/* @larstobi
+
+# ecr
+ecr/* @larstobi
+
+# ecs
+ecs/* @itsdalmo @glennbech
+
+# elasticache
+elasticache/* @larstobi
+
+# empty
+empty/* @antonbabenko
+
+# iam-assumable-roles
+iam-assumable-roles/* @antonbabenko
+
+# iam-user
+iam-user/* @antonbabenko
+
+# iam
+iam/* @itsdalmo
+
+# kms
+kms/* @itsdalmo
+
+# lambda
+lambda/* @itsdalmo
+
+# rds-instance-full
+rds-instance-full/* @antonbabenko
+
+# rds-simple
+rds-simple/* @itsdalmo @larstobi
+
+# route53-zones
+route53-zones/* @antonbabenko
+
+# service-role
+service-role/* @nazartm @antonbabenko
+
+# share-states-bucket
+share-states-bucket/* @antonbabenko
+
+# sqs
+sqs/* @antonbabenko
+
+# ssm
+ssm/* @itsdalmo
+
+# terraform
+terraform/* @itsdalmo
+
+# waf
+waf/* @antonbabenko
+
+# module for forwarding CW logs to S3
+cloudwatch-logs-s3-forwarder/* @glennbech

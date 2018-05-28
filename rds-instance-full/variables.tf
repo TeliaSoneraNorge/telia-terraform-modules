@@ -80,5 +80,15 @@ variable "ingress_rule" {
 
 variable "ecs_name" {
   description = "Ingress rule to open the ports towards ECS, if defined only, ECS SG is going to be used"
+  default = ""
+}
+
+variable "parameters" {
+  description = "List of parameters for RDS parameter group"
+  default     = []
+}
+
+variable "license_model" {
+  description = "License model information for this DB instance. Optional, but required for some DB engines, i.e. Oracle SE1"
   default     = ""
 }
