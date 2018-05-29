@@ -70,7 +70,7 @@ data "template_file" "main" {
     elastic_ip       = "${aws_eip.main.public_ip}"
     pem_bucket       = "${var.pem_bucket}"
     pem_path         = "${var.pem_path}"
-    install_packages = "${var.install_packages}"
+    install_packages = "${jsonencode(var.install_packages)}"
   }
 }
 
