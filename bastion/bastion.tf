@@ -32,7 +32,7 @@ variable "pem_path" {
   description = "Path (bucket-key) where the PEM key is stored."
 }
 
-variable "install_package" {
+variable "install_packages" {
   description = "Extra packages to install"
   type        = "list"
   default     = []
@@ -65,12 +65,12 @@ data "template_file" "main" {
   template = "${file("${path.module}/cloud-config.yml")}"
 
   vars {
-    authorized_keys = "${jsonencode(var.authorized_keys)}"
-    aws_region      = "${data.aws_region.current.name}"
-    elastic_ip      = "${aws_eip.main.public_ip}"
-    pem_bucket      = "${var.pem_bucket}"
-    pem_path        = "${var.pem_path}"
-    install_package = "${var.install_package}"
+    authorized_keys  = "${jsonencode(var.authorized_keys)}"
+    aws_region       = "${data.aws_region.current.name}"
+    elastic_ip       = "${aws_eip.main.public_ip}"
+    pem_bucket       = "${var.pem_bucket}"
+    pem_path         = "${var.pem_path}"
+    install_packages = "${var.install_packages}"
   }
 }
 
