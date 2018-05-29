@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 data "template_file" "main" {
-  template = "${file("../../cluster/cloud-config.yml")}"
+  template = "${file("cloud-config.yml")}"
 
   vars {
     region           = "${data.aws_region.current.name}"

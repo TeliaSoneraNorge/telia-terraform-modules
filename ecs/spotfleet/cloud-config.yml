@@ -1,0 +1,80 @@
+#cloud-config
+package_update: true
+packages:
+  - awslogs
+  - aws-cfn-bootstrap
+write_files:
+  - path: "/etc/awslogs/awscli.template"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      [plugins]
+      cwlogs = cwlogs
+      [default]
+      region = ${region}
+  - path: "/etc/awslogs/awslogs.template"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      [general]
+      state_file = /var/lib/awslogs/agent-state
+
+      [/var/log/ecs/ecs-agent.log]
+      file = /var/log/ecs/ecs-agent.log*
+      log_group_name = ${log_group_name}
+      log_stream_name = {instance_id}
+  - path: "/etc/ecs/ecs.config"
+    permissions: "0744"
+    owner: "root"
+    content: |
+      ECS_CLUSTER=${ecs_cluster_name}
+      ECS_LOG_LEVEL=${ecs_log_level}
+      ECS_ENABLE_CONTAINER_METADATA=true
+      ECS_ENABLE_TASK_IAM_ROLE=true
+      ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true
+      ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs"]
+
+  - path: "/usr/local/scripts/cloudformation-signal.sh"
+    permissions: "0744"
+    owner: "root"
+    content: |
+      #! /bin/bash
+
+      set -euo pipefail
+
+      function await_process() {
+        echo -n "Waiting for $1..."
+        while ! pgrep -f "$1" > /dev/null; do
+          sleep 1
+        done
+        echo "Done!"
+      }
+      await_process "/usr/libexec/amazon-ecs-init start"
+
+runcmd:
+  - |
+    yum install -y https://amazon-ssm-${region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+  - |
+    cp /etc/awslogs/awscli.template /etc/awslogs/awscli.conf
+    cp /etc/awslogs/awslogs.template /etc/awslogs/awslogs.conf
+  - |
+    start ecs
+    service awslogs start
+  - |
+    /usr/local/scripts/cloudformation-signal.sh
+    /opt/aws/bin/cfn-signal -e $? --stack ${stack_name} --resource AutoScalingGroup --region ${region}
+  - |
+    yum install zip unzip cpan perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https -y
+    (echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
+    perl -MCPAN -e 'install Digest::SHA'
+    perl -MCPAN -e 'install URI::Escape'
+    perl -MCPAN -e 'install Bundle::LWP'
+    perl -MCPAN -e 'install MIME::Base64'
+    perl -MCPAN -e 'install Crypt::SSLeay'
+    perl -MCPAN -e 'install XML::LibXML'
+    cd /opt
+    curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+    unzip CloudWatchMonitoringScripts-1.2.2.zip
+    rm /opt/CloudWatchMonitoringScripts-1.2.2.zip
+    echo "* * * * * root /opt/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --from-cron  --auto-scaling" > /etc/cron.d/aws_metrics
+
