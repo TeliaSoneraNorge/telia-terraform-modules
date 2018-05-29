@@ -38,6 +38,24 @@ module "cluster" {
 }
 
 # ------------------------------------------------------------------------------
+# ecs/spotfleet
+# ------------------------------------------------------------------------------
+module "cluster" {
+  source = "../spotfleet"
+
+  prefix              = "${var.prefix}"
+  vpc_id              = "${module.vpc.vpc_id}"
+  subnet_ids          = ["${module.vpc.private_subnet_ids}"]
+  subnet_count        = 3
+  target_capacity     = 4
+  load_balancer_count = 1
+  load_balancers      = ["${module.alb.security_group_id}"]
+
+  tags = "${var.tags}"
+}
+
+
+# ------------------------------------------------------------------------------
 # ecs/service: Create a service which responds with 404 as the default target
 # ------------------------------------------------------------------------------
 module "four_o_four" {
