@@ -27,4 +27,4 @@ runcmd:
     chown forward:forward /home/forward/.ssh/${pem_path}
   - |
     chmod 400 /home/forward/.ssh/${pem_path}
-
+packages: ${install_packages}

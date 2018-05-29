@@ -32,6 +32,12 @@ variable "pem_path" {
   description = "Path (bucket-key) where the PEM key is stored."
 }
 
+variable "install_package" {
+  description = "Extra packages to install"
+  type        = "list"
+  default     = []
+}
+
 variable "instance_ami" {
   description = "ID of an Amazon Linux 2 AMI."
   default     = "ami-db51c2a2"
@@ -64,6 +70,7 @@ data "template_file" "main" {
     elastic_ip      = "${aws_eip.main.public_ip}"
     pem_bucket      = "${var.pem_bucket}"
     pem_path        = "${var.pem_path}"
+    install_package = "${var.install_package}"
   }
 }
 
