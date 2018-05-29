@@ -1,22 +1,18 @@
 # ------------------------------------------------------------------------------
 # Output
 # ------------------------------------------------------------------------------
-output "id" {
-  value = "${aws_ecs_cluster.main.id}"
-}
-
 output "role_name" {
-  value = "${module.spotrequest.role_name}"
+  value = "${aws_iam_role.ec2-instance.name}"
 }
 
 output "role_arn" {
-  value = "${module.spotrequest.role_arn}"
+  value = "${aws_iam_role.ec2-instance.arn}"
 }
 
 output "role_id" {
-  value = "${module.spotrequest.role_id}"
+  value = "${aws_iam_role.ec2-instance.id}"
 }
 
 output "security_group_id" {
-  value = "${module.spotrequest.security_group_id}"
+  value = "${aws_security_group.main.id}"
 }

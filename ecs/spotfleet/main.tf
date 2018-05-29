@@ -1,32 +1,26 @@
 data "aws_region" "current" {}
 
-resource "aws_iam_role" "spotfleet" {
-  name               = "${var.prefix}-spotfleet"
-  assume_role_policy = "${data.aws_iam_policy_document.spotfleet-assume.json}"
-}
+data "template_file" "main" {
+  template = "${file("../../cluster/cloud-config.yml")}"
 
-resource "aws_iam_policy_attachment" "spotfleet" {
-  name       = "${var.prefix}-spotfleet"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole"
-  roles      = ["${aws_iam_role.spotfleet.name}"]
-}
-
-data "aws_iam_policy_document" "spotfleet-assume" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type = "Service"
-
-      identifiers = ["spotfleet.amazonaws.com"]
-    }
+  vars {
+    region           = "${data.aws_region.current.name}"
+    stack_name       = "${var.prefix}-cluster-spotfleet"
+    log_group_name   = "${aws_cloudwatch_log_group.main.name}"
+    ecs_cluster_name = "${aws_ecs_cluster.main.name}"
+    ecs_log_level    = "${var.ecs_log_level}"
   }
 }
 
-resource "aws_iam_role" "ec2-instance" {
-  name               = "${var.prefix}-ec2-instances"
-  assume_role_policy = "${data.aws_iam_policy_document.ec2-instance-assume.json}"
+module "spotrequest" {
+  source          = "../../ec2/spot-request"
+  prefix          = "${var.prefix}"
+  target_capacity = "${var.target_capacity}"
+  spot_price      = "${var.spot_price}"
+  vpc_id          = "${var.vpc_id}"
+  user_data       = "${data.template_file.main.rendered}"
+  subnet_count    = "${var.subnet_count}"
+  subnet_ids      = "${var.subnet_ids}"
 }
 
 data "aws_iam_policy_document" "permissions" {
@@ -71,20 +65,7 @@ data "aws_iam_policy_document" "permissions" {
 
 resource "aws_iam_role_policy" "ec2-permissions" {
   policy = "${data.aws_iam_policy_document.permissions.json}"
-  role   = "${aws_iam_role.ec2-instance.name}"
-}
-
-data "aws_iam_policy_document" "ec2-instance-assume" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type = "Service"
-
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
+  role   = "${module.spotrequest.role_name}"
 }
 
 resource "aws_ecs_cluster" "main" {
@@ -95,32 +76,12 @@ resource "aws_cloudwatch_log_group" "main" {
   name = "${var.prefix}-cluster-agent"
 }
 
-resource "aws_security_group" "ecs-instances" {
-  name        = "${var.prefix}-ecs-instance"
-  description = "Terraformed security group for ${var.prefix} ecs cluster instances"
-  vpc_id      = "${var.vpc_id}"
-}
-
 resource "aws_security_group_rule" "ingress" {
   count                    = "${var.load_balancer_count}"
-  security_group_id        = "${aws_security_group.ecs-instances.id}"
+  security_group_id        = "${module.spotrequest.security_group_id}"
   type                     = "ingress"
   protocol                 = "tcp"
   from_port                = "32768"
   to_port                  = "65535"
   source_security_group_id = "${element(var.load_balancers, count.index)}"
-}
-
-resource "aws_security_group_rule" "egress-all" {
-  from_port         = 0
-  protocol          = "all"
-  security_group_id = "${aws_security_group.ecs-instances.id}"
-  to_port           = 0
-  cidr_blocks       = ["0.0.0.0/0"]
-  type              = "egress"
-}
-
-resource "aws_iam_instance_profile" "ecs" {
-  name = "${var.prefix}-ecs-instance"
-  role = "${aws_iam_role.ec2-instance.name}"
 }

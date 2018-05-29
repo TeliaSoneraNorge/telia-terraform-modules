@@ -1,0 +1,12 @@
+launch_specification {
+  ami                    = "${var.instance_ami}"
+  instance_type          = "{{instance_type}}"
+  subnet_id              = "{{subnet_id}}"
+  vpc_security_group_ids = [
+    "${aws_security_group.main.id}"
+  ]
+  weighted_capacity      = {{weighted_capacity}}
+  tags                   = "${local.spot_fleet_tags}"
+  iam_instance_profile   = "${aws_iam_instance_profile.ec2.name}"
+  user_data              = "${var.user_data}"
+}

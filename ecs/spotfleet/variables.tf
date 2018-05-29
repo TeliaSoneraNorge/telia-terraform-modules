@@ -2,14 +2,22 @@ variable "prefix" {
   description = "A prefix used for naming resources."
 }
 
-variable "instance_ami" {
-  description = "ami to use for cluster instances - default is Amazon ESC-optimized AMI in eu-west-1"
-  default     = "ami-2d386654"
-}
-
 variable "target_capacity" {
   description = "The target capacity of the request - in vCPUs"
-  default     = "4"
+}
+
+variable "vpc_id" {
+  description = "ID of the VPC to be launched into"
+}
+
+variable "subnet_ids" {
+  type        = "list"
+  description = "List of subnets to launch the spotfleet in"
+}
+
+# Hack to overcome that count variables cannot be inferred
+variable "subnet_count" {
+  description = "Required: count of subnets"
 }
 
 variable "spot_price" {
@@ -22,6 +30,11 @@ variable "allocation_strategy" {
   default     = "lowestPrice"
 }
 
+variable "instance_ami" {
+  description = "ami to use for cluster instances - default is Amazon ESC-optimized AMI in eu-west-1"
+  default     = "ami-2d386654"
+}
+
 variable "valid_until" {
   description = "Valid to date for the spot requests - after this date instances will not be replaced"
   default     = "2028-05-03T00:00:00Z"
@@ -31,16 +44,6 @@ variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = "map"
   default     = {}
-}
-
-variable "subnet_ids" {
-  type        = "list"
-  description = "List of subnets to launch the spotfleet in"
-}
-
-# Hack to overcome that count variables cannot be inferred
-variable "subnet_count" {
-  description = "Required: count of subnets"
 }
 
 variable "ecs_log_level" {
@@ -57,8 +60,4 @@ variable "load_balancers" {
 variable "load_balancer_count" {
   description = "HACK: This exists purely to calculate count in Terraform. Should equal the length of your ingress map."
   default     = 0
-}
-
-variable "vpc_id" {
-  description = "ID of the VPC to be launched into"
 }

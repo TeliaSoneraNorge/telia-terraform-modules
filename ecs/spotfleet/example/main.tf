@@ -9,13 +9,10 @@ module "vpc" {
 }
 
 module "example_spotfleet" {
-  source              = "../"
-  prefix              = "${var.prefix}"
-  target_capacity     = 6
-  spot_price          = "0.02"
-  allocation_strategy = "lowestPrice"
-  subnets             = "${module.vpc.public_subnet_ids}"
-  subnet_count        = "3"
-  vpc_id              = "${module.vpc.vpc_id}"
-  tags                = "${var.tags}"
+  source          = "../"
+  prefix          = "${var.prefix}"
+  target_capacity = "6"
+  subnet_ids      = "${module.vpc.public_subnet_ids}"
+  subnet_count    = "3"
+  vpc_id          = "${module.vpc.vpc_id}"
 }
