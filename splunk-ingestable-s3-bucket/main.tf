@@ -51,6 +51,10 @@ resource "aws_s3_bucket_policy" "this" {
             "StringEquals":
                 {
                 "aws:PrincipalOrgID":["${var.aws_organization_id}"]
+                },
+            "StringEquals":
+                {
+                "s3:x-amz-acl": "bucket-owner-full-control"
                 }
          },
          "Resource": [
