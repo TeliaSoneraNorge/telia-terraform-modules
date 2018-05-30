@@ -52,7 +52,7 @@ resource "aws_s3_bucket_policy" "this" {
                 {
                 "aws:PrincipalOrgID":["${var.aws_organization_id}"],
                 "s3:x-amz-acl": ["bucket-owner-full-control"]
-                },
+                }
          },
          "Resource": [
             "arn:aws:s3:::${var.log_bucket_name}/*"
