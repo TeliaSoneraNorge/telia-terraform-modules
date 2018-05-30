@@ -10,6 +10,14 @@ Set up an ECS cluster and register services with ease. The modules set up the fo
 - CloudWatch log group for the ECS agent.
 - IAM role/instance profile with appropriate privileges.
 
+#### ecs/spotfleet
+Cluster on a spotfleet - [detailed README](spotfleet/README.md)
+- Ongoing Spotfleet request
+- Amazon ECS Optimized AMI with ECS and SSM agents running.
+- A security group for the cluster (with all egress and ingress from the specified load balancers).
+- CloudWatch log group for the ECS agent.
+- IAM role/instance profile with appropriate privileges.
+
 #### ecs/service
 
 - Creates the task definition with an attached task role.

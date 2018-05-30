@@ -159,6 +159,7 @@ jobs:
             ec2/asg
             ec2/emr
             ec2/lb
+            ec2/spot-request
             ec2/vpc
 
       - task: ecr
@@ -183,6 +184,7 @@ jobs:
             ecs/cluster
             ecs/service
             ecs/microservice
+            ecs/spotfleet
 
       - task: iam
         <<: *test-module-config
@@ -541,6 +543,7 @@ jobs:
         directories: |
           ec2/asg
           ec2/emr
+          ec2/spot-request
           ec2/vpc
   - name: ec2-example-test
     plan:
@@ -558,6 +561,7 @@ jobs:
         directories: |
           ec2/asg/example
           ec2/emr/example
+          ec2/spot-request/example
           ec2/vpc/example
   - name: ec2-example-run
     plan:
@@ -581,6 +585,12 @@ jobs:
           <<: *plan-params
           directories: |
             ec2/emr/example
+      - task: spot-request
+        <<: *general-config
+        params:
+          <<: *plan-params
+          directories: |
+            ec2/spot-request/example
       - task: vpc
         <<: *general-config
         params:
@@ -634,6 +644,7 @@ jobs:
           ecs/cluster
           ecs/service
           ecs/microservice
+          ecs/spotfleet
   - name: ecs-example-test
     plan:
     - aggregate:

@@ -33,8 +33,22 @@ module "cluster" {
   subnet_ids          = ["${module.vpc.private_subnet_ids}"]
   load_balancer_count = 1
   load_balancers      = ["${module.alb.security_group_id}"]
+  tags                = "${var.tags}"
+}
 
-  tags = "${var.tags}"
+# ------------------------------------------------------------------------------
+# ecs/spotfleet
+# ------------------------------------------------------------------------------
+module "spotfleet" {
+  source = "../spotfleet"
+
+  prefix              = "${var.prefix}"
+  vpc_id              = "${module.vpc.vpc_id}"
+  subnet_ids          = ["${module.vpc.private_subnet_ids}"]
+  target_capacity     = 4
+  load_balancer_count = 1
+  load_balancers      = ["${module.alb.security_group_id}"]
+  tags                = "${var.tags}"
 }
 
 # ------------------------------------------------------------------------------
