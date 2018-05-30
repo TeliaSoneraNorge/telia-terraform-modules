@@ -15,11 +15,6 @@ variable "subnet_ids" {
   description = "List of subnets to launch the spotfleet in"
 }
 
-# Hack to overcome that count variables cannot be inferred
-variable "subnet_count" {
-  description = "Required: count of subnets"
-}
-
 variable "spot_price" {
   description = "The maximum price per unit (vCPU) - default is set to roughly on demand price"
   default     = "0.05"
@@ -60,4 +55,10 @@ variable "load_balancers" {
 variable "load_balancer_count" {
   description = "HACK: This exists purely to calculate count in Terraform. Should equal the length of your ingress map."
   default     = 0
+}
+
+# Hack to overcome that count variables cannot be inferred
+variable "subnet_count" {
+  description = "For future use: count of subnets - current predefined spot requests are for 3 subnets"
+  default     = 3
 }

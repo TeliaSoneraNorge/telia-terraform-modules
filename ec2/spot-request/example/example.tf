@@ -15,12 +15,11 @@ module "vpc" {
 }
 
 module "spot-request" {
-  source       = "../../../ec2/spot-request"
-  prefix       = "your-project"
-  user_data    = "#!bin/bash\necho hello world"
-  vpc_id       = "${module.vpc.vpc_id}"
-  subnet_ids   = "${module.vpc.public_subnet_ids}"
-  subnet_count = 3
+  source     = "../../../ec2/spot-request"
+  prefix     = "your-project"
+  user_data  = "#!bin/bash\necho hello world"
+  vpc_id     = "${module.vpc.vpc_id}"
+  subnet_ids = "${module.vpc.public_subnet_ids}"
 }
 
 resource "aws_security_group_rule" "ingress" {

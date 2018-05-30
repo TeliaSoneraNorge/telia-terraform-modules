@@ -42,12 +42,13 @@ variable "subnet_ids" {
   description = "List of subnets to launch the spotfleet in"
 }
 
-# Hack to overcome that count variables cannot be inferred
-variable "subnet_count" {
-  description = "Required: count of subnets"
-}
-
 variable "user_data" {
   description = "User data script for the launch configuration."
   default     = ""
+}
+
+# Hack to overcome that count variables cannot be inferred
+variable "subnet_count" {
+  description = "For future use: count of subnets - current predefined spot requests are for 3 subnets"
+  default     = 3
 }
