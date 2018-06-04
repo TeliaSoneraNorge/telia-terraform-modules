@@ -78,6 +78,11 @@ variable "ingress_rule" {
   default     = "postgresql-tcp"
 }
 
+variable "ecs_name" {
+  description = "Ingress rule to open the ports towards ECS, if defined only, ECS SG is going to be used"
+  default = ""
+}
+
 variable "parameters" {
   description = "List of parameters for RDS parameter group"
   default     = []

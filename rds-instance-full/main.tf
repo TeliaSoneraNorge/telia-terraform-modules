@@ -8,6 +8,17 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+data "terraform_remote_state" "ecs" {
+  backend = "s3"
+  count   = "${var.ecs_name == "" ? 0 : 1}"
+
+  config {
+    region = "${var.terraform_state_region}"
+    bucket = "${var.terraform_state_bucket}"
+    key    = "${var.aws_region}/${var.ecs_name}/terraform.tfstate"
+  }
+}
+
 resource "random_string" "generated_db_password" {
   length  = 16
   upper   = true
@@ -29,15 +40,40 @@ locals {
   db_password = "${var.database_password == "" ? random_string.generated_db_password.result : var.database_password}"
 }
 
-module "rds_security_group" {
+module "rds_security_group_vpc" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "${local.identifier}-rds"
+  create = "${var.ecs_name == "" ? 1 : 0 }"
+
+  name        = "${local.identifier}-rds-vpc"
   description = "Security group with RDS ports open within VPC"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
   ingress_rules       = ["${var.ingress_rule}"]
+}
+
+module "rds_security_group_ecs" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  create = "${var.ecs_name == "" ? 0 : 1 }"
+
+  name        = "${local.identifier}-rds-ecs"
+  description = "Security group with RDS ports open for ECS"
+  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
+
+  ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
+
+  ingress_with_source_security_group_id = [
+    {
+      rule                     = "${var.ingress_rule}"
+      source_security_group_id = "${join("", data.terraform_remote_state.ecs.*.security_group_id)}"
+    },
+  ]
+}
+
+locals {
+  security_group_id = "${coalesce(join("", module.rds_security_group_ecs.*.security_group_id), module.rds_security_group_vpc.this_security_group_id)}"
 }
 
 data "aws_db_snapshot" "manual" {
@@ -71,7 +107,7 @@ module "rds" {
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
+  vpc_security_group_ids  = ["${local.security_group_id}"]
   maintenance_window      = "${var.maintenance_window}"
   backup_window           = "${var.backup_window}"
   backup_retention_period = "${var.backup_retention_period}"
