@@ -13,7 +13,19 @@ resource "aws_s3_bucket" "this" {
     }
   }
 
+  logging {
+    target_bucket = "${aws_s3_bucket.logs.id}"
+    target_prefix = "log/"
+  }
+
   tags = "${var.tags}"
+}
+
+// S3 Bucket with a Lifecycle Policy that will delete old items
+resource "aws_s3_bucket" "logs" {
+  bucket = "${var.log_bucket_name}-log"
+  acl    = "private"
+  tags   = "${var.tags}"
 }
 
 // Policy for the bucket with READ and LIST permissions given to the read access account, Other accounts
