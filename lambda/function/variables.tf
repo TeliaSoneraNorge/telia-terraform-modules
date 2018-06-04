@@ -47,3 +47,15 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+
+variable "subnet_ids" {
+  description = "List of subnets from VPC used in lambda"
+  type        = "list"
+  default     = []
+}
+
+variable "security_group_ids" {
+  description = "List of SG used in lambda"
+  type        = "list"
+  default     = []
+}

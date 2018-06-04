@@ -17,6 +17,11 @@ resource "aws_lambda_function" "main" {
   }
 
   tags = "${merge(var.tags, map("Name", "${var.prefix}-function"))}"
+
+  vpc_config {
+    subnet_ids         = ["${var.subnet_ids}"]
+    security_group_ids = ["${var.security_group_ids}"]
+  }
 }
 
 resource "aws_iam_role" "main" {
