@@ -43,7 +43,7 @@ module "rds_security_group" {
 module "custom_security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  create = "${var.rds_sg == "" ? 0 : 1 }"
+  create = "${var.custom_sg_id == "" ? 0 : 1 }"
 
   name        = "${local.identifier}-rds-custom"
   description = "Security group with RDS ports open for ECS"
