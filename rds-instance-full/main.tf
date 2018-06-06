@@ -45,7 +45,7 @@ module "custom_security_group" {
 
   create = "${var.rds_sg == "" ? 0 : 1 }"
 
-  name        = "${local.identifier}-rds-ecs"
+  name        = "${local.identifier}-rds-custom"
   description = "Security group with RDS ports open for ECS"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
@@ -54,7 +54,7 @@ module "custom_security_group" {
   ingress_with_source_security_group_id = [
     {
       rule                     = "${var.ingress_rule}"
-      source_security_group_id = "${var.rds_sg}"
+      source_security_group_id = "${var.custom_sg_id}"
     },
   ]
 }

@@ -88,7 +88,7 @@ variable "license_model" {
   default     = ""
 }
 
-variable "rds_sg" {
-  description = "RDS security group"
+variable "custom_sg_id" {
+  description = "Custom security group id which should be allowed to have access to this RDS instance"
   default     = ""
 }
