@@ -46,7 +46,7 @@ module "custom_security_group" {
   create = "${var.custom_sg_id == "" ? 0 : 1 }"
 
   name        = "${local.identifier}-rds-custom"
-  description = "Security group with RDS ports open for ECS"
+  description = "Security group with RDS ports open for custom SG"
   vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
 
   ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
