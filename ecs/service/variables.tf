@@ -71,3 +71,17 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+
+variable "placement_strategy" {
+  default = {
+    type = "spread"
+    field = "instanceId"
+  }
+  type = "map"
+  description = "the placement strategy"
+}
+
+variable "launch_type" {
+  default = "EC2"
+  description = "The launch type, ECS or FARGATE"
+}

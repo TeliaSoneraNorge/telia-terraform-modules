@@ -13,6 +13,10 @@ data "aws_lb_target_group" "default" {
   arn = "${aws_lb_target_group.main.arn}"
 }
 
+locals {
+
+}
+
 resource "aws_lb_target_group" "main" {
   vpc_id       = "${var.vpc_id}"
   protocol     = "${var.target["protocol"]}"
@@ -46,11 +50,8 @@ resource "aws_ecs_service" "main" {
     container_name   = "${var.prefix}"
     container_port   = "${var.target["port"]}"
   }
-
-  ordered_placement_strategy {
-    type  = "spread"
-    field = "instanceId"
-  }
+  launch_type = "${var.launch_type}"
+  ordered_placement_strategy = "${var.placement_strategy}"
 }
 
 # NOTE: Takes a map of KEY = value and turns it into a list of: { name: KEY, value: value }.
