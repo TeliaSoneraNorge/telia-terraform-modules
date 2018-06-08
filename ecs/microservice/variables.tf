@@ -76,3 +76,8 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+
+variable "launch_type" {
+  default = "EC"
+  description = "launcg type for the service. Either EC2 or FARGATE"
+}
