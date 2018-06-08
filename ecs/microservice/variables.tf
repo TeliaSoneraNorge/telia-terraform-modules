@@ -78,6 +78,6 @@ variable "tags" {
 }
 
 variable "launch_type" {
-  default = "EC"
+  default = "EC2"
   description = "launcg type for the service. Either EC2 or FARGATE"
 }
