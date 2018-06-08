@@ -24,6 +24,7 @@ module "service" {
     load_balancer = "${var.target["load_balancer"]}"
   }
 
+  launch_type = "${var.launch_type}"
   tags = "${var.tags}"
 }
 

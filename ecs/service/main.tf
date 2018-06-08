@@ -42,17 +42,19 @@ resource "aws_ecs_service" "main" {
   iam_role                          = "${aws_iam_role.service.arn}"
   health_check_grace_period_seconds = "${var.task_definition_health_check_grace_period}"
 
-  deployment_minimum_healthy_percent = 50
-  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = "${var.launch_type == "FARGATE" ? "" : 50}"
+  deployment_maximum_percent         = "${var.launch_type == "FARGATE" ? "" : 50}"
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.main.arn}"
     container_name   = "${var.prefix}"
     container_port   = "${var.target["port"]}"
   }
+
   launch_type = "${var.launch_type}"
-  ordered_placement_strategy = "${var.placement_strategy}"
+  ordered_placement_strategy = "${var.launch_type == "FARGATE" ? "" : var.placement_strategy }"
 }
+
 
 # NOTE: Takes a map of KEY = value and turns it into a list of: { name: KEY, value: value }.
 data "null_data_source" "task_environment" {
