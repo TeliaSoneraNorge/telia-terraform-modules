@@ -22,6 +22,10 @@ variable "task_definition_image" {
   description = "Image for the task definition (repo:tag or repo@digest)."
 }
 
+variable "lb_arn" {
+  description = "Arn for the LB for which the service should be attach to."
+}
+
 variable "task_definition_cpu" {
   description = "Optional: Amount of CPU to reserve for the task."
   default     = "256"

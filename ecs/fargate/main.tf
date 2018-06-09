@@ -44,28 +44,30 @@ resource "aws_security_group" "ecs_service" {
   vpc_id      = "${var.vpc_id}"
   name        = "${var.prefix}-ecs-service-sg"
   description = "Fargate service security group"
+  tags        = "${var.tags}"
+}
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group_rule" "ingress_service" {
+  security_group_id = "${aws_security_group.ecs_service.id}"
+  type              = "ingress"
+  protocol          = "icmp"
+  from_port         = "8"
+  to_port           = "0"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
 
-  ingress {
-    from_port   = 8
-    to_port     = 0
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = "${var.tags}"
+resource "aws_security_group_rule" "egress_service" {
+  security_group_id = "${aws_security_group.ecs_service.id}"
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 # ------------------------------------------------------------------------------
 # LB Target group
 # ------------------------------------------------------------------------------
-
 resource "aws_lb_target_group" "task" {
   vpc_id       = "${var.vpc_id}"
   protocol     = "${var.container_protocol}"
@@ -95,7 +97,7 @@ data "null_data_source" "task_environment" {
   }
 }
 
-resource "aws_ecs_task_definition" "asdf" {
+resource "aws_ecs_task_definition" "task" {
   family                   = "${var.prefix}"
   execution_role_arn       = "${aws_iam_role.task.arn}"
   network_mode             = "awsvpc"
@@ -105,12 +107,15 @@ resource "aws_ecs_task_definition" "asdf" {
 
   container_definitions = <<EOF
 [{
+    "cpu":0,
     "name": "${var.prefix}",
     "image": "${var.task_definition_image}",
     "essential": true,
     "portMappings": [
         {
-            "containerPort": ${var.container_port}
+            "containerPort": ${var.container_port},
+            "hostPort": ${var.container_port},
+            "protocol":"tcp"
         }
     ],
     "logConfiguration": {
@@ -127,9 +132,14 @@ EOF
 }
 
 resource "aws_ecs_service" "service" {
+  depends_on = [
+    "aws_iam_role_policy.service_permissions",
+    "null_resource.lb_exists",
+  ]
+
   name                               = "${var.prefix}"
   cluster                            = "${var.cluster_id}"
-  task_definition                    = "${aws_ecs_task_definition.asdf.arn}"
+  task_definition                    = "${aws_ecs_task_definition.task.arn}"
   desired_count                      = 1
   launch_type                        = "FARGATE"
   deployment_minimum_healthy_percent = 50
@@ -144,5 +154,15 @@ resource "aws_ecs_service" "service" {
     container_name   = "${var.prefix}"
     container_port   = "${var.container_port}"
     target_group_arn = "${aws_lb_target_group.task.arn}"
+  }
+}
+
+# HACK: The workaround used in ecs/service does not work for some reason in this module, this fixes the following error:
+# "The target group with targetGroupArn arn:aws:elasticloadbalancing:... does not have an associated load balancer."
+# see https://github.com/hashicorp/terraform/issues/12634.
+# Service depends on this resources which prevents it from being created until the LB is ready
+resource "null_resource" "lb_exists" {
+  triggers {
+    alb_name = "${var.lb_arn}"
   }
 }
