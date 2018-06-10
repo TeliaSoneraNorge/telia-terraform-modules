@@ -26,6 +26,20 @@ variable "lb_arn" {
   description = "Arn for the LB for which the service should be attach to."
 }
 
+variable "task_container_count" {
+  description = "Number of containers to run for the task."
+  default     = "2"
+}
+
+variable "task_container_port" {
+  description = "Port that the container exposes."
+}
+
+variable "task_container_protocol" {
+  description = "Optional: Protocol that the container exposes."
+  default     = "HTTP"
+}
+
 variable "task_definition_cpu" {
   description = "Optional: Amount of CPU to reserve for the task."
   default     = "256"
@@ -44,15 +58,6 @@ variable "task_definition_environment" {
 variable "task_definition_environment_count" {
   description = "Required if task_definition_environment is used : Number of environment variables in task_definition_environment."
   default     = "0"
-}
-
-variable "container_port" {
-  description = "Port that the container exposes."
-}
-
-variable "container_protocol" {
-  description = "Optional: Protocol that the container exposes."
-  default     = "HTTP"
 }
 
 variable "log_retention_in_days" {

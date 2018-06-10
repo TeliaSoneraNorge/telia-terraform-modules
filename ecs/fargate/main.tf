@@ -70,8 +70,8 @@ resource "aws_security_group_rule" "egress_service" {
 # ------------------------------------------------------------------------------
 resource "aws_lb_target_group" "task" {
   vpc_id       = "${var.vpc_id}"
-  protocol     = "${var.container_protocol}"
-  port         = "${var.container_port}"
+  protocol     = "${var.task_container_protocol}"
+  port         = "${var.task_container_port}"
   target_type  = "ip"
   health_check = ["${var.health_check}"]
 
@@ -82,7 +82,7 @@ resource "aws_lb_target_group" "task" {
     create_before_destroy = true
   }
 
-  tags = "${merge(var.tags, map("Name", "${var.prefix}-target-${var.container_port}"))}"
+  tags = "${merge(var.tags, map("Name", "${var.prefix}-target-${var.task_container_port}"))}"
 }
 
 # ------------------------------------------------------------------------------
@@ -113,8 +113,8 @@ resource "aws_ecs_task_definition" "task" {
     "essential": true,
     "portMappings": [
         {
-            "containerPort": ${var.container_port},
-            "hostPort": ${var.container_port},
+            "containerPort": ${var.task_container_port},
+            "hostPort": ${var.task_container_port},
             "protocol":"tcp"
         }
     ],
@@ -132,15 +132,11 @@ EOF
 }
 
 resource "aws_ecs_service" "service" {
-  depends_on = [
-    "aws_iam_role_policy.service_permissions",
-    "null_resource.lb_exists",
-  ]
-
+  depends_on                         = ["aws_iam_role_policy.service_permissions", "null_resource.lb_exists"]
   name                               = "${var.prefix}"
   cluster                            = "${var.cluster_id}"
   task_definition                    = "${aws_ecs_task_definition.task.arn}"
-  desired_count                      = 1
+  desired_count                      = "${var.task_container_count}"
   launch_type                        = "FARGATE"
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
@@ -152,7 +148,7 @@ resource "aws_ecs_service" "service" {
 
   load_balancer {
     container_name   = "${var.prefix}"
-    container_port   = "${var.container_port}"
+    container_port   = "${var.task_container_port}"
     target_group_arn = "${aws_lb_target_group.task.arn}"
   }
 }
