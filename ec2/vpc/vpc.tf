@@ -119,7 +119,7 @@ resource "aws_route_table" "private" {
 
 resource "aws_route" "private" {
   depends_on             = ["aws_nat_gateway.private", "aws_route_table.private"]
-  count                  = "${local.private_count}"
+  count                  = "${local.nat_gateway_count}"
   route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
   nat_gateway_id         = "${element(aws_nat_gateway.private.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
