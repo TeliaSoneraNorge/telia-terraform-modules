@@ -71,3 +71,9 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+
+variable "launch_type" {
+  default = "EC2"
+  description = "What launch type to use, FARGATE or EC2"
+}
+

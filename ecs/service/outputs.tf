@@ -2,7 +2,7 @@
 # Output
 # ------------------------------------------------------------------------------
 output "service_arn" {
-  value = "${aws_ecs_service.main.id}"
+  value = "${aws_ecs_service.fargate.id}"
 }
 
 output "target_group_arn" {

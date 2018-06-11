@@ -18,6 +18,7 @@ module "service" {
   task_definition_health_check_grace_period = "${var.task_definition_health_check_grace_period}"
   health                                    = "${var.health}"
 
+  launch_type = "FARGATE"
   target {
     protocol      = "${var.target["protocol"]}"
     port          = "${var.target["port"]}"
@@ -26,4 +27,3 @@ module "service" {
 
   tags = "${var.tags}"
 }
-

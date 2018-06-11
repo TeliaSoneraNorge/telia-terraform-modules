@@ -30,6 +30,7 @@ resource "aws_lb_target_group" "main" {
 }
 
 resource "aws_ecs_service" "main" {
+  count                             = "${var.launch_type == "EC2" ? 1:0 }"
   depends_on                        = ["data.aws_lb_target_group.default", "aws_iam_role_policy.service_permissions"]
   name                              = "${var.prefix}"
   cluster                           = "${var.cluster_id}"
@@ -50,6 +51,23 @@ resource "aws_ecs_service" "main" {
   ordered_placement_strategy {
     type  = "spread"
     field = "instanceId"
+  }
+}
+
+resource "aws_ecs_service" "fargate" {
+  count                             = "${var.launch_type == "FARGATE" ? 1:0 }"
+  depends_on                        = ["aws_iam_role_policy.service_permissions"]
+  name                              = "${var.prefix}"
+  cluster                           = "${var.cluster_id}"
+  task_definition                   = "${aws_ecs_task_definition.main.arn}"
+  desired_count                     = "${var.task_container_count}"
+  iam_role                          = "${aws_iam_role.service.arn}"
+  health_check_grace_period_seconds = "${var.task_definition_health_check_grace_period}"
+
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.main.arn}"
+    container_name   = "${var.prefix}"
+    container_port   = "${var.target["port"]}"
   }
 }
 
