@@ -15,6 +15,11 @@ variable "private_subnets" {
   default     = "0"
 }
 
+variable "nat_gateways" {
+  description = "Should be equal to value of private_subnets if outbound IP4 traffic is required"
+  default     = "0"
+}
+
 variable "dns_hostnames" {
   description = "Boolean flag for whether instances should be given a dns hostname."
   default     = "false"
@@ -32,18 +37,20 @@ variable "tags" {
 data "aws_availability_zones" "main" {}
 
 locals {
-  az_count      = "${length(data.aws_availability_zones.main.names)}"
-  private_count = "${min(length(data.aws_availability_zones.main.names), var.private_subnets)}"
+  az_count          = "${length(data.aws_availability_zones.main.names)}"
+  private_count     = "${min(length(data.aws_availability_zones.main.names), var.private_subnets)}"
+  nat_gateway_count = "${min(length(data.aws_availability_zones.main.names),var.nat_gateways)}"
 }
 
 # NOTE: depends_on is added for the vpc because terraform sometimes
 # fails to destroy VPC's where internet gateway is attached. If this happens,
 # we can manually detach it in the console and run terraform destroy again.
 resource "aws_vpc" "main" {
-  cidr_block           = "${var.cidr_block}"
-  instance_tenancy     = "default"
-  enable_dns_support   = "true"
-  enable_dns_hostnames = "${var.dns_hostnames}"
+  cidr_block                       = "${var.cidr_block}"
+  instance_tenancy                 = "default"
+  enable_dns_support               = "true"
+  enable_dns_hostnames             = "${var.dns_hostnames}"
+  assign_generated_ipv6_cidr_block = true
 
   tags = "${merge(var.tags, map("Name", "${var.prefix}-vpc"))}"
 }
@@ -89,9 +96,13 @@ resource "aws_eip" "private" {
   count = "${local.private_count}"
 }
 
+resource "aws_egress_only_internet_gateway" "outbound" {
+  vpc_id = "${aws_vpc.main.id}"
+}
+
 resource "aws_nat_gateway" "private" {
   depends_on    = ["aws_internet_gateway.public", "aws_eip.private"]
-  count         = "${local.private_count}"
+  count         = "${local.nat_gateway_count}"
   allocation_id = "${element(aws_eip.private.*.id, count.index)}"
   subnet_id     = "${element(aws_subnet.public.*.id, count.index)}"
 
@@ -112,6 +123,14 @@ resource "aws_route" "private" {
   route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
   nat_gateway_id         = "${element(aws_nat_gateway.private.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
+}
+
+resource "aws_route" "ip6-private" {
+  depends_on                  = ["aws_egress_only_internet_gateway.outbound", "aws_route_table.private"]
+  count                       = "${local.private_count}"
+  route_table_id              = "${element(aws_route_table.private.*.id, count.index)}"
+  egress_only_gateway_id      = "${aws_egress_only_internet_gateway.outbound.id}"
+  destination_ipv6_cidr_block = "::/0"
 }
 
 resource "aws_subnet" "private" {
