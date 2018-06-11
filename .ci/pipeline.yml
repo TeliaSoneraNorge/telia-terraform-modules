@@ -182,6 +182,7 @@ jobs:
           <<: *test-module-params
           directories: |
             ecs/cluster
+            ecs/fargate
             ecs/service
             ecs/microservice
             ecs/spotfleet
@@ -642,6 +643,7 @@ jobs:
         <<: *test-module-params
         directories: |
           ecs/cluster
+          ecs/fargate
           ecs/service
           ecs/microservice
           ecs/spotfleet
