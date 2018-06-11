@@ -166,3 +166,68 @@ data "aws_iam_policy_document" "privileges" {
     ]
   }
 }
+
+# ----------------------------------------
+# ecs/fargate: Create a service fargate
+# ----------------------------------------
+resource "aws_ecs_cluster" "fargate_cluster" {
+  name = "${var.prefix}-ecs-fargate-cluster"
+}
+
+module "fargate_alb" {
+  source = "github.com/teliasoneranorge/telia-terraform-modules//ec2/lb?ref=2018.06.04.1"
+
+  prefix     = "${var.prefix}"
+  type       = "application"
+  internal   = "false"
+  vpc_id     = "${module.vpc.vpc_id}"
+  subnet_ids = ["${module.vpc.public_subnet_ids}"]
+  tags       = "${var.tags}"
+}
+
+resource "aws_lb_listener" "fargate" {
+  load_balancer_arn = "${module.fargate_alb.arn}"
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${module.fargate.target_group_arn}"
+    type             = "forward"
+  }
+}
+
+resource "aws_security_group_rule" "fargate_task_ingress_8080" {
+  security_group_id        = "${module.fargate.service_sg_id}"
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = "8080"
+  to_port                  = "8080"
+  source_security_group_id = "${module.fargate_alb.security_group_id}"
+}
+
+resource "aws_security_group_rule" "fargate_alb_ingress_80" {
+  security_group_id = "${module.fargate_alb.security_group_id}"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = "80"
+  to_port           = "80"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+module "fargate" {
+  source = "../fargate"
+
+  prefix                = "${var.prefix}-fargate-app"
+  vpc_id                = "${module.vpc.vpc_id}"
+  private_subnet_ids    = "${module.vpc.private_subnet_ids}"
+  cluster_id            = "${aws_ecs_cluster.fargate_cluster.id}"
+  task_definition_image = "crccheck/hello-world:latest"
+  container_port        = "8080"
+  container_protocol    = "HTTP"
+
+  health_check {
+    path = "/"
+  }
+
+  tags = "${var.tags}"
+}
