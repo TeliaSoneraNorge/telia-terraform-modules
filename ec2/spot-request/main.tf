@@ -1,5 +1,9 @@
 data "aws_region" "current" {}
 
+locals {
+  spot_fleet_tags = "${map("Name", "${var.prefix}-spot-instance")}"
+}
+
 resource "aws_iam_role" "spotfleet" {
   name               = "${var.prefix}-spotfleet"
   assume_role_policy = "${data.aws_iam_policy_document.spotfleet-assume.json}"
