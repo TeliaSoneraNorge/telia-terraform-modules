@@ -3,14 +3,14 @@ locals {
 }
 
 resource "aws_spot_fleet_request" "main" {
-  count          = "${replace(replace(var.pre-defined-spotrequest,"^(?!small$)","0"),"^small$","1"}"
-  depends_on     = ["aws_iam_policy_attachment.spotfleet"]
+  depends_on     = ["aws_iam_policy_attachment.spotfleet", "aws_iam_role_policy.ec2-permissions"]
   iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
 
   spot_price          = "${var.spot_price}"
   target_capacity     = "${var.target_capacity}"
   allocation_strategy = "${var.allocation_strategy}"
   valid_until         = "${var.valid_until}"
+  count               = "${replace(replace(var.pre-defined-spotrequest,"^(?!small$)","0"),"^small$","1")}"
 
   launch_specification {
     ami           = "${var.instance_ami}"
