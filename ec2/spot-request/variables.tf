@@ -6,6 +6,11 @@ variable "vpc_id" {
   description = "ID of the VPC to be launched into"
 }
 
+variable "pre-defined-spotrequest" {
+  description = "Which pre defined spot request list to use: small, small-IPv6, medium, medium-IPv6"
+  default = "small"
+}
+
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = "map"

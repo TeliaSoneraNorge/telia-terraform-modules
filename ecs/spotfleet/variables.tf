@@ -15,6 +15,11 @@ variable "subnet_ids" {
   description = "List of subnets to launch the spotfleet in"
 }
 
+variable "pre-defined-spotrequest" {
+  description = "Which pre defined spot request list to use: small, small-IPv6, medium, medium-IPv6"
+  default = "small"
+}
+
 variable "spot_price" {
   description = "The maximum price per unit (vCPU) - default is set to roughly on demand price"
   default     = "0.05"

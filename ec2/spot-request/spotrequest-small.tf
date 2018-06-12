@@ -3,6 +3,7 @@ locals {
 }
 
 resource "aws_spot_fleet_request" "main" {
+  count          = "${replace(replace(var.pre-defined-spotrequest,"^(?!small$)","0"),"^small$","1"}"
   depends_on     = ["aws_iam_policy_attachment.spotfleet"]
   iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
 

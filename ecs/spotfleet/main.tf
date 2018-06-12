@@ -15,6 +15,7 @@ data "template_file" "main" {
 module "spotrequest" {
   source          = "../../ec2/spot-request"
   prefix          = "${var.prefix}"
+  pre-defined-spotrequest = "${var.pre-defined-spotrequest}"
   target_capacity = "${var.target_capacity}"
   spot_price      = "${var.spot_price}"
   vpc_id          = "${var.vpc_id}"
