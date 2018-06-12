@@ -6,7 +6,7 @@ resource "aws_spot_fleet_request" "small" {
   target_capacity     = "${var.target_capacity}"
   allocation_strategy = "${var.allocation_strategy}"
   valid_until         = "${var.valid_until}"
-  count               = "${replace(replace(var.pre-defined-spotrequest,"^(?!small$)","0"),"^small$","1")}"
+  count               = "${replace(replace(var.pre-defined-spotrequest,"/^(?!small$)/","0"),"/^small$/","1")}"
 
   launch_specification {
     ami           = "${var.instance_ami}"
