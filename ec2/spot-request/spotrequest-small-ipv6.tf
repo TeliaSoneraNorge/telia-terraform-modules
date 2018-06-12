@@ -10,7 +10,7 @@ resource "aws_spot_fleet_request" "main" {
   target_capacity     = "${var.target_capacity}"
   allocation_strategy = "${var.allocation_strategy}"
   valid_until         = "${var.valid_until}"
-  count               = "${replace(replace(var.pre-defined-spotrequest,"^(?!"samll-ipv6$)","0"),"^samll-ipv6$","1"}"
+  count               = "${replace(replace(var.pre-defined-spotrequest,"^(?!small-ipv6$)","0"),"^small-ipv6$","1")}"
 
   launch_specification {
     ami           = "${var.instance_ami}"
