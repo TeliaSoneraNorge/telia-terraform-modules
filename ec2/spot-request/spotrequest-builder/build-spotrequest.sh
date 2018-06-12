@@ -5,7 +5,7 @@ if [ "$#" -ne 4 ]; then
 fi
 
 cat spotfleet-head.template > ${2}
-echo '  count          = "${replace(replace(var.pre-defined-spotrequest,"^(?!"'${4}'$)","0"),"^'${4}'$","1"}"'>>${2}
+echo 'count = "${replace(replace(var.pre-defined-spotrequest,"^(?!'${4}'$)","0"),"^'${4}'$","1")}"'>>${2}
 
 while IFS=, read type weighting;
   do
