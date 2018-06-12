@@ -1,10 +1,11 @@
 #!/bin/bash
-if [ "$#" -ne 3 ]; then
-    echo 'Must be called with input and output file and number of subnets e.g  build-spotrequest.sh small.csv spotrequest.tf 3'
+if [ "$#" -ne 4 ]; then
+    echo 'Must be called with input and output file, number of subnets and pre-defined-spotrequest name e.g  build-spotrequest.sh small.csv spotrequest-small.tf 3 samll'
     exit 1
 fi
 
 cat spotfleet-head.template > ${2}
+echo '  count          = "${replace(replace(var.pre-defined-spotrequest,"^(?!"'${4}'$)","0"),"^'${4}'$","1"}"'>>${2}
 
 while IFS=, read type weighting;
   do
