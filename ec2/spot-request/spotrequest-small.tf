@@ -8,10 +8,9 @@ resource "aws_spot_fleet_request" "small" {
   valid_until         = "${var.valid_until}"
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.xlarge"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.xlarge"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -24,10 +23,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.xlarge"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.xlarge"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -40,10 +38,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.xlarge"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.xlarge"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -56,10 +53,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.xlarge"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.xlarge"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -72,10 +68,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.xlarge"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.xlarge"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -88,10 +83,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.xlarge"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.xlarge"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -104,10 +98,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.xlarge"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.xlarge"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -120,10 +113,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.xlarge"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.xlarge"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -136,10 +128,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.xlarge"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.xlarge"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -152,10 +143,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.xlarge"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.xlarge"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -168,10 +158,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.xlarge"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.xlarge"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -184,10 +173,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.xlarge"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.xlarge"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -200,10 +188,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c3.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c3.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -216,10 +203,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c3.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c3.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -232,10 +218,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c3.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c3.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -248,10 +233,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.medium"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.medium"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -264,10 +248,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.medium"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.medium"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -280,10 +263,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.medium"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.medium"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -296,10 +278,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -312,10 +293,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -328,10 +308,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -344,10 +323,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -360,10 +338,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -376,10 +353,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -392,10 +368,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c4.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c4.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -408,10 +383,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c4.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c4.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -424,10 +398,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c4.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c4.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -440,10 +413,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -456,10 +428,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -472,10 +443,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r3.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r3.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -488,10 +458,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m4.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m4.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -504,10 +473,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m4.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m4.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -520,10 +488,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m4.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m4.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -536,10 +503,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -552,10 +518,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -568,10 +533,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "r4.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "r4.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -584,10 +548,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c5.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c5.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -600,10 +563,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c5.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c5.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -616,10 +578,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "c5.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "c5.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -632,10 +593,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m5.large"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m5.large"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -648,10 +608,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m5.large"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m5.large"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -664,10 +623,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m5.large"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m5.large"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -680,10 +638,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.medium"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.medium"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -696,10 +653,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.medium"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.medium"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -712,10 +668,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "m3.medium"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "m3.medium"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -728,10 +683,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.small"
-    subnet_id          = "${var.subnet_ids[0]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.small"
+    subnet_id     = "${var.subnet_ids[0]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -744,10 +698,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.small"
-    subnet_id          = "${var.subnet_ids[1]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.small"
+    subnet_id     = "${var.subnet_ids[1]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
@@ -760,10 +713,9 @@ resource "aws_spot_fleet_request" "small" {
   }
 
   launch_specification {
-    ami                = "${var.instance_ami}"
-    instance_type      = "t2.small"
-    subnet_id          = "${var.subnet_ids[2]}"
-    ipv6_address_count = 1
+    ami           = "${var.instance_ami}"
+    instance_type = "t2.small"
+    subnet_id     = "${var.subnet_ids[2]}"
 
     vpc_security_group_ids = [
       "${aws_security_group.main.id}",
