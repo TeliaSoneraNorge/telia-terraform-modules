@@ -15,9 +15,9 @@ variable "private_subnets" {
   default     = "0"
 }
 
-variable "use-egress-only-igw"{
+variable "use-egress-only-igw" {
   description = "Optional:  If this is set to true private subnets will route trafffic to the internet via an egress only gateway (only works for ipv6)"
-  default = "false"
+  default     = "false"
 }
 
 variable "dns_hostnames" {
@@ -142,14 +142,14 @@ resource "aws_route" "ip6-private" {
 }
 
 resource "aws_subnet" "private" {
-  count                   = "${local.private_count}"
-  vpc_id                  = "${aws_vpc.main.id}"
-  cidr_block              = "${cidrsubnet(var.cidr_block, local.az_count + local.private_count, local.az_count + count.index)}"
-  availability_zone       = "${element(data.aws_availability_zones.main.names, count.index)}"
-  map_public_ip_on_launch = "false"
-  ipv6_cidr_block         = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, local.az_count + count.index)}"
+  count                           = "${local.private_count}"
+  vpc_id                          = "${aws_vpc.main.id}"
+  cidr_block                      = "${cidrsubnet(var.cidr_block, local.az_count + local.private_count, local.az_count + count.index)}"
+  availability_zone               = "${element(data.aws_availability_zones.main.names, count.index)}"
+  map_public_ip_on_launch         = "false"
+  ipv6_cidr_block                 = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, local.az_count + count.index)}"
   assign_ipv6_address_on_creation = "true"
-  tags                    = "${merge(var.tags, map("Name", "${var.prefix}-private-subnet-${count.index + 1}"))}"
+  tags                            = "${merge(var.tags, map("Name", "${var.prefix}-private-subnet-${count.index + 1}"))}"
 }
 
 resource "aws_route_table_association" "private" {
