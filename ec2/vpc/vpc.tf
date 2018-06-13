@@ -51,7 +51,7 @@ resource "aws_vpc" "main" {
   enable_dns_support               = "true"
   enable_dns_hostnames             = "${var.dns_hostnames}"
   assign_generated_ipv6_cidr_block = true
-  tags = "${merge(var.tags, map("Name", "${var.prefix}-vpc"))}"
+  tags                             = "${merge(var.tags, map("Name", "${var.prefix}-vpc"))}"
 }
 
 resource "aws_internet_gateway" "public" {
@@ -77,19 +77,19 @@ resource "aws_route" "public" {
 
 resource "aws_route" "ip6-public" {
   depends_on                  = ["aws_internet_gateway.public", "aws_route_table.public"]
-  route_table_id         = "${aws_route_table.public.id}"
-  gateway_id             = "${aws_internet_gateway.public.id}"
+  route_table_id              = "${aws_route_table.public.id}"
+  gateway_id                  = "${aws_internet_gateway.public.id}"
   destination_ipv6_cidr_block = "::/0"
 }
 
 resource "aws_subnet" "public" {
-  count                   = "${local.az_count}"
-  vpc_id                  = "${aws_vpc.main.id}"
-  cidr_block              = "${cidrsubnet(var.cidr_block, local.az_count + local.private_count, count.index)}"
-  availability_zone       = "${element(data.aws_availability_zones.main.names, count.index)}"
-  map_public_ip_on_launch = "true"
-  ipv6_cidr_block         = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)}"
-  assign_ipv6_address_on_creation = true
+  count                           = "${local.az_count}"
+  vpc_id                          = "${aws_vpc.main.id}"
+  cidr_block                      = "${cidrsubnet(var.cidr_block, local.az_count + local.private_count, count.index)}"
+  availability_zone               = "${element(data.aws_availability_zones.main.names, count.index)}"
+  map_public_ip_on_launch         = "true"
+  ipv6_cidr_block                 = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)}"
+  assign_ipv6_address_on_creation = "true"
 
   tags = "${merge(var.tags, map("Name", "${var.prefix}-public-subnet-${count.index + 1}"))}"
 }
@@ -148,7 +148,7 @@ resource "aws_subnet" "private" {
   availability_zone       = "${element(data.aws_availability_zones.main.names, count.index)}"
   map_public_ip_on_launch = "false"
   ipv6_cidr_block         = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, local.az_count + count.index)}"
-  tags = "${merge(var.tags, map("Name", "${var.prefix}-private-subnet-${count.index + 1}"))}"
+  tags                    = "${merge(var.tags, map("Name", "${var.prefix}-private-subnet-${count.index + 1}"))}"
 }
 
 resource "aws_route_table_association" "private" {
