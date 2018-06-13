@@ -15,9 +15,9 @@ variable "private_subnets" {
   default     = "0"
 }
 
-variable "nat_gateways" {
-  description = "Should be equal to value of private_subnets if outbound IP4 traffic is required"
-  default     = "0"
+variable "use-egress-only-igw"{
+  description = "Optional:  If this is set to true private subnets will route trafffic to the internet via an egress only gateway (only works for ipv6)"
+  default = "false"
 }
 
 variable "dns_hostnames" {
@@ -39,7 +39,7 @@ data "aws_availability_zones" "main" {}
 locals {
   az_count          = "${length(data.aws_availability_zones.main.names)}"
   private_count     = "${min(length(data.aws_availability_zones.main.names), var.private_subnets)}"
-  nat_gateway_count = "${min(length(data.aws_availability_zones.main.names),var.nat_gateways)}"
+  nat_gateway_count = "${var.use-egress-only-igw == "true"? 0 : min(length(data.aws_availability_zones.main.names),var.private_subnets)}"
 }
 
 # NOTE: depends_on is added for the vpc because terraform sometimes
@@ -148,6 +148,7 @@ resource "aws_subnet" "private" {
   availability_zone       = "${element(data.aws_availability_zones.main.names, count.index)}"
   map_public_ip_on_launch = "false"
   ipv6_cidr_block         = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, local.az_count + count.index)}"
+  assign_ipv6_address_on_creation = "true"
   tags                    = "${merge(var.tags, map("Name", "${var.prefix}-private-subnet-${count.index + 1}"))}"
 }
 
