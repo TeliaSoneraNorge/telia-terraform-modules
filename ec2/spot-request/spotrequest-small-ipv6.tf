@@ -1,12 +1,11 @@
 resource "aws_spot_fleet_request" "small-ipv6" {
-  depends_on     = ["aws_iam_policy_attachment.spotfleet"]
-  iam_fleet_role = "${aws_iam_role.spotfleet.arn}"
-
+  count               = "${var.pre-defined-spotrequest=="small-ipv6" ? 1 : 0}"
+  depends_on          = ["aws_iam_policy_attachment.spotfleet"]
+  iam_fleet_role      = "${aws_iam_role.spotfleet.arn}"
   spot_price          = "${var.spot_price}"
   target_capacity     = "${var.target_capacity}"
   allocation_strategy = "${var.allocation_strategy}"
   valid_until         = "${var.valid_until}"
-  count               = "${replace(replace(var.pre-defined-spotrequest,"/^(?!small-ipv6$)/","0"),"/^small-ipv6$/","1")}"
 
   launch_specification {
     ami           = "${var.instance_ami}"
