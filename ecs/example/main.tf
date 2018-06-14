@@ -222,12 +222,13 @@ module "fargate" {
   private_subnet_ids    = "${module.vpc.private_subnet_ids}"
   cluster_id            = "${aws_ecs_cluster.fargate_cluster.id}"
   task_definition_image = "crccheck/hello-world:latest"
-  container_port        = "8080"
-  container_protocol    = "HTTP"
+  // port, default protocol is HTTP
+  task_container_port   = "8080"
 
   health_check {
     path = "/"
   }
 
   tags = "${var.tags}"
+  lb_arn = "${module.alb.arn}"
 }
