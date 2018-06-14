@@ -13,7 +13,7 @@ resource "aws_cloudwatch_log_group" "main" {
 }
 
 # ------------------------------------------------------------------------------
-# IAM
+# IAM - Service role- is this used?
 # ------------------------------------------------------------------------------
 resource "aws_iam_role" "service" {
   name               = "${var.prefix}-service-role"
@@ -26,6 +26,42 @@ resource "aws_iam_role_policy" "service_permissions" {
   policy = "${data.aws_iam_policy_document.service_permissions.json}"
 }
 
+# ------------------------------------------------------------------------------
+# IAM - Task execution role, needed to pull ECR images etc.
+# ------------------------------------------------------------------------------
+resource "aws_iam_role" "execution" {
+  name               = "${var.prefix}-task-execution-role"
+  assume_role_policy = "${data.aws_iam_policy_document.task_assume.json}"
+}
+
+resource "aws_iam_role_policy" "task_execution" {
+  name   = "${var.prefix}-task-execution"
+  role   = "${aws_iam_role.execution.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+     {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+# ------------------------------------------------------------------------------
+# IAM - Task role, basic. Users of the module will append policies to this role
+# when they use the module. S3, Dynamo permissions etc etc.
+# ------------------------------------------------------------------------------
 resource "aws_iam_role" "task" {
   name               = "${var.prefix}-task-role"
   assume_role_policy = "${data.aws_iam_policy_document.task_assume.json}"
@@ -99,12 +135,12 @@ data "null_data_source" "task_environment" {
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.prefix}"
-  execution_role_arn       = "${aws_iam_role.task.arn}"
+  execution_role_arn       = "${aws_iam_role.execution.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "${var.task_definition_cpu}"
   memory                   = "${var.task_definition_ram}"
-
+  task_role_arn            = "${aws_iam_role.task.arn}"
   container_definitions = <<EOF
 [{
     "cpu":0,
