@@ -13,16 +13,16 @@ data "template_file" "main" {
 }
 
 module "spotrequest" {
-  source          = "../../ec2/spot-request"
-  prefix          = "${var.prefix}"
+  source                  = "../../ec2/spot-request"
+  prefix                  = "${var.prefix}"
   pre-defined-spotrequest = "${var.pre-defined-spotrequest}"
-  target_capacity = "${var.target_capacity}"
-  spot_price      = "${var.spot_price}"
-  vpc_id          = "${var.vpc_id}"
-  user_data       = "${data.template_file.main.rendered}"
-  subnet_count    = "${var.subnet_count}"
-  subnet_ids      = "${var.subnet_ids}"
-  instance_key    = "${var.instance_key}"
+  target_capacity         = "${var.target_capacity}"
+  spot_price              = "${var.spot_price}"
+  vpc_id                  = "${var.vpc_id}"
+  user_data               = "${data.template_file.main.rendered}"
+  subnet_count            = "${var.subnet_count}"
+  subnet_ids              = "${var.subnet_ids}"
+  instance_key            = "${var.instance_key}"
 }
 
 data "aws_iam_policy_document" "permissions" {

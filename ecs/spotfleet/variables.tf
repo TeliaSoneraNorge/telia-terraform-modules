@@ -17,7 +17,7 @@ variable "subnet_ids" {
 
 variable "pre-defined-spotrequest" {
   description = "Which pre defined spot request list to use: small, small-IPv6, medium, medium-IPv6"
-  default = "small"
+  default     = "small"
 }
 
 variable "spot_price" {
