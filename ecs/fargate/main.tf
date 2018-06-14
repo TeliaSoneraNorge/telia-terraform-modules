@@ -99,7 +99,8 @@ data "null_data_source" "task_environment" {
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.prefix}"
-  execution_role_arn       = "${aws_iam_role.task.arn}"
+  task_role_arn            = "${aws_iam_role.task.arn}"
+  execution_role_arn       = "${aws_iam_role.service.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "${var.task_definition_cpu}"
