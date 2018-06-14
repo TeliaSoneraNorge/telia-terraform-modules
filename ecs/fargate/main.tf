@@ -126,6 +126,7 @@ resource "aws_ecs_task_definition" "task" {
             "awslogs-stream-prefix": "container"
         }
     },
+    "command": ${jsonencode(var.task_definition_command)},
     "environment": ${jsonencode(data.null_data_source.task_environment.*.outputs)}
 }]
 EOF

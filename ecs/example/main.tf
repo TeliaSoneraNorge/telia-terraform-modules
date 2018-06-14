@@ -222,12 +222,34 @@ module "fargate" {
   private_subnet_ids    = "${module.vpc.private_subnet_ids}"
   cluster_id            = "${aws_ecs_cluster.fargate_cluster.id}"
   task_definition_image = "crccheck/hello-world:latest"
-  container_port        = "8080"
-  container_protocol    = "HTTP"
+  // specify port, default protocol is HTTP
+  task_container_port = "8080"
 
   health_check {
     path = "/"
   }
 
   tags = "${var.tags}"
+  lb_arn = "${module.fargate_alb.arn}}"
+}
+
+module "fargate_with_command" {
+  source = "../fargate"
+
+  prefix                = "${var.prefix}-fargate-app"
+  vpc_id                = "${module.vpc.vpc_id}"
+  private_subnet_ids    = "${module.vpc.private_subnet_ids}"
+  cluster_id            = "${aws_ecs_cluster.fargate_cluster.id}"
+  task_definition_image = "garland/aws-cli-docker"
+
+  // specify port, default protocol is HTTP
+  task_container_port = "8080"
+  task_definition_command = ["aws", "s3", "ls"]
+
+  health_check {
+    path = "/"
+  }
+
+  tags = "${var.tags}"
+  lb_arn = "${module.fargate_alb.arn}}"
 }

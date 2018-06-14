@@ -75,3 +75,8 @@ variable "tags" {
   type        = "map"
   default     = {}
 }
+variable "task_definition_command" {
+  description = "The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run."
+  type = "list"
+  default = []
+}
