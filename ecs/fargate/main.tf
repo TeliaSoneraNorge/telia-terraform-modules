@@ -17,7 +17,7 @@ resource "aws_cloudwatch_log_group" "main" {
 # ------------------------------------------------------------------------------
 resource "aws_iam_role" "service" {
   name               = "${var.prefix}-service-role"
-  assume_role_policy = "${data.aws_iam_policy_document.service_assume.json}"
+  assume_role_policy = "${data.aws_iam_policy_document.task_assume.json}"
 }
 
 resource "aws_iam_role_policy" "service_permissions" {
