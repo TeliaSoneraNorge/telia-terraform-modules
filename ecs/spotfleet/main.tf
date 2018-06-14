@@ -23,6 +23,7 @@ module "spotrequest" {
   subnet_count            = "${var.subnet_count}"
   subnet_ids              = "${var.subnet_ids}"
   instance_key            = "${var.instance_key}"
+  instance_ami            = "${var.instance_ami}"
 }
 
 data "aws_iam_policy_document" "permissions" {
