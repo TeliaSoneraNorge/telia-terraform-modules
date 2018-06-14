@@ -32,7 +32,7 @@ variable "allocation_strategy" {
 
 variable "instance_ami" {
   description = "ami to use for cluster instances - default is Amazon ESC-optimized AMI in eu-west-1"
-  default     = "ami-2d386654"
+  default     = "ami-921423eb"
 }
 
 variable "instance_key" {
