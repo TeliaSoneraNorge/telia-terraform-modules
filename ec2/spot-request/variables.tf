@@ -52,6 +52,11 @@ variable "user_data" {
   default     = ""
 }
 
+variable "instance_key" {
+  description = "Name of an EC2 key-pair for SSH access."
+  default     = ""
+}
+
 # Hack to overcome that count variables cannot be inferred
 variable "subnet_count" {
   description = "For future use: count of subnets - current predefined spot requests are for 3 subnets"

@@ -22,6 +22,7 @@ module "spotrequest" {
   user_data       = "${data.template_file.main.rendered}"
   subnet_count    = "${var.subnet_count}"
   subnet_ids      = "${var.subnet_ids}"
+  instance_key    = "${var.instance_key}"
 }
 
 data "aws_iam_policy_document" "permissions" {

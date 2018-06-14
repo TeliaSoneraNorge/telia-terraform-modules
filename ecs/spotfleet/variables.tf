@@ -35,6 +35,11 @@ variable "instance_ami" {
   default     = "ami-2d386654"
 }
 
+variable "instance_key" {
+  description = "Name of an EC2 key-pair for SSH access."
+  default     = ""
+}
+
 variable "valid_until" {
   description = "Valid to date for the spot requests - after this date instances will not be replaced"
   default     = "2028-05-03T00:00:00Z"
