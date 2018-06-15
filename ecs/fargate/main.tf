@@ -37,25 +37,7 @@ resource "aws_iam_role" "execution" {
 resource "aws_iam_role_policy" "task_execution" {
   name   = "${var.prefix}-task-execution"
   role   = "${aws_iam_role.execution.id}"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-     {
-      "Effect": "Allow",
-      "Action": [
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
+  policy = "${data.aws_iam_policy_document.task_execution_permissions.json}"
 }
 
 # ------------------------------------------------------------------------------
@@ -141,6 +123,7 @@ resource "aws_ecs_task_definition" "task" {
   cpu                      = "${var.task_definition_cpu}"
   memory                   = "${var.task_definition_ram}"
   task_role_arn            = "${aws_iam_role.task.arn}"
+
   container_definitions = <<EOF
 [{
     "cpu":0,
