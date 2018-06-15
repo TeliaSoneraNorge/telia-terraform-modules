@@ -1061,7 +1061,7 @@ resources:
   - name: common-tasks
     type: git
     source:
-      uri: git@github.com:TeliaSoneraNorge/divx-concourse-tasks.git
+      uri: git@github.com:telia-oss/concourse-tasks.git
       branch: master
       private_key: ((telia-terraform-modules-deploy-key))
 
