@@ -9,14 +9,6 @@ output "target_group_arn" {
   value = "${aws_lb_target_group.task.arn}"
 }
 
-output "service_role_arn" {
-  value = "${aws_iam_role.service.arn}"
-}
-
-output "service_role_name" {
-  value = "${aws_iam_role.service.name}"
-}
-
 output "task_role_arn" {
   value = "${aws_iam_role.task.arn}"
 }
