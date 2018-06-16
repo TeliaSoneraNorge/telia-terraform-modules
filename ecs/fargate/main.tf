@@ -13,20 +13,6 @@ resource "aws_cloudwatch_log_group" "main" {
 }
 
 # ------------------------------------------------------------------------------
-# IAM - Service role- is this used?
-# ------------------------------------------------------------------------------
-resource "aws_iam_role" "service" {
-  name               = "${var.prefix}-service-role"
-  assume_role_policy = "${data.aws_iam_policy_document.service_assume.json}"
-}
-
-resource "aws_iam_role_policy" "service_permissions" {
-  name   = "${var.prefix}-service-permissions"
-  role   = "${aws_iam_role.service.id}"
-  policy = "${data.aws_iam_policy_document.service_permissions.json}"
-}
-
-# ------------------------------------------------------------------------------
 # IAM - Task execution role, needed to pull ECR images etc.
 # ------------------------------------------------------------------------------
 resource "aws_iam_role" "execution" {
