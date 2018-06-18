@@ -13,19 +13,23 @@ resource "aws_cloudwatch_log_group" "main" {
 }
 
 # ------------------------------------------------------------------------------
-# IAM
+# IAM - Task execution role, needed to pull ECR images etc.
 # ------------------------------------------------------------------------------
-resource "aws_iam_role" "service" {
-  name               = "${var.prefix}-service-role"
-  assume_role_policy = "${data.aws_iam_policy_document.service_assume.json}"
+resource "aws_iam_role" "execution" {
+  name               = "${var.prefix}-task-execution-role"
+  assume_role_policy = "${data.aws_iam_policy_document.task_assume.json}"
 }
 
-resource "aws_iam_role_policy" "service_permissions" {
-  name   = "${var.prefix}-service-permissions"
-  role   = "${aws_iam_role.service.id}"
-  policy = "${data.aws_iam_policy_document.service_permissions.json}"
+resource "aws_iam_role_policy" "task_execution" {
+  name   = "${var.prefix}-task-execution"
+  role   = "${aws_iam_role.execution.id}"
+  policy = "${data.aws_iam_policy_document.task_execution_permissions.json}"
 }
 
+# ------------------------------------------------------------------------------
+# IAM - Task role, basic. Users of the module will append policies to this role
+# when they use the module. S3, Dynamo permissions etc etc.
+# ------------------------------------------------------------------------------
 resource "aws_iam_role" "task" {
   name               = "${var.prefix}-task-role"
   assume_role_policy = "${data.aws_iam_policy_document.task_assume.json}"
@@ -99,11 +103,12 @@ data "null_data_source" "task_environment" {
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.prefix}"
-  execution_role_arn       = "${aws_iam_role.task.arn}"
+  execution_role_arn       = "${aws_iam_role.execution.arn}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "${var.task_definition_cpu}"
   memory                   = "${var.task_definition_ram}"
+  task_role_arn            = "${aws_iam_role.task.arn}"
 
   container_definitions = <<EOF
 [{
@@ -132,7 +137,7 @@ EOF
 }
 
 resource "aws_ecs_service" "service" {
-  depends_on                         = ["aws_iam_role_policy.service_permissions", "null_resource.lb_exists"]
+  depends_on                         = ["null_resource.lb_exists"]
   name                               = "${var.prefix}"
   cluster                            = "${var.cluster_id}"
   task_definition                    = "${aws_ecs_task_definition.task.arn}"
