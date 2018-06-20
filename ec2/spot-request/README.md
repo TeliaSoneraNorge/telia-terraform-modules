@@ -5,6 +5,17 @@ Easy way of setting up a spot request, which also takes care of creating:
 - Security group (including public egress).
 - IAM role with instance profile.
 
+This module comes with 6 predefined spot requests
+
+ |#| Name | Description|
+ |--- |--- |---|
+ |1. | small |request includes single vCPU instances and includes older generation instances|
+ |2. | small-ipv6 | request includes single vCPU instances but excludes all instances that do not support IPV6|
+ |3. | medium | request includes instances with a minimum of 2 vCPUs and includes older generation instances|
+ |4. | medium-ipv6 | request includes instances with a minimum of 2 vCPUs but excludes all instances that do not support IPV6|
+ |5. | large | request includes instances with a minimum of 4 vCPUs and includes older generation instances|
+ |6. | large-ipv6 | request includes instances with a minimum of 4 vCPUs but excludes all instances that do not support IPV6|
+
 #### Gotchas
 
 ##### Need to manually delete instances created
