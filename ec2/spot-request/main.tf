@@ -56,7 +56,7 @@ resource "aws_security_group_rule" "egress" {
   protocol          = "-1"
   from_port         = 0
   to_port           = 0
-  cidr_blocks       = ["0.0.0.0/0","::/0"]
+  cidr_blocks       = ["0.0.0.0/0", "::/0"]
 }
 
 resource "aws_iam_instance_profile" "ec2" {

@@ -15,9 +15,9 @@ variable "private_subnets" {
   default     = "0"
 }
 
-variable "use-egress-only-igw" {
-  description = "Optional:  If this is set to true private subnets will route trafffic to the internet via an egress only gateway (only works for ipv6)"
-  default     = "false"
+variable "create_nat_gateways" {
+  description = "Optional:  If this is set to false NAT gateways (which cost $) will not be created and the private subnets will only route trafffic to the internet via the egress only gateway(no cost) - Egress only gateways only works for IPv6)"
+  default     = "true"
 }
 
 variable "dns_hostnames" {
@@ -39,7 +39,7 @@ data "aws_availability_zones" "main" {}
 locals {
   az_count          = "${length(data.aws_availability_zones.main.names)}"
   private_count     = "${min(length(data.aws_availability_zones.main.names), var.private_subnets)}"
-  nat_gateway_count = "${var.use-egress-only-igw == "true"? 0 : min(length(data.aws_availability_zones.main.names),var.private_subnets)}"
+  nat_gateway_count = "${var.create_nat_gateways == "true"? min(length(data.aws_availability_zones.main.names),var.private_subnets):0 }"
 }
 
 # NOTE: depends_on is added for the vpc because terraform sometimes
