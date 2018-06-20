@@ -76,13 +76,6 @@ resource "aws_route" "public" {
   destination_ipv6_cidr_block = "::/0"
 }
 
-resource "aws_route" "ip6-public" {
-  depends_on                  = ["aws_internet_gateway.public", "aws_route_table.public"]
-  route_table_id              = "${aws_route_table.public.id}"
-  gateway_id                  = "${aws_internet_gateway.public.id}"
-  destination_ipv6_cidr_block = "::/0"
-}
-
 resource "aws_subnet" "public" {
   count                           = "${local.az_count}"
   vpc_id                          = "${aws_vpc.main.id}"
