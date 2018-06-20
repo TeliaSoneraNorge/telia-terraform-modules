@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ "$#" -ne 4 ]; then
-    echo 'Must be called with input and output file, number of subnets and pre-defined-spotrequest name e.g  build-spotrequest.sh small.csv spotrequest-small.tf 3 samll'
+    echo 'Must be called with input and output file, number of subnets and pre-defined-spotrequest name e.g  build-spotrequest.sh small.csv spotrequest-small.tf 3 small'
     exit 1
 fi
 echo 'resource "aws_spot_fleet_request" "'${4}'" {' >${2}
