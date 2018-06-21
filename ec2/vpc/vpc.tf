@@ -39,7 +39,7 @@ data "aws_availability_zones" "main" {}
 locals {
   az_count          = "${length(data.aws_availability_zones.main.names)}"
   private_count     = "${min(length(data.aws_availability_zones.main.names), var.private_subnets)}"
-  nat_gateway_count = "${var.create_nat_gateways == "true"? min(length(data.aws_availability_zones.main.names),var.private_subnets):0 }"
+  nat_gateway_count = "${var.create_nat_gateways == "true"? min(length(data.aws_availability_zones.main.names),var.private_subnets) : 0 }"
 }
 
 # NOTE: depends_on is added for the vpc because terraform sometimes
@@ -133,7 +133,7 @@ resource "aws_route" "private" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
-resource "aws_route" "ip6-private" {
+resource "aws_route" "ipv6-private" {
   depends_on                  = ["aws_egress_only_internet_gateway.outbound", "aws_route_table.private"]
   count                       = "${local.private_count}"
   route_table_id              = "${element(aws_route_table.private.*.id, count.index)}"
