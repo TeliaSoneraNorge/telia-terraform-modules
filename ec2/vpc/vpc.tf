@@ -75,7 +75,7 @@ resource "aws_route" "public" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
-resource "aws_route" "ip6-public" {
+resource "aws_route" "ipv6-public" {
   depends_on                  = ["aws_internet_gateway.public", "aws_route_table.public"]
   route_table_id              = "${aws_route_table.public.id}"
   gateway_id                  = "${aws_internet_gateway.public.id}"
