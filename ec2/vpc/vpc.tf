@@ -85,7 +85,7 @@ resource "aws_route" "ipv6-public" {
 resource "aws_subnet" "public" {
   count                           = "${local.az_count}"
   vpc_id                          = "${aws_vpc.main.id}"
-  cidr_block                      = "${cidrsubnet(var.cidr_block, 3, count.index)}"
+  cidr_block                      = "${cidrsubnet(var.cidr_block, 4, count.index)}"
   availability_zone               = "${element(data.aws_availability_zones.main.names, count.index)}"
   map_public_ip_on_launch         = "true"
   ipv6_cidr_block                 = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)}"
@@ -144,7 +144,7 @@ resource "aws_route" "ipv6-private" {
 resource "aws_subnet" "private" {
   count                           = "${local.private_count}"
   vpc_id                          = "${aws_vpc.main.id}"
-  cidr_block                      = "${cidrsubnet(var.cidr_block, 3, local.az_count + count.index)}"
+  cidr_block                      = "${cidrsubnet(var.cidr_block, 4, local.az_count + count.index)}"
   availability_zone               = "${element(data.aws_availability_zones.main.names, count.index)}"
   map_public_ip_on_launch         = "false"
   ipv6_cidr_block                 = "${cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, local.az_count + count.index)}"
