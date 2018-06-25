@@ -76,5 +76,5 @@ runcmd:
     curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
     unzip CloudWatchMonitoringScripts-1.2.2.zip
     rm /opt/CloudWatchMonitoringScripts-1.2.2.zip
-    echo "* * * * * root /opt/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --from-cron  --auto-scaling" > /etc/cron.d/aws_metrics
+    echo "* * * * * root /opt/aws-scripts-mon/mon-put-instance-data.pl --disk-space-avail --disk-path=/ --mem-used-incl-cache-buff --mem-util --from-cron  --auto-scaling" > /etc/cron.d/aws_metrics
 
