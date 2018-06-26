@@ -49,7 +49,6 @@ variable "docker_storage" {
   default     = "0"
 }
 
-
 variable "instance_count" {
   description = "Desired (and minimum) number of instances."
   default     = "1"
@@ -158,11 +157,12 @@ resource "aws_launch_configuration" "main" {
     volume_size           = "${var.instance_volume_size}"
     delete_on_termination = true
   }
-  
+
   ebs_block_device {
-    device_name = "/dev/xvdcz"
-    volume_type = "gp2"
-    volume_size = "${var.docker_storage}"
+    device_name           = "/dev/xvdcz"
+    volume_type           = "gp2"
+    volume_size           = "${var.docker_storage}"
+    delete_on_termination = true
   }
 
   lifecycle {
