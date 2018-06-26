@@ -44,6 +44,12 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
+variable "docker_storage" {
+  description = "Size of volume dedicated for docker."
+  default     = "120"
+}
+
+
 variable "instance_count" {
   description = "Desired (and minimum) number of instances."
   default     = "1"
@@ -151,6 +157,12 @@ resource "aws_launch_configuration" "main" {
     volume_type           = "gp2"
     volume_size           = "${var.instance_volume_size}"
     delete_on_termination = true
+  }
+  
+  block_device {
+    device_name = "/dev/xvdcz"
+    volume_type = "gp2"
+    volume_size = "${var.docker_storage}"
   }
 
   lifecycle {
