@@ -159,7 +159,7 @@ resource "aws_launch_configuration" "main" {
     delete_on_termination = true
   }
   
-  block_device {
+  ebs_block_device {
     device_name = "/dev/xvdcz"
     volume_type = "gp2"
     volume_size = "${var.docker_storage}"
