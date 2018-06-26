@@ -44,9 +44,10 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
-variable "docker_storage" {
-  description = "Size of volume dedicated for docker."
-  default     = "22"
+variable "additional_ebs_storage" {
+  description = "Additional EBS volume map with EBS configuration."
+  type        = "map"
+  default     = {}
 }
 
 variable "ecs_log_level" {

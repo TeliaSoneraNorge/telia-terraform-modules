@@ -44,9 +44,10 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
-variable "docker_storage" {
-  description = "Size of volume dedicated for docker."
-  default     = "0"
+variable "additional_ebs_storage" {
+  description = "Additional EBS volume map with EBS configuration."
+  type        = "map"
+  default     = {}
 }
 
 variable "instance_count" {
@@ -159,10 +160,10 @@ resource "aws_launch_configuration" "main" {
   }
 
   ebs_block_device {
-    device_name           = "/dev/xvdcz"
-    volume_type           = "gp2"
-    volume_size           = "${var.docker_storage}"
-    delete_on_termination = true
+     volume_type           = "${lookup(var.additional_ebs_storage, "volume_type", "")}"
+     volume_size           = "${lookup(var.additional_ebs_storage, "volume_size", 0)}"
+     delete_on_termination = "${lookup(var.additional_ebs_storage, "delete_on_termination", "")}"  
+     device_name           = "${lookup(var.additional_ebs_storage, "device_name", "")}"
   }
 
   lifecycle {
