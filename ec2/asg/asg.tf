@@ -46,7 +46,7 @@ variable "instance_volume_size" {
 
 variable "docker_storage" {
   description = "Size of volume dedicated for docker."
-  default     = "120"
+  default     = "0"
 }
 
 
@@ -160,6 +160,7 @@ resource "aws_launch_configuration" "main" {
   }
   
   ebs_block_device {
+    count       = "${var.docker_storage != 0 ? 1 : 0}"
     device_name = "/dev/xvdcz"
     volume_type = "gp2"
     volume_size = "${var.docker_storage}"

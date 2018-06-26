@@ -87,6 +87,7 @@ module "asg" {
   instance_key         = "${var.instance_key}"
   instance_volume_size = "${var.instance_volume_size}"
   tags                 = "${var.tags}"
+  docker_storage       = "${var.docker_storage}"
 }
 
 resource "aws_security_group_rule" "ingress" {
