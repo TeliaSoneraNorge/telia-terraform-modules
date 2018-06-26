@@ -100,6 +100,8 @@ module "alb" {
   create_log_bucket        = false
   enable_logging           = true
 
+  deregistration_delay = "${var.deregistration_delay}"
+
   tags = "${local.tags}"
 }
 
