@@ -37,6 +37,11 @@ variable "assign_route53_private_zone" {
   description = "Assign Route53 private zone to this ALB"
 }
 
+variable "deregistration_delay" {
+  description = "The amount time to wait before changing the state of a deregistering target from draining to unused."
+  default     = 300
+}
+
 variable "tags" {
   description = "Map of tags to assign to ALB"
   type        = "map"
