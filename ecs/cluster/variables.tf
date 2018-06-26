@@ -46,7 +46,7 @@ variable "instance_volume_size" {
 
 variable "docker_storage" {
   description = "Size of volume dedicated for docker."
-  default     = "120"
+  default     = "22"
 }
 
 variable "ecs_log_level" {
