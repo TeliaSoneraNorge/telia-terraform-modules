@@ -87,6 +87,13 @@ module "asg" {
   instance_key         = "${var.instance_key}"
   instance_volume_size = "${var.instance_volume_size}"
   tags                 = "${var.tags}"
+
+  ebs_block_devices = [{
+    device_name           = "/dev/xvdcz"
+    volume_type           = "gp2"
+    volume_size           = "${var.docker_volume_size}"
+    delete_on_termination = true
+  }]
 }
 
 resource "aws_security_group_rule" "ingress" {

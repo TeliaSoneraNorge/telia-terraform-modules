@@ -83,6 +83,12 @@ variable "instance_policy" {
 EOF
 }
 
+variable "ebs_block_devices" {
+  description = "Additional EBS block devices to attach to the instance."
+  type        = "list"
+  default     = []
+}
+
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = "map"
@@ -152,6 +158,8 @@ resource "aws_launch_configuration" "main" {
     volume_size           = "${var.instance_volume_size}"
     delete_on_termination = true
   }
+
+  ebs_block_device = ["${var.ebs_block_devices}"]
 
   lifecycle {
     create_before_destroy = true

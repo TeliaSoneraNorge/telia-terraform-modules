@@ -44,6 +44,11 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
+variable "docker_volume_size" {
+  description = "Additional EBS volume size for docker service."
+  default     = 22
+}
+
 variable "ecs_log_level" {
   description = "Log level for the ECS agent."
   default     = "info"
