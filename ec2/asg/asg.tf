@@ -44,12 +44,6 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
-variable "additional_ebs_storage" {
-  description = "Additional EBS volume map with EBS configuration."
-  type        = "map"
-  default     = {}
-}
-
 variable "instance_count" {
   description = "Desired (and minimum) number of instances."
   default     = "1"
