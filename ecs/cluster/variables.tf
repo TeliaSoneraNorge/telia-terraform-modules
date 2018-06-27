@@ -44,10 +44,9 @@ variable "instance_volume_size" {
   default     = "8"
 }
 
-variable "additional_ebs_storage" {
-  description = "Additional EBS volume map with EBS configuration."
-  type        = "map"
-  default     = {}
+variable "docker_volume_size" {
+  description = "Additional EBS volume size for docker service."
+  default     = 22
 }
 
 variable "ecs_log_level" {
