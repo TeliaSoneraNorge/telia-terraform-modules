@@ -1,15 +1,18 @@
-# Telia's Terraform modules
+# DEPRECATED
 
-Telia's Terraform modules are building blocks of Telia's AWS infrastructure and some of these modules are based on open-source modules (eg. [terraform-aws-modules](https://github.com/terraform-aws-modules)).
+This repository has been deprecated as part of this RFC:
+https://github.com/TeliaSoneraNorge/rfcs/blob/master/1_terraform/proposal.md
 
+Relevant parts:
+- https://github.com/TeliaSoneraNorge/rfcs/blob/master/1_terraform/proposal.md#where-should-modules-live
+- https://github.com/TeliaSoneraNorge/rfcs/blob/master/1_terraform/proposal.md#should-we-put-modules-on-the-terraform-registry
 
-## Found a bug? Or just want to help?
+To avoid developing on two repository, this one has been archived and will be deleted in due time (when everyone has moved over).
 
-This repository is managed by [Telia's devops team](https://github.com/orgs/TeliaSoneraNorge/teams/devops/members) and we are open for external contributions.
+## New repositories
 
-If you find a bug or have a question - [open an issue](https://github.com/TeliaSoneraNorge/telia-terraform-modules).
+TODO
 
+## Help moving
 
-## Copyrights and License
-
-Code in this repository is released under the MIT License. See [LICENSE](https://github.com/TeliaSoneraNorge/telia-terraform-modules/blob/master/LICENSE) for details.
+TODO
