@@ -22,7 +22,7 @@ The new repositories can be found here:
 
 - All `terraform-aws-<name>` modules are found in the new org.
 - Our published modules can be found here: https://registry.terraform.io/modules/telia-oss
-- The new mono repository (for unpublished modules) can be found here (TODO): https://github.com/telia-oss/terraform-aws-modules
+- The new mono repository (for unpublished modules) can be found here: https://github.com/telia-oss/terraform-modules
 
 All modules will be moved to the new organisation eventually.
 
