@@ -67,13 +67,16 @@ data "null_data_source" "task_environment" {
 resource "aws_ecs_task_definition" "main" {
   family        = "${var.prefix}"
   task_role_arn = "${aws_iam_role.task.arn}"
+  cpu           = "${var.task_definition_cpu}"
+  memory        = "${var.task_definition_ram}"
 
+  # Source: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
   container_definitions = <<EOF
 [{
     "name": "${var.prefix}",
     "image": "${var.task_definition_image}",
     "cpu": ${var.task_definition_cpu},
-    "memory": ${var.task_definition_ram},
+    "memoryReservation": ${var.task_definition_ram},
     "essential": true,
     "portMappings": [{
       "HostPort": 0,
