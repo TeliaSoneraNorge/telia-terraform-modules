@@ -87,3 +87,8 @@ variable "license_model" {
   description = "License model information for this DB instance. Optional, but required for some DB engines, i.e. Oracle SE1"
   default     = ""
 }
+
+variable "custom_sg_id" {
+  description = "Custom security group id which should be allowed to have access to this RDS instance"
+  default     = ""
+}

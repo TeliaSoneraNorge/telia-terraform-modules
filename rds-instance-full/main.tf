@@ -40,6 +40,29 @@ module "rds_security_group" {
   ingress_rules       = ["${var.ingress_rule}"]
 }
 
+module "custom_security_group" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  create = "${var.custom_sg_id == "" ? 0 : 1 }"
+
+  name        = "${local.identifier}-rds-custom"
+  description = "Security group with RDS ports open for a custom security group"
+  vpc_id      = "${data.terraform_remote_state.vpc.vpc_id}"
+
+  ingress_cidr_blocks = ["${data.terraform_remote_state.vpc.vpc_cidr_block}"]
+
+  ingress_with_source_security_group_id = [
+    {
+      rule                     = "${var.ingress_rule}"
+      source_security_group_id = "${var.custom_sg_id}"
+    },
+  ]
+}
+
+locals {
+  security_group_id = "${coalesce(join("", module.custom_security_group.*.security_group_id), module.rds_security_group.this_security_group_id)}"
+}
+
 data "aws_db_snapshot" "manual" {
   count = "${var.manual_db_snapshot_identifier == "" ? 0 : 1}"
 
@@ -71,7 +94,7 @@ module "rds" {
 
   snapshot_identifier = "${join("", data.aws_db_snapshot.manual.*.db_snapshot_arn)}"
 
-  vpc_security_group_ids  = ["${module.rds_security_group.this_security_group_id}"]
+  vpc_security_group_ids  = ["${local.security_group_id}"]
   maintenance_window      = "${var.maintenance_window}"
   backup_window           = "${var.backup_window}"
   backup_retention_period = "${var.backup_retention_period}"
